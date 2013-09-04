@@ -1,0 +1,39 @@
+{
+  "name": "angular-breadcrumb",
+  "description": "Generate a breadcrumb from ui-router's states",
+  "version": "0.1.0",
+  "homepage": "https://github.com/ncuillery/angular-breadcrumb",
+  "author": {
+    "name": "Nicolas Cuillery",
+    "email": "nicolas.cuillery@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ncuillery/angular-breadcrumb.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ncuillery/angular-breadcrumb/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/ncuillery/angular-breadcrumb/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "lib/angular-breadcrumb",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "devDependencies": {
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-watch": "~0.4.0",
+    "grunt": "~0.4.1"
+  },
+  "keywords": []
+}
