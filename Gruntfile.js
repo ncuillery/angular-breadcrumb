@@ -1,6 +1,12 @@
 'use strict';
 
-module.exports = function(grunt) {
+var LIVERELOAD_PORT = 35729;
+var lrSnippet = require('connect-livereload')({ port: LIVERELOAD_PORT });
+var mountFolder = function (connect, dir) {
+  return connect.static(require('path').resolve(dir));
+};
+
+module.exports = function (grunt) {
 
   // Project configuration.
   grunt.initConfig({
@@ -56,13 +62,60 @@ module.exports = function(grunt) {
         files: '<%= jshint.gruntfile.src %>',
         tasks: ['jshint:gruntfile']
       },
-      lib: {
+      sources: {
         files: '<%= jshint.sources.src %>',
         tasks: ['jshint:sources', 'nodeunit']
       },
       test: {
         files: '<%= jshint.test.src %>',
         tasks: ['jshint:test', 'nodeunit']
+      },
+      sample: {
+        options: {
+          livereload: LIVERELOAD_PORT
+        },
+        files: [
+          'sample/{,*/}*.{css,js,html}',
+          'src/*.js'
+        ]
+      }
+    },
+    copy: {
+      sample: {
+        files: [
+          {
+            flatten: true,
+            expand: true,
+            src: [
+              'bower_components/angular/angular.js',
+              'bower_components/angular-ui-router/release/angular-ui-router.js',
+              'bower_components/bootstrap.css/css/bootstrap.css',
+              'bower_components/underscore/underscore.js'
+            ],
+            dest: 'sample/asset/'
+          }
+        ]
+      }
+    },
+    connect: {
+      options: {
+        port: 9000,
+        hostname: 'localhost'
+      },
+      livereload: {
+        options: {
+          middleware: function (connect) {
+            return [
+              lrSnippet,
+              mountFolder(connect, 'sample')
+            ];
+          }
+        }
+      }
+    },
+    open: {
+      server: {
+        url: 'http://localhost:<%= connect.options.port %>/sample.html'
       }
     }
   });
@@ -73,8 +126,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-open');
 
   // Default task.
   grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'uglify']);
+
+  grunt.registerTask('sample', ['copy:sample', 'connect:livereload', 'open', 'watch']);
 
 };

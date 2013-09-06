@@ -1,0 +1,30 @@
+<h2>Edition Room {{room.roomId}}</h2>
+<form class="form-horizontal" action="">
+
+    <div class="control-group">
+        <label class="control-label" for="inputRoomId">Id</label>
+        <div class="controls">
+            <input type="text" id="inputRoomId" disabled ng-model="room.roomId">
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="inputRoomNumber">Number</label>
+        <div class="controls">
+            <input type="text" id="inputRoomNumber" ng-model="room.roomNumber">
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="selectType"></label>
+        <div class="controls">
+            <select id="selectType" ng-model="room.type" ng-options="type for type in ['Single', 'Double']"></select>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn">Save</button>
+        </div>
+    </div>
+</form>
