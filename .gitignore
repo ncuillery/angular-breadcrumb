@@ -2,3 +2,4 @@
 .idea
 /bower_components/
 **~
+sample/asset/angular-breadcrumb.js
