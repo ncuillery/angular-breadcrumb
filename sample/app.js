@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sample', ['ui.router.state'])
+angular.module('sample', ['ui.router.state', 'ncy-angular-breadcrumb'])
   .config(function($stateProvider, $urlRouterProvider) {
 
     // Some hardcoded data ;

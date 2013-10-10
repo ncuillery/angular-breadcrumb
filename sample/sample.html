@@ -6,8 +6,9 @@
     <link rel="stylesheet" type="text/css" href="asset/bootstrap.css">
 
     <script src="asset/angular.js"></script>
-      <script src="asset/angular-ui-router.js"></script>
-      <script src="asset/underscore.js"></script>
+    <script src="asset/angular-ui-router.js"></script>
+    <script src="asset/angular-breadcrumb.js"></script>
+    <script src="asset/underscore.js"></script>
 
   </head>
   <body>
@@ -26,6 +27,9 @@ Rooms (list)
             |-- Reservation</pre>
                 </p>
             </div>
+            <div class="well" ncy-breadcrumb>
+
+            </div>
             <div ui-view>
 
             </div>
@@ -38,7 +42,6 @@ Rooms (list)
     <script src="controllers/room_list.js"></script>
     <script src="controllers/room_detail.js"></script>
     <script src="controllers/booking_list.js"></script>
-
 
   </body>
 </html>

@@ -6,12 +6,13 @@
  * Licensed under the MIT license.
  */
 
-(function(exports) {
+angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
+    .directive('ncyBreadcrumb', function($state) {
+        return function(scope, element, attrs) {
 
-  'use strict';
+            scope.$watch(function() { return $state.current; }, function(newValue, oldValue) {
+                element.text(newValue.name);
+            }, true);
 
-  exports.awesome = function() {
-    return 'awesome';
-  };
-
-}(typeof exports === 'object' && exports || this));
+        }
+});

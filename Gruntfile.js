@@ -74,19 +74,35 @@ module.exports = function (grunt) {
         options: {
           livereload: LIVERELOAD_PORT
         },
+        tasks: 'copy:breadcrumb',
         files: [
-          'sample/{,*/}*.{css,js,html}',
+          'sample/*.{css,js,html}',
+          'sample/controllers/*.{css,js,html}',
+          'sample/views/*.{css,js,html}',
           'src/*.js'
         ]
       }
     },
     copy: {
+      breadcrumb: {
+        files: [
+          {
+            flatten: true,
+            expand: true,
+            src: [
+              'src/angular-breadcrumb.js'
+            ],
+            dest: 'sample/asset/'
+          }
+        ]
+      },
       sample: {
         files: [
           {
             flatten: true,
             expand: true,
             src: [
+              'src/angular-breadcrumb.js',
               'bower_components/angular/angular.js',
               'bower_components/angular-ui-router/release/angular-ui-router.js',
               'bower_components/bootstrap.css/css/bootstrap.css',
