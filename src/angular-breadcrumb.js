@@ -1,11 +1,3 @@
-/*
- * angular-breadcrumb
- * https://github.com/ncuillery/angular-breadcrumb
- *
- * Copyright (c) 2013 Nicolas Cuillery
- * Licensed under the MIT license.
- */
-
 angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
     .provider('$breadcrumb', function() {
 
@@ -50,14 +42,14 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
 
                     return chain;
                 }
-            }
+            };
         }];
 
     })
     .directive('ncyBreadcrumb', function($state, $breadcrumb) {
-        return function(scope, element, attrs) {
+        return function(scope, element) {
 
-            scope.$watch(function() { return $state.current; }, function(newValue, oldValue) {
+            scope.$watch(function() { return $state.current; }, function() {
                 var chain = $breadcrumb.getStatesChain();
                 var stateNames = [];
                 angular.forEach(chain, function(value) {
@@ -66,5 +58,5 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
                 element.text(stateNames.join(' / '));
             }, true);
 
-        }
-});
+        };
+    });

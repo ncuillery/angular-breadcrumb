@@ -1,36 +1,15 @@
+/*global describe, it, require */
 'use strict';
 
-var angular_breadcrumb = require('../src/angular-breadcrumb.js');
+//var angular_breadcrumb = require('../src/angular-breadcrumb.js');
 
-/*
-  ======== A Handy Little Nodeunit Reference ========
-  https://github.com/caolan/nodeunit
+var assert = require('assert');
 
-  Test methods:
-    test.expect(numAssertions)
-    test.done()
-  Test assertions:
-    test.ok(value, [message])
-    test.equal(actual, expected, [message])
-    test.notEqual(actual, expected, [message])
-    test.deepEqual(actual, expected, [message])
-    test.notDeepEqual(actual, expected, [message])
-    test.strictEqual(actual, expected, [message])
-    test.notStrictEqual(actual, expected, [message])
-    test.throws(block, [error], [message])
-    test.doesNotThrow(block, [error], [message])
-    test.ifError(value)
-*/
-
-exports['awesome'] = {
-  setUp: function(done) {
-    // setup here
-    done();
-  },
-  'no args': function(test) {
-    test.expect(1);
-    // tests here
-    test.equal(angular_breadcrumb.awesome(), 'awesome', 'should be awesome.');
-    test.done();
-  }
-};
+describe('Array', function(){
+    describe('#indexOf()', function(){
+        it('should return -1 when the value is not present', function(){
+            assert.equal(-1, [1,2,3].indexOf(5));
+            assert.equal(-1, [1,2,3].indexOf(0));
+        });
+    });
+});
