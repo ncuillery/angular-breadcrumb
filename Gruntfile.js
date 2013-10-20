@@ -37,8 +37,11 @@ module.exports = function (grunt) {
         dest: 'dist/<%= pkg.name %>.min.js'
       }
     },
-    nodeunit: {
-      files: ['test/**/*_test.js']
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js',
+        singleRun: true
+      }
     },
     jshint: {
       options: {
@@ -64,11 +67,11 @@ module.exports = function (grunt) {
       },
       sources: {
         files: '<%= jshint.sources.src %>',
-        tasks: ['jshint:sources', 'nodeunit']
+        tasks: ['jshint:sources', 'karma']
       },
       test: {
         files: '<%= jshint.test.src %>',
-        tasks: ['jshint:test', 'nodeunit']
+        tasks: ['jshint:test', 'karma']
       },
       sample: {
         options: {
@@ -139,15 +142,17 @@ module.exports = function (grunt) {
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-open');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'karma', 'concat', 'uglify']);
+
+  grunt.registerTask('test', ['jshint', 'karma']);
 
   grunt.registerTask('sample', ['copy:sample', 'connect:livereload', 'open', 'watch']);
 

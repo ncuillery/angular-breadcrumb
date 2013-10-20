@@ -2,11 +2,13 @@
   "name": "angular-breadcrumb",
   "version": "0.1.0",
   "dependencies": {
-    "angular": ">=1.0.8",
-    "angular-ui-router": ">=0.2.0"
+    "angular": "~1.0.8",
+    "angular-ui-router": "~0.2.0"
   },
   "devDependencies": {
     "bootstrap.css": "~2.3.2",
-    "underscore": "~1.5.1"
+    "underscore": "~1.5.1",
+    "angular-mocks": "~1.0.8",
+    "chai": "~1.8.1"
   }
 }

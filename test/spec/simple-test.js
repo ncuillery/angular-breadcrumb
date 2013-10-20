@@ -1,15 +1,21 @@
-/*global describe, it, chai, angular */
+/*global describe, beforeEach, it, chai, inject, module */
 'use strict';
 
 var assert = chai.assert;
 
-//var moduleBc = angular.module(['ncy-angular-breadcrumb']);
-var injector = angular.injector(['ncy-angular-breadcrumb', 'ui.router.state', 'ng', 'ngMock']);
-
 describe('Service $breadcrumb', function() {
+
+    var _breadcrumb_;
+
+    beforeEach(function() {
+        module('ncy-angular-breadcrumb', 'ui.router.state', 'ngMock', 'ng');
+    });
+
+    beforeEach(inject(function($breadcrumb) {
+        _breadcrumb_ = $breadcrumb;
+    }));
+
     it('should be defined', function() {
-        var $breadcrumb = injector.get('$breadcrumb');
-        assert.isDefined($breadcrumb);
-        assert.isDefined($breadcrumb.getStatesChain);
+        assert.isNotNull(_breadcrumb_);
     });
 });
