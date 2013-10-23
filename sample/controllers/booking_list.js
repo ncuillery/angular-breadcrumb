@@ -1,4 +1,4 @@
-angular.module('sample')
+angular.module('ncy-sample')
   .controller('BookingListCtrl', function($scope) {
 
     // Some hardcoded data ;

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sample', ['ui.router.state', 'ncy-angular-breadcrumb'])
+angular.module('ncy-sample', ['ui.router.state', 'ncy-angular-breadcrumb'])
     .config(function($breadcrumbProvider) {
         $breadcrumbProvider.setPrefixState('home');
     })
@@ -55,4 +55,5 @@ angular.module('sample', ['ui.router.state', 'ncy-angular-breadcrumb'])
       });
 
     $urlRouterProvider.otherwise('/home');
+
   });
