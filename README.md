@@ -1,4 +1,5 @@
 # angular-breadcrumb
+[![Build Status](https://travis-ci.org/ncuillery/angular-breadcrumb.png)](https://travis-ci.org/ncuillery/angular-breadcrumb)
 
 Generate a breadcrumb from ui-router's states
 
