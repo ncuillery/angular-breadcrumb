@@ -3,7 +3,7 @@
 describe('Simple app', function() {
 
     beforeEach(function() {
-        angular.module('ncy-simple-test', function() {}).config(function($stateProvider) {
+        angular.module('ncy-service-simple-test', function() {}).config(function($stateProvider) {
             $stateProvider
                 .state('A', {url: '/a'})
                 .state('A.B', {url: '/b'})
@@ -12,7 +12,7 @@ describe('Simple app', function() {
         });
 
         // Order of arguments has importance here.
-        module('ncy-simple-test');
+        module('ncy-directive-simple-test');
     });
 
     it('should have a $breadcrumb defined', inject(function($breadcrumb) {
