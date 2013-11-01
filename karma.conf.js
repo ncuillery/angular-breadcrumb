@@ -20,6 +20,17 @@ module.exports = function(config) {
       'test/spec/**/*.js'
     ],
 
+    preprocessors: {
+      'src/angular-breadcrumb.js': 'coverage'
+    },
+
+    reporters: ['coverage'],
+
+    coverageReporter: {
+      type : 'lcov',
+      dir : 'coverage/'
+    },
+
     // list of files / patterns to exclude
     exclude: [],
 

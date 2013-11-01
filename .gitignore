@@ -1,5 +1,6 @@
 /node_modules/
 .idea
 /bower_components/
+/coverage/
 **~
 sample/asset/angular-breadcrumb.js

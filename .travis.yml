@@ -11,3 +11,6 @@ before_script:
 
 script:
   - grunt test
+
+after_script:
+  - cat coverage/*/lcov.info | ./node_modules/coveralls/bin/coveralls.js
