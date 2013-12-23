@@ -7,7 +7,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - npm install -g bower grunt-cli
   - npm install
-  - bower install
+  - bower install -F
 
 script:
   - grunt test
