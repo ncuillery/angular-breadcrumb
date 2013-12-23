@@ -53,7 +53,11 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
                 var chain = $breadcrumb.getStatesChain();
                 var stateNames = [];
                 angular.forEach(chain, function(value) {
-                    stateNames.push(value.name);
+                    if(value.data && value.data.ncyBreadcrumbLabel) {
+                        stateNames.push(value.data.ncyBreadcrumbLabel);
+                    } else {
+                        stateNames.push(value.name);
+                    }
                 });
                 element.text(stateNames.join(' / '));
             }, true);

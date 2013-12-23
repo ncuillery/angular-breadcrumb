@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.1.0 - 2013-10-23
+/*! angular-breadcrumb - v0.1.0 - 2013-12-23
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2013 Nicolas Cuillery; Licensed MIT */
 angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
@@ -56,7 +56,11 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
                 var chain = $breadcrumb.getStatesChain();
                 var stateNames = [];
                 angular.forEach(chain, function(value) {
-                    stateNames.push(value.name);
+                    if(value.data && value.data.ncyBreadcrumbLabel) {
+                        stateNames.push(value.data.ncyBreadcrumbLabel);
+                    } else {
+                        stateNames.push(value.name);
+                    }
                 });
                 element.text(stateNames.join(' / '));
             }, true);

@@ -39,6 +39,22 @@ Use the directive `ncy-breadcrumb'
 ```
 
 ## Documentation
+### Configuration of ui-router states
+The breadcrumb is strongly based on ui-router. In order to build a human readable breadcrumb, it needs to have additional properties defined of each states :
+**ncyBreadcrumbLabel**
+This property define the label displayed by the angular-breadcrumb directive :
+```js
+$stateProvider.state('home', {
+  url: '/home',
+  templateUrl: 'views/home.html',
+  controller: 'HomeCtrl',
+  data: {
+    ncyBreadcrumbLabel: 'Home page'
+  }
+})
+```
+Every states that can be displayed in the breadcrumb *must* defined this property. If not, a state [inherit the property from his parent](https://github.com/angular-ui/ui-router/wiki/Nested-States-%26-Nested-Views#inherited-custom-data). It results a breadcrumb including 2 states with the same label...
+
 _(Coming soon)_
 
 ## Examples
