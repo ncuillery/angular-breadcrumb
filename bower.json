@@ -16,7 +16,7 @@
     "libpeerconnection.log",
     "package.json",
     "README.md"
-  ]
+  ],
   "dependencies": {
     "angular": ">=1.0.8",
     "angular-ui-router": ">=0.2.0"
