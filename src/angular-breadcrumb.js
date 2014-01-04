@@ -46,7 +46,7 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
         }];
 
     })
-    .directive('ncyBreadcrumb', function($state, $breadcrumb) {
+    .directive('ncyBreadcrumb', ['$state', '$breadcrumb', function($state, $breadcrumb) {
         return function(scope, element) {
 
             scope.$watch(function() { return $state.current; }, function() {
@@ -63,4 +63,4 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
             }, true);
 
         };
-    });
+    }]);
