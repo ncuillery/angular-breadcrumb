@@ -46,11 +46,11 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
         }];
 
     })
-    .directive('ncyBreadcrumb', function($state, $breadcrumb) {
+    .directive('ncyBreadcrumb', function($state, $compile, $breadcrumb, $rootScope) {
         return function(scope, element) {
 
-            scope.$watch(function() { return $state.current; }, function() {
-                var chain = $breadcrumb.getStatesChain();
+            $rootScope.$on('$viewContentLoaded', function(event){
+               var chain = $breadcrumb.getStatesChain();
                 var stateNames = [];
                 angular.forEach(chain, function(value) {
                     if(value.data && value.data.ncyBreadcrumbLabel) {
@@ -60,7 +60,9 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
                     }
                 });
                 element.text(stateNames.join(' / '));
-            }, true);
+                console.log('Scope : ', event.targetScope);
+                $compile(element.contents())(event.targetScope);
+            });
 
         };
     });

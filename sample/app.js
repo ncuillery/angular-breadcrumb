@@ -53,7 +53,7 @@ angular.module('ncy-sample', ['ui.router.state', 'ncy-angular-breadcrumb'])
           }
         },
         data: {
-          ncyBreadcrumbLabel: 'Room TODO'
+          ncyBreadcrumbLabel: 'Room {{room.roomNumber}}'
         }
       })
       .state('room.detail.edit', {

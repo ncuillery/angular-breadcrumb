@@ -2,7 +2,7 @@
 
 describe('Directive', function() {
 
-    var element;
+    var element, scope;
 
     beforeEach(function() {
         angular.module('ncy-directive-simple-test', function() {}).config(function($stateProvider) {
@@ -11,6 +11,8 @@ describe('Directive', function() {
                 .state('A.B', {url: '/b', data: {ncyBreadcrumbLabel: 'State B'}})
                 .state('A.B.C', {url: '/c', data: {ncyBreadcrumbLabel: 'State C'}})
                 .state('D', {parent: 'A.B.C', url: '/d', data: {ncyBreadcrumbLabel: 'State D'}}); // Explicit parent
+
+            console.log('$stateProvider initialise');
         });
 
         // Order of arguments has importance here.
@@ -20,13 +22,16 @@ describe('Directive', function() {
     beforeEach(inject(function($rootScope, $compile) {
         element = angular.element('<div ncy-breadcrumb></div>');
         var compile = $compile(element);
-        //var scope = $rootScope.$new();
-        compile($rootScope);
-        $rootScope.$digest();
+        scope = $rootScope.$new();
+        compile(scope);
+        scope.$digest();
+
     }));
 
     it('works with simple conf', inject(function() {
         goToState('D');
+        scope.$emit('$viewContentLoaded');
+
         console.info('Directive content : ', element.text());
         expect(element.text()).toContain('State A');
         expect(element.text()).toContain('State B');
