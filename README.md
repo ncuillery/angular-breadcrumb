@@ -53,9 +53,22 @@ $stateProvider.state('home', {
   }
 })
 ```
-Every states that can be displayed in the breadcrumb *must* defined this property. If not, a state [inherit the property from his parent](https://github.com/angular-ui/ui-router/wiki/Nested-States-%26-Nested-Views#inherited-custom-data). It results a breadcrumb including 2 states with the same label...
+The property `ncyBreadcrumbLabel` can contains bindings which are evaluated against the current state controller. For example, this state's config :
+```js
+$stateProvider.state('home', {
+  url: '/home',
+  templateUrl: 'views/home.html',
+  controller: function($scope) {
+    $scope.foo='bar';
+  },
+  data: {
+    ncyBreadcrumbLabel: 'State {{foo}}'
+  }
+})
+```
+will produces `State bar`. 
 
-_(Coming soon)_
+Every states that can be displayed in the breadcrumb *must* defined this property. If not, a state [inherit the property from his parent](https://github.com/angular-ui/ui-router/wiki/Nested-States-%26-Nested-Views#inherited-custom-data). It results a breadcrumb including 2 states with the same label...
 
 ## Examples
 See sample [here](http://ncuillery.github.io/angular-breadcrumb/sample/)
