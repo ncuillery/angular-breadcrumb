@@ -60,7 +60,7 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
                     }
                 });
                 element.text(stateNames.join(' / '));
-                console.log('Scope : ', event.targetScope);
+
                 $compile(element.contents())(event.targetScope);
             });
 

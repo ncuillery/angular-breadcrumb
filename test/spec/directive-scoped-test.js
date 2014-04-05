@@ -10,7 +10,7 @@ describe('Directive', function() {
                 .state('A', {url: '/a', controller: 'ACtrl', template: '<div>View A</div>',data: {ncyBreadcrumbLabel: 'State A'}})
                 .state('A.B', {url: '/b', controller: 'BCtrl', template: '<div>View B</div>', data: {ncyBreadcrumbLabel: 'State {{tripleB}}'}})
                 .state('A.B.C', {url: '/c', data: {ncyBreadcrumbLabel: 'State C'}}) // no controller
-                .state('A.B.D', {url: '/d', controller: function($scope) {$scope.tripleD='DDD';}, template: '<div>View D</div>', data: {ncyBreadcrumbLabel: 'State {{tripleD}}'}}) // inline controller
+                .state('A.B.D', {url: '/d', controller: function($scope) {$scope.tripleD='DDD';}, template: '<div>View D</div>', data: {ncyBreadcrumbLabel: 'State {{tripleD}}'}}); // inline controller
         }).controller('ACtrl', function($scope) {
                 $scope.tripleA = 'AAA';
         }).controller('BCtrl', function($scope) {
