@@ -1,6 +1,7 @@
 {
   "name": "angular-breadcrumb",
   "version": "0.1.0",
+  "main": "dist/angular-breadcrumb.js",
   "dependencies": {
     "angular": ">=1.0.8",
     "angular-ui-router": ">=0.2.0"
