@@ -2,7 +2,7 @@
 
 describe('Directive', function() {
 
-    var element;
+    var element, scope, controller, compile;
 
     beforeEach(function() {
         angular.module('ncy-sample-test', function() {}).config(function($urlRouterProvider) {
@@ -35,20 +35,29 @@ describe('Directive', function() {
         };
     }));
 
-    beforeEach(inject(function($rootScope, $compile) {
+    beforeEach(inject(function($rootScope, $compile, $controller) {
         element = angular.element('<div ncy-breadcrumb></div>');
-        var compile = $compile(element);
-        //var scope = $rootScope.$new();
-        compile($rootScope);
-        $rootScope.$digest();
+        compile = $compile(element);
+        scope = $rootScope.$new();
+        controller = $controller;
     }));
 
     it('works with sample conf', inject(function() {
         goToStateAndFlush('room.detail', {roomId: 3});
+
+        controller('RoomDetailCtrl', {'$scope' : scope} );
+        compile(scope);
+
+        expect(scope.room).toBeDefined();
+
+        scope.$emit('$viewContentLoaded');
+        scope.$digest();
+
         console.info('Directive content : ', element.text());
+
         expect(element.text()).toContain('Home');
         expect(element.text()).toContain('Rooms');
-        expect(element.text()).toContain('Room TODO');
+        expect(element.text()).toContain('Room 103');
     }));
 
 });
