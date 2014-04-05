@@ -1,6 +1,7 @@
 {
   "name": "angular-breadcrumb",
   "version": "0.1.0",
+  "main": "dist/angular-breadcrumb.js",
   "ignore": [
     "sample",
     "src",
