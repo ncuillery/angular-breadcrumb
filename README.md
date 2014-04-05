@@ -8,7 +8,7 @@ angular-breadcrumb is unusable for the moment. Basic functionalities are current
 
 ### Roadmap
 - [x] Build a breadcrumb presenting a step for each state in the current state's hierarchy
-- [ ] Display a human readeable label for each step in the breadcrumb
+- [x] Display a human readeable label for each step in the breadcrumb
 - [ ] Build a working link for each step expect the last one.
 - [ ] Probably first release here ;-)
 - [ ] Reflection about templating (maybe not everybody want to use the [bootstrap's breadcrumb](http://getbootstrap.com/components/#breadcrumbs))
