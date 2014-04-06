@@ -20,7 +20,7 @@
   ],
   "dependencies": {
     "angular": ">=1.0.8",
-    "angular-ui-router": ">=0.2.0"
+    "angular-ui-router": "0.2.8-bowratic-tedium"
   },
   "devDependencies": {
     "bootstrap.css": "~2.3.2",
