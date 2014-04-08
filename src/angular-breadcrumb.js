@@ -46,23 +46,34 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
         }];
 
     })
-    .directive('ncyBreadcrumb', ['$state', '$compile', '$breadcrumb', '$rootScope', function ($state, $compile, $breadcrumb, $rootScope) {
-        return function (scope, element) {
-
-            $rootScope.$on('$viewContentLoaded', function (event) {
-                var chain = $breadcrumb.getStatesChain();
-                var stateNames = [];
-                angular.forEach(chain, function (value) {
-                    if (value.data && value.data.ncyBreadcrumbLabel) {
-                        stateNames.push(value.data.ncyBreadcrumbLabel);
-                    } else {
-                        stateNames.push(value.name);
-                    }
-                });
-                element.text(stateNames.join(' / '));
-
-                $compile(element.contents())(event.targetScope);
-            });
-
+    .directive('ncyBreadcrumb', ['$state', '$interpolate', '$breadcrumb', '$rootScope', function ($state, $interpolate, $breadcrumb, $rootScope) {
+        return {
+            replace: true,
+            template:
+                '<ul class="breadcrumb">' +
+                '   <li ng-repeat="step in steps">' +
+                '       {{step.label}} ' +
+                '       <span class="divider" ng-hide="$last">/</span>' +
+                '   </li>' +
+                '</ul>',
+            link: {
+                post: function postLink(scope) {
+                    $rootScope.$on('$viewContentLoaded', function (event) {
+                        scope.steps = [];
+                        var stateNames = $breadcrumb.getStatesChain();
+                        angular.forEach(stateNames, function (value) {
+                            var step = {};
+                            if (value.data && value.data.ncyBreadcrumbLabel) {
+                                var parseLabel = $interpolate(value.data.ncyBreadcrumbLabel);
+                                step.label = parseLabel(event.targetScope);
+                            } else {
+                                step.label = value.name;
+                            }
+                            scope.steps.push(step);
+                        });
+                    });
+                }
+            }
         };
     }]);
+

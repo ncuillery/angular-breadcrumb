@@ -31,6 +31,7 @@ describe('Directive', function() {
     it('works with simple conf', inject(function() {
         goToState('D');
         scope.$emit('$viewContentLoaded');
+        scope.$digest();
 
         console.info('Directive content : ', element.text());
         expect(element.text()).toContain('State A');
