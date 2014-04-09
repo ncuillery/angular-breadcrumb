@@ -1,36 +1,13 @@
 /*jshint undef: false */
 
-describe('Simple app', function() {
+describe('Service in simple conf', function() {
 
     beforeEach(function() {
-        angular.module('ncy-service-simple-test', function() {}).config(function($stateProvider) {
-            $stateProvider
-                .state('A', {url: '/a'})
-                .state('A.B', {url: '/b'})
-                .state('A.B.C', {url: '/c'})
-                .state('D', {parent: 'A.B.C', url: '/d'});
-        });
-
-        // Order of arguments has importance here.
-        module('ncy-directive-simple-test');
+        module('ncy-basic-conf');
     });
 
-    it('should have a $breadcrumb defined', inject(function($breadcrumb) {
+    it('must be defined', inject(function($breadcrumb) {
         expect($breadcrumb).toBeDefined();
-    }));
-
-    it('must have some states defined', inject(function($state) {
-        expect($state.get('A').name).toBe('A');
-        expect($state.get('A.B').name).toBe('A.B');
-    }));
-
-    it('allow state transition in test', inject(function($state) {
-        var oldState = $state.current.name;
-        goToState('A.B');
-        var newState = $state.current.name;
-
-        expect(newState).not.toBe(oldState);
-        expect(newState).toBe('A.B');
     }));
 
     it('should have a 3-step route to C state', inject(function($breadcrumb) {
@@ -45,4 +22,12 @@ describe('Simple app', function() {
         expect(stringifyStateChain(statesChain)).toBe('A --> A.B --> A.B.C --> D');
     }));
 
+    it('must build a correct link for each steps', inject(function($breadcrumb) {
+        goToState('D');
+        var statesChain = $breadcrumb.getStatesChain();
+        expect(statesChain[0].ncyBreadcrumbLink).toBe('#/a');
+        expect(statesChain[1].ncyBreadcrumbLink).toBe('#/a/b');
+        expect(statesChain[2].ncyBreadcrumbLink).toBe('#/a/b/c');
+        expect(statesChain[3].ncyBreadcrumbLink).toBe('#/a/b/c/d');
+    }));
 });
