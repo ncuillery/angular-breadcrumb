@@ -11,7 +11,7 @@ describe('Simple conf', function() {
         expect($state.get('A.B').name).toBe('A.B');
     }));
 
-    it('allow state transition in test', inject(function($state) {
+    it('allows state transition in test', inject(function($state) {
         var oldState = $state.current.name;
         goToState('A.B');
         var newState = $state.current.name;

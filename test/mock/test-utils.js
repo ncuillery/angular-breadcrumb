@@ -1,6 +1,6 @@
 /*jshint undef: false */
 
-var goToState, stringifyStateChain;
+var goToState, goToStateAndFlush, stringifyStateChain;
 
 beforeEach(function() {
     module('ncy-angular-breadcrumb', 'ui.router.state', 'ngMock', 'ng');
@@ -12,6 +12,21 @@ beforeEach(module(function() {
         goToState = function(state, stateParams) {
             $state.transitionTo(state, stateParams);
             $rootScope.$digest();
+        };
+    };
+}));
+
+/**
+ * Due to templateUrl definitions in $state configuration,
+ * httpBackend will try to load the view for each state asked.
+ */
+beforeEach(module(function() {
+    return function($httpBackend, $state) {
+
+        // Helpful function for navigate within states.
+        goToStateAndFlush = function(state, stateParams) {
+            $state.transitionTo(state, stateParams);
+            $httpBackend.flush();
         };
     };
 }));

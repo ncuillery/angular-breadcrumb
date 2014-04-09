@@ -1,6 +1,6 @@
 /*jshint undef: false */
 
-describe('Directive in simple conf', function() {
+describe('Directive with basic conf', function() {
 
     var element, scope;
 
@@ -32,7 +32,7 @@ describe('Directive in simple conf', function() {
         expect(element.find('a').length).toBe(3);
     }));
 
-    it('should work with 1 state', inject(function() {
+    it('should work with one state', inject(function() {
         goToState('A');
         scope.$emit('$viewContentLoaded');
         scope.$digest();

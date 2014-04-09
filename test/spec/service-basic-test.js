@@ -1,6 +1,6 @@
 /*jshint undef: false */
 
-describe('Service in simple conf', function() {
+describe('Service with basic conf', function() {
 
     beforeEach(function() {
         module('ncy-basic-conf');
