@@ -30,14 +30,16 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
                     if(options.prefixStateName) {
                         var prefixState = $state.get(options.prefixStateName);
                         if(prefixState) {
-                            _pushNonexistentState(chain, prefixState);
+                            var prefixStep = angular.extend(prefixState, {ncyBreadcrumbLink: $state.href(prefixState)});
+                            _pushNonexistentState(chain, prefixStep);
                         } else {
                             throw 'Bad configuration : prefixState "' + options.prefixStateName + '" unknown';
                         }
                     }
 
                     angular.forEach($state.$current.path, function(value) {
-                        _pushNonexistentState(chain, value.self);
+                        var step = angular.extend(value.self, {ncyBreadcrumbLink: $state.href(value)});
+                        _pushNonexistentState(chain, step);
                     });
 
                     return chain;
@@ -51,25 +53,23 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
             replace: true,
             template:
                 '<ul class="breadcrumb">' +
-                '   <li ng-repeat="step in steps">' +
-                '       {{step.label}} ' +
+                '   <li ng-repeat="step in steps" ng-class="{active: $last}">' +
+                '       <a href="{{step.ncyBreadcrumbLink}}" ng-hide="$last">{{step.ncyBreadcrumbLabel}}</a> ' +
                 '       <span class="divider" ng-hide="$last">/</span>' +
+                '       <span ng-show="$last">{{step.ncyBreadcrumbLabel}}</span>' +
                 '   </li>' +
                 '</ul>',
             link: {
                 post: function postLink(scope) {
                     $rootScope.$on('$viewContentLoaded', function (event) {
-                        scope.steps = [];
-                        var stateNames = $breadcrumb.getStatesChain();
-                        angular.forEach(stateNames, function (value) {
-                            var step = {};
+                        scope.steps = $breadcrumb.getStatesChain();
+                        angular.forEach(scope.steps, function (value) {
                             if (value.data && value.data.ncyBreadcrumbLabel) {
                                 var parseLabel = $interpolate(value.data.ncyBreadcrumbLabel);
-                                step.label = parseLabel(event.targetScope);
+                                value.ncyBreadcrumbLabel = parseLabel(event.targetScope);
                             } else {
-                                step.label = value.name;
+                                value.ncyBreadcrumbLabel = value.name;
                             }
-                            scope.steps.push(step);
                         });
                     });
                 }
