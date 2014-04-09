@@ -56,11 +56,13 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
             replace: true,
             template:
                 '<ul class="breadcrumb">' +
-                '   <li ng-repeat="step in steps" ng-class="{active: $last}">' +
-                '       <a href="{{step.ncyBreadcrumbLink}}" ng-hide="$last">{{step.ncyBreadcrumbLabel}}</a> ' +
-                '       <span class="divider" ng-hide="$last">/</span>' +
-                '       <span ng-show="$last">{{step.ncyBreadcrumbLabel}}</span>' +
-                '   </li>' +
+                    '<li ng-repeat="step in steps | limitTo:(steps.length-1)">' +
+                        '<a href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a> ' +
+                        '<span class="divider">/</span>' +
+                    '</li>' +
+                    '<li ng-repeat="step in steps | limitTo:-1" class="active">' +
+                        '<span>{{step.ncyBreadcrumbLabel}}</span>' +
+                    '</li>' +
                 '</ul>',
             link: {
                 post: function postLink(scope) {
