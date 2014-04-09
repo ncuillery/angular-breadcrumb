@@ -51,6 +51,7 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
     .directive('ncyBreadcrumb', ['$state', '$interpolate', '$breadcrumb', '$rootScope', function ($state, $interpolate, $breadcrumb, $rootScope) {
         return {
             replace: true,
+            scope: {},
             template:
                 '<ul class="breadcrumb">' +
                     '<li ng-repeat="step in steps | limitTo:(steps.length-1)">' +
