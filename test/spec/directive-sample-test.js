@@ -26,7 +26,7 @@ describe('Directive with sample conf', function() {
         scope.$emit('$viewContentLoaded');
         scope.$digest();
 
-        console.info('Directive content : ', element.text());
+        console.info('Directive content : ' + element.text());
 
         expect(element.text()).toContain('Home');
         expect(element.text()).toContain('Rooms');

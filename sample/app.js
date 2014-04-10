@@ -2,7 +2,10 @@
 
 angular.module('ncy-sample', ['ui.router.state', 'ncy-angular-breadcrumb'])
   .config(function($breadcrumbProvider) {
-    $breadcrumbProvider.setPrefixState('home');
+    $breadcrumbProvider.setOptions({
+      prefixStateName: 'home',
+      template: 'bootstrap2'
+    });
   })
   .value('rooms', [
     {roomId: 1, roomNumber: 101, type: 'Double'},

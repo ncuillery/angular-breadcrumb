@@ -14,7 +14,6 @@ describe('Directive with basic conf', function() {
         scope = $rootScope.$new();
         compile(scope);
         scope.$digest();
-
     }));
 
     it('renders the correct state chain', inject(function() {
