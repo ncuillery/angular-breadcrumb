@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.1.0 - 2014-04-10
+/*! angular-breadcrumb - v0.1.0 - 2014-04-22
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
@@ -14,17 +14,19 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
             angular.extend($$options, options);
         };
 
-        var $pushNonexistentState = function(array, state) {
+        // Add the state in the array if not already in and if not abstract
+        var $$pushState = function(array, state) {
             var stateAlreadyInArray = false;
             angular.forEach(array, function(value) {
                 if(!stateAlreadyInArray && angular.equals(value, state)) {
                     stateAlreadyInArray = true;
                 }
             });
-            if(!stateAlreadyInArray) {
+            if(!stateAlreadyInArray && !state.abstract) {
                 array.push(state);
+                return true;
             }
-            return stateAlreadyInArray;
+            return false;
         };
 
         this.$get = ['$state', function($state) {
@@ -52,7 +54,7 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
                         var prefixState = $state.get($$options.prefixStateName);
                         if(prefixState) {
                             var prefixStep = angular.extend(prefixState, {ncyBreadcrumbLink: $state.href(prefixState)});
-                            $pushNonexistentState(chain, prefixStep);
+                            $$pushState(chain, prefixStep);
                         } else {
                             throw 'Bad configuration : prefixState "' + $$options.prefixStateName + '" unknown';
                         }
@@ -60,7 +62,7 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
 
                     angular.forEach($state.$current.path, function(value) {
                         var step = angular.extend(value.self, {ncyBreadcrumbLink: $state.href(value)});
-                        $pushNonexistentState(chain, step);
+                        $$pushState(chain, step);
                     });
 
                     return chain;
