@@ -26,7 +26,7 @@ module.exports = function(config) {
       'src/angular-breadcrumb.js': 'coverage'
     },
 
-    reporters: ['coverage'],
+    reporters: ['story', 'coverage'],
 
     coverageReporter: {
       type : 'lcov',
