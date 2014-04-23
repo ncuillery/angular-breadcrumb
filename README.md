@@ -1,7 +1,7 @@
 # angular-breadcrumb
 [![Build Status](https://travis-ci.org/ncuillery/angular-breadcrumb.png)](https://travis-ci.org/ncuillery/angular-breadcrumb) [![Coverage Status](https://coveralls.io/repos/ncuillery/angular-breadcrumb/badge.png)](https://coveralls.io/r/ncuillery/angular-breadcrumb)
 
-Generate a breadcrumb from ui-router's states
+Angular-breadcrumb is a module for [AngularJS](http://angularjs.org), which generates a breadcrumb for any page of your application. It is strongly based on the [ui-router](https://github.com/angular-ui/ui-router) framework and its hierachical tree of states.
 
 ## Key features
 - Build a breadcrumb with a step for each state in the current state's hierarchy,
