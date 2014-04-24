@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.1.0 - 2014-04-22
+/*! angular-breadcrumb - v0.1.0 - 2014-04-24
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
@@ -14,24 +14,45 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
             angular.extend($$options, options);
         };
 
-        // Add the state in the array if not already in and if not abstract
-        var $$pushState = function(array, state) {
-            var stateAlreadyInArray = false;
-            angular.forEach(array, function(value) {
-                if(!stateAlreadyInArray && angular.equals(value, state)) {
-                    stateAlreadyInArray = true;
-                }
-            });
-            if(!stateAlreadyInArray && !state.abstract) {
-                array.push(state);
-                return true;
-            }
-            return false;
-        };
-
         this.$get = ['$state', function($state) {
 
+            // Add the state in the array if not already in and if not abstract
+            var $$addStateInChain = function(array, state, prefixStateInserted) {
+                var stateAlreadyInArray = false;
+                angular.forEach(array, function(value) {
+                    if(!stateAlreadyInArray && angular.equals(value, state)) {
+                        stateAlreadyInArray = true;
+                    }
+                });
+                if(!stateAlreadyInArray && !state.abstract) {
+                    // Insert at first or second index.
+                    if(prefixStateInserted) {
+                        array.splice(1, 0, state);
+                    } else {
+                        array.unshift(state);
+                    }
+                    return true;
+                }
+                return false;
+            };
+
+            // Get the parent of a state
+            var $$breadcrumbParentState = function(state) {
+
+                if (angular.isDefined(state.parent)) {
+                    return $state.get(state.parent);
+                }
+
+                var compositeName = /^(.+)\.[^.]+$/.exec(state.name);
+                if(compositeName) {
+                    return $state.get(compositeName[1]);
+                }
+
+                return null;
+            };
+
             return {
+
                 getTemplate: function(templates) {
                     if($$options.templateUrl) {
                         // templateUrl takes precedence over template
@@ -43,27 +64,34 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
                         return $$options.template;
                     }
                 },
+
                 getTemplateUrl: function() {
                     return $$options.templateUrl;
                 },
+
                 getStatesChain: function() {
                     var chain = [];
+                    var prefixStateInserted = false;
 
                     // Prefix state treatment
                     if($$options.prefixStateName) {
                         var prefixState = $state.get($$options.prefixStateName);
                         if(prefixState) {
                             var prefixStep = angular.extend(prefixState, {ncyBreadcrumbLink: $state.href(prefixState)});
-                            $$pushState(chain, prefixStep);
+                            prefixStateInserted = $$addStateInChain(chain, prefixStep, prefixStateInserted);
                         } else {
                             throw 'Bad configuration : prefixState "' + $$options.prefixStateName + '" unknown';
                         }
                     }
 
-                    angular.forEach($state.$current.path, function(value) {
-                        var step = angular.extend(value.self, {ncyBreadcrumbLink: $state.href(value)});
-                        $$pushState(chain, step);
-                    });
+                    // From current state to the root
+                    var state = $state.$current.self;
+                    do {
+                        var step = angular.extend(state, {ncyBreadcrumbLink: $state.href(state.name)});
+                        $$addStateInChain(chain, step, prefixStateInserted);
+                        state = $$breadcrumbParentState(state);
+                    }
+                    while(state && state.name !== '');
 
                     return chain;
                 }
