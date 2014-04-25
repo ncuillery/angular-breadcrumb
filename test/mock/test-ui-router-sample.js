@@ -124,6 +124,9 @@ angular.module('ncy-ui-router-conf', ['ngMock'])
                             return '<hr><small class="muted">Contact ID: ' + $stateParams.contactId + '</small>';
                         }]
                 }
+            },
+            data: {
+                ncyBreadcrumbParent: 'contacts.list' // Override the parent state (only for the breadcrumb).
             }
         })
         .state('contacts.detail.item', {

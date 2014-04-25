@@ -20,25 +20,25 @@ describe('Service with ui-router\'s sample conf', function() {
         expect(stringifyStateChain(statesChain)).toBe('home --> contacts.list');
     }));
 
-    it('generate two steps for the "contacts.detail" state', inject(function($breadcrumb) {
+    it('generate three steps for the "contacts.detail" state', inject(function($breadcrumb) {
         goToStateAndFlush('contacts.detail', {contactId: 42});
         var statesChain = $breadcrumb.getStatesChain();
 
-        expect(stringifyStateChain(statesChain)).toBe('home --> contacts.detail');
+        expect(stringifyStateChain(statesChain)).toBe('home --> contacts.list --> contacts.detail');
     }));
 
-    it('generate three steps for the "contacts.detail.item" state', inject(function($breadcrumb) {
+    it('generate four steps for the "contacts.detail.item" state', inject(function($breadcrumb) {
         goToStateAndFlush('contacts.detail.item', {contactId: 42, itemId: "a"});
         var statesChain = $breadcrumb.getStatesChain();
 
-        expect(stringifyStateChain(statesChain)).toBe('home --> contacts.detail --> contacts.detail.item');
+        expect(stringifyStateChain(statesChain)).toBe('home --> contacts.list --> contacts.detail --> contacts.detail.item');
     }));
 
-    it('generate three steps for the "contacts.detail.item.edit" state', inject(function($breadcrumb) {
+    it('generate five steps for the "contacts.detail.item.edit" state', inject(function($breadcrumb) {
         goToStateAndFlush('contacts.detail.item.edit', {contactId: 42, itemId: "a"});
         var statesChain = $breadcrumb.getStatesChain();
 
-        expect(stringifyStateChain(statesChain)).toBe('home --> contacts.detail --> contacts.detail.item --> contacts.detail.item.edit');
+        expect(stringifyStateChain(statesChain)).toBe('home --> contacts.list --> contacts.detail --> contacts.detail.item --> contacts.detail.item.edit');
     }));
 
 });

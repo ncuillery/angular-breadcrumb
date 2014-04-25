@@ -13,29 +13,16 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
 
         this.$get = ['$state', function($state) {
 
-            // Add the state in the array if not already in and if not abstract
-            var $$addStateInChain = function(array, state, prefixStateInserted) {
-                var stateAlreadyInArray = false;
-                angular.forEach(array, function(value) {
-                    if(!stateAlreadyInArray && angular.equals(value, state)) {
-                        stateAlreadyInArray = true;
-                    }
-                });
-                if(!stateAlreadyInArray && !state.abstract) {
-                    // Insert at first or second index.
-                    if(prefixStateInserted) {
-                        array.splice(1, 0, state);
-                    } else {
-                        array.unshift(state);
-                    }
-                    return true;
-                }
-                return false;
+            // Check if a property in state's data is inherited from the parent state
+            var $$isInherited = function(state, dataProperty) {
+                var parentState = $$parentState(state);
+                return angular.isDefined(parentState.data) &&
+                    angular.isDefined(parentState.data[dataProperty]) &&
+                    angular.equals(state.data[dataProperty], parentState.data[dataProperty]);
             };
 
-            // Get the parent of a state
-            var $$breadcrumbParentState = function(state) {
-
+            // Get the parent state
+            var $$parentState = function(state) {
                 if (angular.isDefined(state.parent)) {
                     return $state.get(state.parent);
                 }
@@ -44,8 +31,40 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
                 if(compositeName) {
                     return $state.get(compositeName[1]);
                 }
-
                 return null;
+            };
+
+            // Add the state in the chain if not already in and if not abstract
+            var $$addStateInChain = function(chain, state, prefixStateInserted) {
+                var stateAlreadyInChain = false;
+                angular.forEach(chain, function(value) {
+                    if(!stateAlreadyInChain && angular.equals(value, state)) {
+                        stateAlreadyInChain = true;
+                    }
+                });
+                if(!stateAlreadyInChain && !state.abstract) {
+                    // Insert at first or second index.
+                    if(prefixStateInserted) {
+                        chain.splice(1, 0, state);
+                    } else {
+                        chain.unshift(state);
+                    }
+                    return true;
+                }
+                return false;
+            };
+
+            // Get the state for the parent step in the breadcrumb
+            var $$breadcrumbParentState = function(state) {
+
+                if(angular.isDefined(state.data) &&
+                    angular.isDefined(state.data.ncyBreadcrumbParent) &&
+                    !$$isInherited(state, 'ncyBreadcrumbParent')) {
+                    return $state.get(state.data.ncyBreadcrumbParent);
+                }
+
+                return $$parentState(state);
+
             };
 
             return {
