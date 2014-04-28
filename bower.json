@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "bootstrap.css": "~2.3.2",
+    "angular-ui-bootstrap-bower": "~0.8.0",
     "underscore": "~1.5.1",
     "angular-mocks": ">=1.0.8"
   }
