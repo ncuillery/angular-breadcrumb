@@ -9,7 +9,7 @@ describe('Directive with basic conf', function() {
     });
 
     beforeEach(inject(function($rootScope, $compile) {
-        element = angular.element('<div ncy-breadcrumb></div>');
+        element = angular.element('<ncy-breadcrumb />');
         var compile = $compile(element);
         scope = $rootScope.$new();
         compile(scope);

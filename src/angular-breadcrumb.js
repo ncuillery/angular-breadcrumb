@@ -137,6 +137,7 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
         };
 
         return {
+            restrict: 'AE',
             replace: true,
             scope: {},
             template: $breadcrumb.getTemplate(this.$$templates),

@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.1.0 - 2014-04-25
+/*! angular-breadcrumb - v0.1.0 - 2014-04-28
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
@@ -140,6 +140,7 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
         };
 
         return {
+            restrict: 'AE',
             replace: true,
             scope: {},
             template: $breadcrumb.getTemplate(this.$$templates),
