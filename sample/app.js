@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('ncy-sample', ['ui.router.state', 'ncy-angular-breadcrumb'])
+angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-breadcrumb'])
   .config(function($breadcrumbProvider) {
     $breadcrumbProvider.setOptions({
       prefixStateName: 'home',
@@ -30,6 +30,14 @@ angular.module('ncy-sample', ['ui.router.state', 'ncy-angular-breadcrumb'])
         controller: 'BookingListCtrl',
         data: {
           ncyBreadcrumbLabel: 'Reservations'
+        }
+      })
+      .state('booking.day', {
+        url: '/:year-:month-:day',
+        templateUrl: 'views/booking_day.html',
+        controller: 'BookingDayCtrl',
+        data: {
+          ncyBreadcrumbLabel: 'Reservations for {{reservationDate | date:\'mediumDate\'}}'
         }
       })
       .state('room', {
