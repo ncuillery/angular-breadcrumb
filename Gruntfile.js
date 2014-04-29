@@ -98,7 +98,7 @@ module.exports = function (grunt) {
           }
         ]
       },
-      sample: {
+      asset: {
         files: [
           {
             flatten: true,
@@ -109,10 +109,21 @@ module.exports = function (grunt) {
               'bower_components/angular-ui-router/release/angular-ui-router.js',
               'bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js',
               'bower_components/bootstrap.css/css/bootstrap.css',
-              'bower_components/bootstrap.css/img/glyphicons-halflings.png',
               'bower_components/underscore/underscore.js'
             ],
             dest: 'sample/asset/'
+          }
+        ]
+      },
+      img: {
+        files: [
+          {
+            flatten: true,
+            expand: true,
+            src: [
+                'bower_components/bootstrap.css/img/glyphicons-halflings.png'
+            ],
+            dest: 'sample/img/'
           }
         ]
       }
@@ -155,6 +166,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', ['jshint', 'karma']);
 
-  grunt.registerTask('sample', ['copy:sample', 'connect:livereload', 'open', 'watch']);
+  grunt.registerTask('sample', ['copy:asset', 'copy:img', 'connect:livereload', 'open', 'watch']);
 
 };

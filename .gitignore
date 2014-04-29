@@ -3,5 +3,6 @@
 /bower_components/
 /coverage/
 **~
-sample/asset/angular-breadcrumb.js
+sample/asset/*
+sample/img/glyphicons-halflings.png
 libpeerconnection.log
