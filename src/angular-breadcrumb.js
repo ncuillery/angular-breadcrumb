@@ -1,3 +1,11 @@
+function isAOlderThanB(scopeA, scopeB) {
+    if(angular.equals(scopeA.length, scopeB.length)) {
+        return scopeA > scopeB;
+    } else {
+        return scopeA.length > scopeB.length;
+    }
+}
+
 function $Breadcrumb() {
 
     var $$options = {
@@ -112,7 +120,6 @@ function $Breadcrumb() {
             }
         };
     }];
-
 }
 
 function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
@@ -144,16 +151,21 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
         templateUrl: $breadcrumb.getTemplateUrl(),
         link: {
             post: function postLink(scope) {
+                var lastScopeId;
                 $rootScope.$on('$viewContentLoaded', function (event) {
-                    scope.steps = $breadcrumb.getStatesChain();
-                    angular.forEach(scope.steps, function (value) {
-                        if (value.data && value.data.ncyBreadcrumbLabel) {
-                            var parseLabel = $interpolate(value.data.ncyBreadcrumbLabel);
-                            value.ncyBreadcrumbLabel = parseLabel(event.targetScope);
-                        } else {
-                            value.ncyBreadcrumbLabel = value.name;
-                        }
-                    });
+                    // With nested views, the event occur several times, in "wrong" order
+                    if(!lastScopeId || isAOlderThanB(event.targetScope.$id, lastScopeId)) {
+                        lastScopeId = event.targetScope.$id;
+                        scope.steps = $breadcrumb.getStatesChain();
+                        angular.forEach(scope.steps, function (value) {
+                            if (value.data && value.data.ncyBreadcrumbLabel) {
+                                var parseLabel = $interpolate(value.data.ncyBreadcrumbLabel);
+                                value.ncyBreadcrumbLabel = parseLabel(event.targetScope);
+                            } else {
+                                value.ncyBreadcrumbLabel = value.name;
+                            }
+                        });
+                    }
                 });
             }
         }
