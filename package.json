@@ -42,7 +42,8 @@
     "karma-coverage": "~0.1.0",
     "grunt-karma": "~0.6.2",
     "coveralls": "~2.3.0",
-    "karma-story-reporter": "~0.2.2"
+    "karma-story-reporter": "~0.2.2",
+    "grunt-conventional-changelog": "~1.1.0"
   },
   "keywords": []
 }
