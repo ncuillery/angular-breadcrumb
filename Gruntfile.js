@@ -20,7 +20,8 @@ module.exports = function (grunt) {
     // Task configuration.
     concat: {
       options: {
-        banner: '<%= banner %>',
+        banner: '<%= banner %>\n(function (window, angular, undefined) {\n',
+        footer: '})(window, window.angular);\n',
         stripBanners: true
       },
       dist: {
@@ -104,7 +105,7 @@ module.exports = function (grunt) {
             flatten: true,
             expand: true,
             src: [
-              'src/angular-breadcrumb.js',
+              'dist/angular-breadcrumb.js',
               'bower_components/angular/angular.js',
               'bower_components/angular-ui-router/release/angular-ui-router.js',
               'bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js',
@@ -166,6 +167,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', ['jshint', 'karma']);
 
-  grunt.registerTask('sample', ['copy:asset', 'copy:img', 'connect:livereload', 'open', 'watch']);
+  grunt.registerTask('sample', ['concat', 'copy:asset', 'copy:img', 'connect:livereload', 'open', 'watch']);
 
 };
