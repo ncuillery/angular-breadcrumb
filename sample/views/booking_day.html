@@ -1,1 +1,16 @@
-<h2>Reservations for {{reservationDate | date:'mediumDate'}}</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Room</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="reservation in between(reservationDate)">
+        <td>{{reservation.reservationId}}</td>
+        <td>{{getRoom(reservation.roomId).roomNumber}}</td>
+        <td><a ui-sref=".detail({reservationId: reservation.reservationId})" class="btn">View</a></td>
+    </tr>
+    </tbody>
+</table>

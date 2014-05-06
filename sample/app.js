@@ -13,6 +13,30 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
     {roomId: 3, roomNumber: 103, type: 'Single'},
     {roomId: 4, roomNumber: 104, type: 'Double'}
   ])
+  .factory('dateUtils', function() {
+    return {
+      addDays: function(days, date) {
+        if(!date) {
+          var todayTime = new Date();
+          todayTime.setHours(0,0,0,0);
+          date = new Date(todayTime);
+        }
+
+        var newDate = new Date(date);
+        newDate.setDate(date.getDate() + days);
+        return newDate;
+        }
+    }
+  })
+  .factory('reservations', function(dateUtils) {
+    return [
+      {reservationId: 1, guestName: 'Robert Smith', roomId: '2', from: dateUtils.addDays(-1), nights: 3},
+      {reservationId: 2, guestName: 'John Doe', roomId: '3', from: dateUtils.addDays(-8), nights: 5},
+      {reservationId: 3, guestName: 'William Gordon', roomId: '1', from: dateUtils.addDays(3), nights: 6},
+      {reservationId: 4, guestName: 'Michael Robinson', roomId: '2', from: dateUtils.addDays(6), nights: 2},
+      {reservationId: 5, guestName: 'Tracy Marschall', roomId: '3', from: dateUtils.addDays(12), nights: 1}
+    ];
+  })
   .config(function($stateProvider, $urlRouterProvider) {
 
     $stateProvider
@@ -38,6 +62,19 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
         controller: 'BookingDayCtrl',
         data: {
           ncyBreadcrumbLabel: 'Reservations for {{reservationDate | date:\'mediumDate\'}}'
+        }
+      })
+      .state('booking.day.detail', {
+        url: '/{reservationId}',
+        onEnter: function($stateParams, $state, $modal) {
+          $modal.open({
+            templateUrl: "views/booking_detail.html",
+            controller: 'BookingDetailCtrl'
+          }).result.then(function(result) {
+            return $state.go("^");
+          }, function(result) {
+            return $state.go("^");
+          });
         }
       })
       .state('room', {
