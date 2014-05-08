@@ -49,7 +49,12 @@ function $Breadcrumb() {
                     stateAlreadyInChain = true;
                 }
             });
-            if(!stateAlreadyInChain && !state.abstract) {
+
+            var skipStep = angular.isDefined(state.data) &&
+                state.data.ncyBreadcrumbSkip &&
+                !$$isInherited(state, 'ncyBreadcrumbSkip');
+
+            if(!stateAlreadyInChain && !state.abstract && !skipStep) {
                 // Insert at first or second index.
                 if(prefixStateInserted) {
                     chain.splice(1, 0, state);

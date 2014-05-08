@@ -75,6 +75,9 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
           }, function(result) {
             return $state.go("^");
           });
+        },
+        data: {
+            ncyBreadcrumbSkip: true
         }
       })
       .state('room', {

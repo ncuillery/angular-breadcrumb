@@ -30,4 +30,17 @@ describe('Service with basic conf', function() {
         expect(statesChain[2].ncyBreadcrumbLink).toBe('#/a/b/c');
         expect(statesChain[3].ncyBreadcrumbLink).toBe('#/a/b/c/d');
     }));
+
+    it('should not return the step for E state', inject(function($breadcrumb) {
+        goToState('D.E');
+        var statesChain = $breadcrumb.getStatesChain();
+        expect(stringifyStateChain(statesChain)).toBe('A --> A.B --> A.B.C --> D');
+    }));
+
+    it('should have a 5-step route to F state (E skipped)', inject(function($breadcrumb) {
+        goToState('D.E.F');
+        var statesChain = $breadcrumb.getStatesChain();
+        expect(stringifyStateChain(statesChain)).toBe('A --> A.B --> A.B.C --> D --> D.E.F');
+    }));
+
 });

@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.1.0 - 2014-05-01
+/*! angular-breadcrumb - v0.1.0 - 2014-05-08
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
@@ -54,7 +54,12 @@ function $Breadcrumb() {
                     stateAlreadyInChain = true;
                 }
             });
-            if(!stateAlreadyInChain && !state.abstract) {
+
+            var skipStep = angular.isDefined(state.data) &&
+                state.data.ncyBreadcrumbSkip &&
+                !$$isInherited(state, 'ncyBreadcrumbSkip');
+
+            if(!stateAlreadyInChain && !state.abstract && !skipStep) {
                 // Insert at first or second index.
                 if(prefixStateInserted) {
                     chain.splice(1, 0, state);
@@ -125,7 +130,6 @@ function $Breadcrumb() {
             }
         };
     }];
-
 }
 
 function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
@@ -182,5 +186,4 @@ BreadcrumbDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope'];
 angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
     .provider('$breadcrumb', $Breadcrumb)
     .directive('ncyBreadcrumb', BreadcrumbDirective);
-
 })(window, window.angular);
