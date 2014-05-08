@@ -17,12 +17,12 @@ Angular-breadcrumb is a module for [AngularJS](http://angularjs.org), which gene
 ## Sample
 See angular-breadcrumb in action [here](http://ncuillery.github.io/angular-breadcrumb/sample/)
 
+## Release History
+See [CHANGELOG.md](https://github.com/ncuillery/angular-breadcrumb/blob/master/CHANGELOG.md)
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
-## Release History
-### 0.1.0
-- Initial release
 
 ## License
 Copyright (c) 2013 Nicolas Cuillery  

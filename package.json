@@ -1,7 +1,7 @@
 {
   "name": "angular-breadcrumb",
   "description": "Generate a breadcrumb from ui-router's states",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/ncuillery/angular-breadcrumb",
   "author": {
     "name": "Nicolas Cuillery",
