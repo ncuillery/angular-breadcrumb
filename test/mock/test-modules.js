@@ -10,7 +10,9 @@ angular.module('ncy-basic-conf', []).config(function($stateProvider) {
         .state('A.B.C', {url: '/c', data: {ncyBreadcrumbLabel: 'State C'}})
         .state('D', {parent: 'A.B.C', url: '/d', data: {ncyBreadcrumbLabel: 'State D'}}) // Explicit parent
         .state('D.E', {url: '/e', data: {ncyBreadcrumbLabel: 'State E', ncyBreadcrumbSkip: true}})
-        .state('D.E.F', {url: '/f', data: {ncyBreadcrumbLabel: 'State F'}});
+        .state('D.E.F', {url: '/f', data: {ncyBreadcrumbLabel: 'State F'}})
+        .state('G', {url: '/g', data: {ncyBreadcrumbLabel: 'State G', ncyBreadcrumbSkip: true}})
+        .state('G.H', {url: '/h', data: {ncyBreadcrumbLabel: 'State H'}});
 });
 
 /**
