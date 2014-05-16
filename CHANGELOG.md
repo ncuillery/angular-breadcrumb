@@ -1,5 +1,14 @@
+<a name="0.2.1"></a>
+### 0.2.1 (2014-05-16)
+
+
+#### Bug Fixes
+
+* **$breadcrumb:** check if a state has a parent when looking for an inheritated property ([77e668b5](http://github.com/ncuillery/angular-breadcrumb/commit/77e668b5eb759570a64c2a885e81580953af3201), closes [#11](http://github.com/ncuillery/angular-breadcrumb/issues/11))
+
+
 <a name="0.2.0"></a>
-## 0.2.0 (2014-05-08)
+### 0.2.0 (2014-05-08)
 
 
 #### Bug Fixes

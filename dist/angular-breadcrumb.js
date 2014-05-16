@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.2.0 - 2014-05-08
+/*! angular-breadcrumb - v0.2.1 - 2014-05-16
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
@@ -28,7 +28,8 @@ function $Breadcrumb() {
         // Check if a property in state's data is inherited from the parent state
         var $$isInherited = function(state, dataProperty) {
             var parentState = $$parentState(state);
-            return angular.isDefined(parentState.data) &&
+            return angular.isDefined(parentState) &&
+                angular.isDefined(parentState.data) &&
                 angular.isDefined(parentState.data[dataProperty]) &&
                 angular.equals(state.data[dataProperty], parentState.data[dataProperty]);
         };
@@ -43,7 +44,7 @@ function $Breadcrumb() {
             if(compositeName) {
                 return $state.get(compositeName[1]);
             }
-            return null;
+            return undefined;
         };
 
         // Add the state in the chain if not already in and if not abstract
