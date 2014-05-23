@@ -16,18 +16,24 @@
   </head>
   <body>
 
+    <a href="https://github.com/ncuillery/angular-breadcrumb">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
+    </a>
+
     <div class="container" ng-app="ncy-sample">
         <div class="row">
-            <h1>Sample</h1>
+            <h1>Sample app for angular-breadcrumb</h1>
             <div class="well">
-                <p>Basic information system for hotel</p>
-                <p>Sitemap : <pre>
-Home page
-Booking (list)
-    |-- Reservation (detail)
-Rooms (list)
-    |-- Room (detail)
-            |-- Reservation</pre>
+                <p>This app is a basic information system for hotel. Its main purpose is to illustrate how work the
+                    module <code>angular-breadcrumb</code> in various situations.</p>
+                <p>Here is the state machine : <pre>
+─ home (defined as prefix in the breadcrumb)
+─ booking
+    └── booking.day (use the angular date filter in label)
+          └── booking.day.detail (open a popup, not displayed in breadcrumb)
+─ room
+    └── room.detail (view included in root's view instead of parent's one, variable in breadcrumb label)
+          └── room.detail.edit (allow to see the working parameterized link for parent 'room.detail')</pre>
                 </p>
             </div>
             <div class="well" ncy-breadcrumb>
