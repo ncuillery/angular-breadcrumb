@@ -1,0 +1,23 @@
+<h2>Rooms</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Number</th>
+        <th>Type</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in rooms">
+            <td>{{item.roomId}}</td>
+            <td>{{item.roomNumber}}</td>
+            <td>{{item.type}}</td>
+            <td><a ui-sref=".detail({roomId: item.roomId})" class="btn">View</a></td>
+            <td><a ui-sref=".detail.edit({roomId: item.roomId})" class="btn">Edit</a></td>
+        </tr>
+    </tbody>
+</table>
+
+<p><a ui-sref=".new" class="btn">New</a></p>
