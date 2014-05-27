@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    
+
     <link rel="stylesheet" type="text/css" href="asset/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/sample.css">
 
     <script src="asset/underscore.js"></script>
 
@@ -14,28 +15,31 @@
 
 
   </head>
-  <body>
+  <body ng-app="ncy-sample">
 
-    <a href="https://github.com/ncuillery/angular-breadcrumb">
-      <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
-    </a>
-
-    <div class="container" ng-app="ncy-sample">
-        <div class="row">
-            <h1>Sample app for angular-breadcrumb</h1>
-            <div class="well">
-                <p>This app is a basic information system for hotel. Its main purpose is to illustrate how work the
-                    module <code>angular-breadcrumb</code> in various situations.</p>
-                <p>Here is the state machine : <pre>
-─ home (defined as prefix in the breadcrumb)
-─ booking
-    └── booking.day (use the angular date filter in label)
-          └── booking.day.detail (open a popup, not displayed in breadcrumb)
-─ room
-    └── room.detail (view included in root's view instead of parent's one, variable in breadcrumb label)
-          └── room.detail.edit (allow to see the working parameterized link for parent 'room.detail')</pre>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" ui-sref="home">angular-breadcrumb</a>
+                <ul class="nav">
+                    <li ng-class="{active: !isActive('home')}"><a ui-sref="sample">Sample</a></li>
+                    <li><a href="https://github.com/ncuillery/angular-breadcrumb/wiki">Docs <img src="img/GitHub-Mark-16px.png" alt="GitHub"/></a></li>
+                    <li><a href="https://github.com/ncuillery/angular-breadcrumb/issues">Contribute <img src="img/GitHub-Mark-16px.png" alt="GitHub"/></a></li>
+                </ul>
+                <p class="navbar-text pull-right navbar-github-btn">
+                    <iframe src="http://ghbtns.com/github-btn.html?user=ncuillery&repo=angular-breadcrumb&type=fork&count=true"
+                            allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+                </p>
+                <p class="navbar-text pull-right navbar-github-btn">
+                    <iframe src="http://ghbtns.com/github-btn.html?user=ncuillery&repo=angular-breadcrumb&type=watch&count=true"
+                            allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
                 </p>
             </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
             <div class="well" ncy-breadcrumb>
 
             </div>
@@ -44,6 +48,10 @@
             </div>
         </div>
     </div>
+
+    <a href="https://github.com/ncuillery/angular-breadcrumb" class="github-ribbon">
+        <img src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
+    </a>
 
     <script src="app.js"></script>
 

@@ -1,0 +1,21 @@
+<h2>Sample</h2>
+<div>
+    <p>This app is a basic information system for hotel. Its main purpose is to illustrate how work the
+        module <code>angular-breadcrumb</code> in various situations.</p>
+    <p>Here is the state machine : <pre>
+─ home (defined as prefix in the breadcrumb)
+─ sample
+─ booking (override his parent state to 'sample' in the breadcrumb)
+    └── booking.day (use the angular date filter in label)
+          └── booking.day.detail (open a popup, not displayed in breadcrumb)
+─ room (override his parent state to 'sample' in the breadcrumb)
+    └── room.detail (view included in root's view instead of parent's one, variable in breadcrumb label)
+          └── room.detail.edit (allow to see the working parameterized link for parent 'room.detail')</pre>
+    </p>
+    <p>For more information, see the <a href="https://github.com/ncuillery/angular-breadcrumb/blob/gh-pages/sample/app.js">sample app's configuration</a>.</p>
+</div>
+<div>
+    Let's start navigating :
+    <a class="btn btn-primary" ui-sref="room">Rooms</a>
+    <a class="btn btn-primary" ui-sref="booking">Booking</a>
+</div>

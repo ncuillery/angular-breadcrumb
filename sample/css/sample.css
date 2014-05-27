@@ -1,0 +1,27 @@
+
+body {
+  padding-top: 60px;
+  padding-bottom: 20px;
+}
+
+.github-ribbon {
+  position: fixed;
+  top: 0;
+  right: 0;
+  border: 0;
+  z-index: 1035;
+}
+
+.navbar-github-btn iframe {
+  margin-top: 5px;
+  margin-bottom: -5px;
+}
+
+.action {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.action a + a {
+  margin-left: 10px;
+}
