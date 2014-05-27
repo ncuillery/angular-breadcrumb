@@ -40,6 +40,7 @@ angular.module('ncy-sample-conf', ['ncy-sample', 'ngMock']).config(function($url
     // Due to templateUrl definitions in $state configuration,
     // httpBackend will try to load the view for each state asked.
     $httpBackend.when('GET', 'views/home.html').respond('dummy home view');
+    $httpBackend.when('GET', 'views/sample.html').respond('dummy sample view');
     $httpBackend.when('GET', 'views/room_list.html').respond('dummy room_list view');
     $httpBackend.when('GET', 'views/room_detail.html').respond('dummy room_detail view');
     $httpBackend.when('GET', 'views/room_form.html').respond('dummy room_form view');

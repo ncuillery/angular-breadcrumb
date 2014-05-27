@@ -13,18 +13,18 @@ describe('Service with sample conf', function() {
         expect(stringifyStateChain(statesChain)).toBe('home');
     }));
 
-    it('generate two steps for the "room" state', inject(function($breadcrumb) {
+    it('generate three steps for the "room" state', inject(function($breadcrumb) {
         goToStateAndFlush('room');
         var statesChain = $breadcrumb.getStatesChain();
 
-        expect(stringifyStateChain(statesChain)).toBe('home --> room');
+        expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room');
     }));
 
-    it('generate three steps for the "room.detail" state', inject(function($breadcrumb) {
+    it('generate four steps for the "room.detail" state', inject(function($breadcrumb) {
         goToStateAndFlush('room.detail', {roomId: 1});
         var statesChain = $breadcrumb.getStatesChain();
 
-        expect(stringifyStateChain(statesChain)).toBe('home --> room --> room.detail');
+        expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room --> room.detail');
     }));
 
 });

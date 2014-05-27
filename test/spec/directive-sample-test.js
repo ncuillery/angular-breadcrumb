@@ -29,6 +29,7 @@ describe('Directive with sample conf', function() {
         console.info('Directive content : ' + element.text());
 
         expect(element.text()).toContain('Home');
+        expect(element.text()).toContain('Sample');
         expect(element.text()).toContain('Rooms');
         expect(element.text()).toContain('Room 103');
     }));
