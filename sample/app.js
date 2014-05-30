@@ -36,6 +36,9 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
         url: '/:year-:month-:day',
         templateUrl: 'views/booking_day.html',
         controller: 'BookingDayCtrl',
+        onExit: function($rootScope) {
+          $rootScope.reservationDate = undefined;
+        },
         data: {
           ncyBreadcrumbLabel: 'Reservations for {{reservationDate | date:\'mediumDate\'}}'
         }
