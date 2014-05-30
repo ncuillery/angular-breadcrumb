@@ -1,11 +1,17 @@
 angular.module('ncy-sample')
-  .controller('BookingListCtrl', function($scope, $state, dateUtils, reservations) {
+  .controller('BookingListCtrl', function($scope, $rootScope, $state, dateUtils, reservations) {
 
     // Some hardcoded data ;
     $scope.reservations = reservations;
 
-    $scope.$watch('reservationDate', function(newValue) {
-      if(newValue) {
+    $scope.$watch('reservationDate', function(newValue, oldValue) {
+        $scope.dpModel = $rootScope.reservationDate;
+    });
+
+
+    $scope.$watch('dpModel', function(newValue, oldValue) {
+      console.log(oldValue, '--->', newValue);
+      if(newValue && !angular.equals(newValue, oldValue)) {
         $state.go('booking.day', {year: newValue.getFullYear(), month: newValue.getMonth() + 1, day: newValue.getDate()});
       }
     });
