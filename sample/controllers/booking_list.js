@@ -4,7 +4,7 @@ angular.module('ncy-sample')
     // Some hardcoded data ;
     $scope.reservations = reservations;
 
-    $scope.$watch('reservationFilter', function(newValue) {
+    $scope.$watch('reservationDate', function(newValue) {
       if(newValue) {
         $state.go('booking.day', {year: newValue.getFullYear(), month: newValue.getMonth() + 1, day: newValue.getDate()});
       }
