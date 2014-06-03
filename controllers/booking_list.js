@@ -10,7 +10,6 @@ angular.module('ncy-sample')
 
 
     $scope.$watch('dpModel', function(newValue, oldValue) {
-      console.log(oldValue, '--->', newValue);
       if(newValue && !angular.equals(newValue, oldValue)) {
         $state.go('booking.day', {year: newValue.getFullYear(), month: newValue.getMonth() + 1, day: newValue.getDate()});
       }
