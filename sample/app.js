@@ -68,6 +68,18 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
           ncyBreadcrumbParent: 'sample'
         }
       })
+      .state('room.new', {
+        url: '/new',
+        views: {
+          "@" : {
+            templateUrl: 'views/room_form.html',
+            controller: 'RoomDetailCtrl'
+          }
+        },
+        data: {
+          ncyBreadcrumbLabel: 'New room'
+        }
+      })
       .state('room.detail', {
         url: '/{roomId}',
         views: {
