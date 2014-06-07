@@ -18,7 +18,18 @@ function $Breadcrumb() {
         angular.extend($$options, options);
     };
 
-    this.$get = ['$state', function($state) {
+    this.$get = ['$state', '$rootScope', function($state, $rootScope) {
+
+        var $lastViewScope = $rootScope;
+
+        // Early catch of $viewContentLoaded event
+        $rootScope.$on('$viewContentLoaded', function (event) {
+            console.log('listener service');
+            // With nested views, the event occur several times, in "wrong" order
+            if(isAOlderThanB(event.targetScope.$id, $lastViewScope.$id)) {
+                $lastViewScope = event.targetScope;
+            }
+        });
 
         // Check if a property in state's data is inherited from the parent state
         var $$isInherited = function(state, dataProperty) {
@@ -123,6 +134,10 @@ function $Breadcrumb() {
                 while(state && state.name !== '');
 
                 return chain;
+            },
+
+            $getLastViewScope: function() {
+                return $lastViewScope;
             }
         };
     }];
@@ -157,22 +172,27 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
         templateUrl: $breadcrumb.getTemplateUrl(),
         link: {
             post: function postLink(scope) {
-                var lastScopeId;
-                $rootScope.$on('$viewContentLoaded', function (event) {
-                    // With nested views, the event occur several times, in "wrong" order
-                    if(!lastScopeId || isAOlderThanB(event.targetScope.$id, lastScopeId)) {
-                        lastScopeId = event.targetScope.$id;
-                        scope.steps = $breadcrumb.getStatesChain();
-                        angular.forEach(scope.steps, function (value) {
-                            if (value.data && value.data.ncyBreadcrumbLabel) {
-                                var parseLabel = $interpolate(value.data.ncyBreadcrumbLabel);
-                                value.ncyBreadcrumbLabel = parseLabel(event.targetScope);
-                            } else {
-                                value.ncyBreadcrumbLabel = value.name;
-                            }
-                        });
-                    }
+
+                var renderBreadcrumb = function() {
+                    var viewScope = $breadcrumb.$getLastViewScope();
+                    scope.steps = $breadcrumb.getStatesChain();
+                    angular.forEach(scope.steps, function (value) {
+                        if (value.data && value.data.ncyBreadcrumbLabel) {
+                            var parseLabel = $interpolate(value.data.ncyBreadcrumbLabel);
+                            value.ncyBreadcrumbLabel = parseLabel(viewScope);
+                        } else {
+                            value.ncyBreadcrumbLabel = value.name;
+                        }
+                    });
+                };
+
+                $rootScope.$on('$viewContentLoaded', function () {
+                    console.log('listener directive');
+                    renderBreadcrumb();
                 });
+
+                // View(s) may be already loaded while the directive's linking
+                renderBreadcrumb();
             }
         }
     };
