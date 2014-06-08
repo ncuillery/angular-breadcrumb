@@ -31,7 +31,9 @@
     "connect-livereload": "~0.2.0",
     "coveralls": "~2.3.0",
     "grunt": "~0.4.1",
-    "grunt-contrib-clean": "~0.4.1",
+    "grunt-bump": "0.0.14",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-compress": "^0.9.1",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-connect": "~0.3.0",
     "grunt-contrib-copy": "~0.4.1",
@@ -41,6 +43,7 @@
     "grunt-conventional-changelog": "~1.1.0",
     "grunt-karma": "~0.6.2",
     "grunt-open": "~0.2.0",
+    "grunt-text-replace": "^0.3.12",
     "karma": "~0.10.2",
     "karma-coverage": "~0.1.0",
     "karma-story-reporter": "~0.2.2"

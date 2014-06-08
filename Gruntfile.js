@@ -12,30 +12,46 @@ module.exports = function (grunt) {
   grunt.initConfig({
     // Metadata.
     pkg: grunt.file.readJSON('package.json'),
-    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-      '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
+    headerDev: '/*! <%= pkg.name %> - v<%= pkg.version %>-dev-<%= grunt.template.today("yyyy-mm-dd") %>\n',
+    headerRelease: '/*! <%= pkg.name %> - v<%= pkg.version %>\n',
+    banner: '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
       '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
       ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
     // Task configuration.
     concat: {
-      options: {
-        banner: '<%= banner %>\n(function (window, angular, undefined) {\n',
-        footer: '})(window, window.angular);\n',
-        stripBanners: true
-      },
-      dist: {
+      dev: {
+        options: {
+          banner: '<%= headerDev %><%= banner %>\n(function (window, angular, undefined) {\n',
+          footer: '})(window, window.angular);\n',
+          stripBanners: true
+        },
         src: ['src/<%= pkg.name %>.js'],
         dest: 'dist/<%= pkg.name %>.js'
+      },
+      release: {
+        options: {
+          banner: '<%= headerRelease %><%= banner %>\n(function (window, angular, undefined) {\n',
+          footer: '})(window, window.angular);\n',
+          stripBanners: true
+        },
+        src: ['src/<%= pkg.name %>.js'],
+        dest: 'release/<%= pkg.name %>.js'
       }
     },
     uglify: {
-      options: {
-        banner: '<%= banner %>'
-      },
-      dist: {
-        src: '<%= concat.dist.dest %>',
+      dev: {
+        options: {
+          banner: '<%= headerDev %><%= banner %>'
+        },
+        src: '<%= concat.dev.dest %>',
         dest: 'dist/<%= pkg.name %>.min.js'
+      },
+      release: {
+        options: {
+          banner: '<%= headerRelease %><%= banner %>'
+        },
+        src: '<%= concat.release.dest %>',
+        dest: 'release/<%= pkg.name %>.min.js'
       }
     },
     karma: {
@@ -149,10 +165,47 @@ module.exports = function (grunt) {
       server: {
         url: 'http://localhost:<%= connect.options.port %>/index.html'
       }
+    },
+    bump: {
+      options: {
+        files: ['package.json', 'bower.json'],
+        updateConfigs: ['pkg']
+      }
+    },
+    clean: {
+      release: ["sample/*.zip"]
+    },
+    compress: {
+      release: {
+        options: {
+          archive: 'sample/<%= pkg.name %>-<%= pkg.version %>.zip'
+        },
+        files: [
+          {expand: true, cwd: 'release/', src: ['*.js']}
+        ]
+      }
+    },
+    replace: {
+      release: {
+        src: ['sample/views/home.html'],
+        overwrite: true,
+        replacements: [{
+            from: /angular-breadcrumb-[0-9]+\.[0-9]+\.[0-9]+\.zip/g,
+            to: "angular-breadcrumb-<%= pkg.version %>.zip"
+          },
+          {
+            from: /\([0-9]+\.[0-9]+\.[0-9]+\)/g,
+            to: "(<%= pkg.version %>)"
+          }]
+      }
     }
+
   });
 
   // These plugins provide necessary tasks.
+  grunt.loadNpmTasks('grunt-bump');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -162,12 +215,28 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-conventional-changelog');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-open');
-
-  // Default task.
-  grunt.registerTask('default', ['jshint', 'karma', 'concat', 'uglify']);
+  grunt.loadNpmTasks('grunt-text-replace');
 
   grunt.registerTask('test', ['jshint', 'karma']);
 
-  grunt.registerTask('sample', ['concat', 'copy:asset', 'copy:img', 'connect:livereload', 'open', 'watch']);
+  grunt.registerTask('default', ['test', 'concat:dev', 'uglify:dev']);
+
+  grunt.registerTask('sample', ['concat:dev', 'copy:asset', 'copy:img', 'connect:livereload', 'open', 'watch']);
+
+  grunt.registerTask('release-prepare', 'Update all files for a release', function(target) {
+    if(!target) {
+      target = 'patch';
+    }
+    grunt.task.run(
+      'bump-only:' + target, // Version update
+      'test', // Tests
+      'concat:release', // Concat with release banner
+      'uglify:release', // Minify with release banner
+      'changelog', // Changelog update
+      'clean:release', // Delete old version download file
+      'compress:release', // New version download file
+      'replace:release' // Update version in download button (link & label)
+    );
+  });
 
 };
