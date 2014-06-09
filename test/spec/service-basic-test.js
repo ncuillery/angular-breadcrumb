@@ -31,6 +31,13 @@ describe('Service with basic conf', function() {
         expect(statesChain[3].ncyBreadcrumbLink).toBe('#/a/b/c/d');
     }));
 
+    it('builds correct link for nested views', inject(function($breadcrumb) {
+      goToState('X.Y', {x: 'x', y: 'y'});
+      var statesChain = $breadcrumb.getStatesChain();
+      expect(statesChain[0].ncyBreadcrumbLink).toBe('#/x');
+      expect(statesChain[1].ncyBreadcrumbLink).toBe('#/x/y');
+    }));
+
     it('should not return the step for E state', inject(function($breadcrumb) {
         goToState('D.E');
         var statesChain = $breadcrumb.getStatesChain();

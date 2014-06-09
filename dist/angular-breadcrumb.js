@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.2.1 - 2014-05-16
+/*! angular-breadcrumb - v0.2.1 - 2014-05-20
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
@@ -111,7 +111,7 @@ function $Breadcrumb() {
                 if($$options.prefixStateName) {
                     var prefixState = $state.get($$options.prefixStateName);
                     if(prefixState) {
-                        var prefixStep = angular.extend(prefixState, {ncyBreadcrumbLink: $state.href(prefixState)});
+                        var prefixStep = angular.extend(prefixState, {ncyBreadcrumbLink: $state.href(prefixState, {}, {inherit: true})});
                         prefixStateInserted = $$addStateInChain(chain, prefixStep, prefixStateInserted);
                     } else {
                         throw 'Bad configuration : prefixState "' + $$options.prefixStateName + '" unknown';
@@ -121,7 +121,7 @@ function $Breadcrumb() {
                 // From current state to the root
                 var state = $state.$current.self;
                 do {
-                    var step = angular.extend(state, {ncyBreadcrumbLink: $state.href(state.name)});
+                    var step = angular.extend(state, {ncyBreadcrumbLink: $state.href(state.name, {}, {inherit: true})});
                     $$addStateInChain(chain, step, prefixStateInserted);
                     state = $$breadcrumbParentState(state);
                 }

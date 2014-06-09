@@ -12,7 +12,9 @@ angular.module('ncy-basic-conf', []).config(function($stateProvider) {
         .state('D.E', {url: '/e', data: {ncyBreadcrumbLabel: 'State E', ncyBreadcrumbSkip: true}})
         .state('D.E.F', {url: '/f', data: {ncyBreadcrumbLabel: 'State F'}})
         .state('G', {url: '/g', data: {ncyBreadcrumbLabel: 'State G', ncyBreadcrumbSkip: true}})
-        .state('G.H', {url: '/h', data: {ncyBreadcrumbLabel: 'State H'}});
+        .state('G.H', {url: '/h', data: {ncyBreadcrumbLabel: 'State H'}})
+        .state('X', {url: '/:x', data: {ncyBreadcrumbLabel: 'State X'}})
+        .state('X.Y', {url: '/:y', data: {ncyBreadcrumbLabel: 'State Y'}});
 });
 
 /**

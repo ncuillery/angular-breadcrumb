@@ -117,7 +117,7 @@ function $Breadcrumb() {
                 if($$options.prefixStateName) {
                     var prefixState = $state.get($$options.prefixStateName);
                     if(prefixState) {
-                        var prefixStep = angular.extend(prefixState, {ncyBreadcrumbLink: $state.href(prefixState)});
+                        var prefixStep = angular.extend(prefixState, {ncyBreadcrumbLink: $state.href(prefixState, {}, {inherit: true})});
                         prefixStateInserted = $$addStateInChain(chain, prefixStep, prefixStateInserted);
                     } else {
                         throw 'Bad configuration : prefixState "' + $$options.prefixStateName + '" unknown';
@@ -127,7 +127,7 @@ function $Breadcrumb() {
                 // From current state to the root
                 var state = $state.$current.self;
                 do {
-                    var step = angular.extend(state, {ncyBreadcrumbLink: $state.href(state.name)});
+                    var step = angular.extend(state, {ncyBreadcrumbLink: $state.href(state.name, {}, {inherit: true})});
                     $$addStateInChain(chain, step, prefixStateInserted);
                     state = $$breadcrumbParentState(state);
                 }
