@@ -100,4 +100,40 @@ describe('Directive', function() {
         }));
     });
 
+    describe('uses custom template with html binding', function() {
+        beforeEach(function() {
+            angular.module('ncy-html-conf')
+                .config(function($breadcrumbProvider) {
+                    $breadcrumbProvider.setOptions({
+                        template: '<div><div ng-repeat="step in steps">' +
+                                '<span ng-bind="step.ncyBreadcrumbLabel"></span>' +
+                                '<span ng-bind-html="step.ncyBreadcrumbLabel"></span>' +
+                            '</div></div>'
+                    });
+                });
+            module('ncy-html-conf');
+        });
+
+        beforeEach(inject(function($rootScope, $compile) {
+            element = angular.element('<div ncy-breadcrumb></div>');
+            var compile = $compile(element);
+            scope = $rootScope.$new();
+            compile(scope);
+            scope.$digest();
+        }));
+
+        it('correctly', inject(function() {
+            goToState('html');
+            scope.$emit('$viewContentLoaded');
+            scope.$digest();
+
+            console.info('Directive content : ' + element.html());
+            expect(element[0].tagName.toLowerCase()).toBe('div');
+
+            expect(element.find('span').length).toBe(2);
+            expect(element.find('span')[0].innerText).toBe('Html is <b>interpreted</b>');
+            expect(element.find('span')[1].innerText).toBe('Html is interpreted');
+        }));
+    });
+
 });

@@ -30,6 +30,14 @@ angular.module('ncy-interpolation-conf', []).config(function($stateProvider) {
     $scope.tripleB = 'BBB';
 });
 
+/**
+ * Module with html configuration.
+ */
+angular.module('ncy-html-conf', ['ngSanitize']).config(function($stateProvider) {
+    $stateProvider
+        .state('html', {url: '/html', data: {ncyBreadcrumbLabel: 'Html is <b>interpreted</b>'}});
+});
+
 angular.module('ncy-sample-conf', ['ncy-sample', 'ngMock']).config(function($urlRouterProvider) {
     // New module to override the otherwise of the sample app.
     // (we don't want to deal with the location according to each state)
