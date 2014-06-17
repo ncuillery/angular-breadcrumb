@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.2.1-dev-2014-06-13
+/*! angular-breadcrumb - v0.2.1-dev-2014-06-18
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
@@ -29,7 +29,6 @@ function $Breadcrumb() {
 
         // Early catch of $viewContentLoaded event
         $rootScope.$on('$viewContentLoaded', function (event) {
-            console.log('listener service');
             // With nested views, the event occur several times, in "wrong" order
             if(isAOlderThanB(event.targetScope.$id, $lastViewScope.$id)) {
                 $lastViewScope = event.targetScope;
@@ -177,22 +176,56 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
         templateUrl: $breadcrumb.getTemplateUrl(),
         link: {
             post: function postLink(scope) {
+                var labelWatchers = [];
+
+                var getExpression = function(interpolationFunction) {
+                    if(interpolationFunction.expressions) {
+                        return interpolationFunction.expressions;
+                    } else {
+                        var expressions = [];
+                        angular.forEach(interpolationFunction.parts, function(part) {
+                            if(angular.isFunction(part)) {
+                                expressions.push(part.exp);
+                            }
+                        });
+                        return expressions;
+                    }
+                };
+
+                var registerWatchers = function(interpolationFunction, scope, step) {
+                    angular.forEach(getExpression(interpolationFunction), function(expression) {
+                        var watcher = scope.$watch(expression, function() {
+                            step.ncyBreadcrumbLabel = interpolationFunction(scope);
+                        });
+                        labelWatchers.push(watcher);
+                    });
+
+                };
+
+                var deregisterWatchers = function() {
+                    angular.forEach(labelWatchers, function(deregisterWatch) {
+                        deregisterWatch();
+                    });
+                    labelWatchers = [];
+                };
 
                 var renderBreadcrumb = function() {
+                    deregisterWatchers();
                     var viewScope = $breadcrumb.$getLastViewScope();
                     scope.steps = $breadcrumb.getStatesChain();
-                    angular.forEach(scope.steps, function (value) {
-                        if (value.data && value.data.ncyBreadcrumbLabel) {
-                            var parseLabel = $interpolate(value.data.ncyBreadcrumbLabel);
-                            value.ncyBreadcrumbLabel = parseLabel(viewScope);
+                    angular.forEach(scope.steps, function (step) {
+                        if (step.data && step.data.ncyBreadcrumbLabel) {
+                            var parseLabel = $interpolate(step.data.ncyBreadcrumbLabel);
+                            step.ncyBreadcrumbLabel = parseLabel(viewScope);
+                            // Watcher for further viewScope updates
+                            registerWatchers(parseLabel, viewScope, step);
                         } else {
-                            value.ncyBreadcrumbLabel = value.name;
+                            step.ncyBreadcrumbLabel = step.name;
                         }
                     });
                 };
 
                 $rootScope.$on('$viewContentLoaded', function () {
-                    console.log('listener directive');
                     renderBreadcrumb();
                 });
 
