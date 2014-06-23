@@ -6,3 +6,4 @@
 sample/asset/*
 sample/img/glyphicons-halflings.png
 libpeerconnection.log
+/testDependencies/

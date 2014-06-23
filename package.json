@@ -43,6 +43,7 @@
     "grunt-conventional-changelog": "~1.1.0",
     "grunt-karma": "~0.6.2",
     "grunt-open": "~0.2.0",
+    "grunt-shell": "~0.7.0",
     "grunt-text-replace": "^0.3.12",
     "karma": "~0.10.2",
     "karma-coverage": "~0.1.0",

@@ -11,9 +11,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'bower_components/angular/angular.js',
-      'bower_components/angular-mocks/angular-mocks.js',
-      'bower_components/angular-sanitize/angular-sanitize.js',
+      'testDependencies/angular/angular.js',
+      'testDependencies/angular-mocks/angular-mocks.js',
+      'testDependencies/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js',
       'bower_components/underscore/underscore.js',
