@@ -30,13 +30,14 @@ function $Breadcrumb() {
             }
         });
 
-        // Check if a property in state's data is inherited from the parent state
-        var $$isInherited = function(state, dataProperty) {
+        // Check if a property in state's data is its own
+        var $$isStateDataProperty = function(state, property) {
+            if(!state.data || !state.data[property]) {
+                return false;
+            }
+
             var parentState = $$parentState(state);
-            return angular.isDefined(parentState) &&
-                angular.isDefined(parentState.data) &&
-                angular.isDefined(parentState.data[dataProperty]) &&
-                angular.equals(state.data[dataProperty], parentState.data[dataProperty]);
+            return !(parentState && parentState.data && parentState.data[property] && state.data[property] === parentState.data[property]);
         };
 
         // Get the parent state
@@ -55,27 +56,18 @@ function $Breadcrumb() {
               }
             }
 
-            var skipStep = angular.isDefined(state.data) &&
-                state.data.ncyBreadcrumbSkip &&
-                !$$isInherited(state, 'ncyBreadcrumbSkip');
-
-            if(!state.abstract && !skipStep) {
-                // Insert at first or second index.
+            if(!state.abstract && !$$isStateDataProperty(state, 'ncyBreadcrumbSkip')) {
                 chain.unshift(state);
             }
         };
 
         // Get the state for the parent step in the breadcrumb
         var $$breadcrumbParentState = function(state) {
-
-            if(angular.isDefined(state.data) &&
-                angular.isDefined(state.data.ncyBreadcrumbParent) &&
-                !$$isInherited(state, 'ncyBreadcrumbParent')) {
+            if($$isStateDataProperty(state, 'ncyBreadcrumbParent')) {
                 return $state.get(state.data.ncyBreadcrumbParent);
             }
 
             return $$parentState(state);
-
         };
 
         return {
