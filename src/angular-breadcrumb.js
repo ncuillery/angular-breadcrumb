@@ -41,15 +41,8 @@ function $Breadcrumb() {
 
         // Get the parent state
         var $$parentState = function(state) {
-            if (angular.isDefined(state.parent)) {
-                return $state.get(state.parent);
-            }
-
-            var compositeName = /^(.+)\.[^.]+$/.exec(state.name);
-            if(compositeName) {
-                return $state.get(compositeName[1]);
-            }
-            return undefined;
+            var name = state.parent || (/^(.+)\.[^.]+$/.exec(state.name) || [])[1];
+            return name && $state.get(name);
         };
 
         // Add the state in the chain if not already in and if not abstract
@@ -105,6 +98,7 @@ function $Breadcrumb() {
 
             getStatesChain: function() {
                 var chain = [];
+
                 // From current state to the root
                 for(var state = $state.$current.self; state && state.name !== ''; state=$$breadcrumbParentState(state)) {
                   $$addStateInChain(chain, state);
