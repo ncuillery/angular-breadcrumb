@@ -27,4 +27,10 @@ describe('Service with sample conf', function() {
         expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room --> room.detail');
     }));
 
+    it('must build a correct link for each steps', inject(function($breadcrumb) {
+        goToStateAndFlush('room');
+        var statesChain = $breadcrumb.getStatesChain();
+        expect(statesChain[0].ncyBreadcrumbLink).toBe('#/home');
+        expect(statesChain[1].ncyBreadcrumbLink).toBe('#/sample');
+    }));
 });
