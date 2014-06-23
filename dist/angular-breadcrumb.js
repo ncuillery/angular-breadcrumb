@@ -58,7 +58,7 @@ function $Breadcrumb() {
         };
 
         // Add the state in the chain if not already in and if not abstract
-        var $$addStateInChain = function(chain, state, prefixStateInserted) {
+        var $$addStateInChain = function(chain, state) {
             var stateAlreadyInChain = false;
             angular.forEach(chain, function(value) {
                 if(!stateAlreadyInChain && angular.equals(value, state)) {
@@ -72,11 +72,8 @@ function $Breadcrumb() {
 
             if(!stateAlreadyInChain && !state.abstract && !skipStep) {
                 // Insert at first or second index.
-                if(prefixStateInserted) {
-                    chain.splice(1, 0, state);
-                } else {
-                    chain.unshift(state);
-                }
+
+                chain.unshift(state);
                 return true;
             }
             return false;
@@ -115,27 +112,26 @@ function $Breadcrumb() {
 
             getStatesChain: function() {
                 var chain = [];
-                var prefixStateInserted = false;
+
+                // From current state to the root
+                var state = $state.$current.self;
+                do {
+                    var step = angular.extend(state, {ncyBreadcrumbLink: $state.href(state.name)});
+                    $$addStateInChain(chain, step);
+                    state = $$breadcrumbParentState(state);
+                }
+                while(state && state.name !== '');
 
                 // Prefix state treatment
                 if($$options.prefixStateName) {
                     var prefixState = $state.get($$options.prefixStateName);
                     if(prefixState) {
                         var prefixStep = angular.extend(prefixState, {ncyBreadcrumbLink: $state.href(prefixState)});
-                        prefixStateInserted = $$addStateInChain(chain, prefixStep, prefixStateInserted);
+                        $$addStateInChain(chain, prefixStep);
                     } else {
                         throw 'Bad configuration : prefixState "' + $$options.prefixStateName + '" unknown';
                     }
                 }
-
-                // From current state to the root
-                var state = $state.$current.self;
-                do {
-                    var step = angular.extend(state, {ncyBreadcrumbLink: $state.href(state.name)});
-                    $$addStateInChain(chain, step, prefixStateInserted);
-                    state = $$breadcrumbParentState(state);
-                }
-                while(state && state.name !== '');
 
                 return chain;
             },
