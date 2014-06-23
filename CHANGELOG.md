@@ -1,3 +1,21 @@
+<a name="0.2.2"></a>
+### 0.2.2 (2014-06-23)
+
+
+#### Bug Fixes
+
+* catch the `$viewContentLoaded` earlier ([bb47dd54](http://github.com/ncuillery/angular-breadcrumb/commit/bb47dd54deb5efc579ccb9b1575e686803dee1c5), closes [#14](http://github.com/ncuillery/angular-breadcrumb/issues/14))
+* **sample:**
+  * make the CRU(D) about rooms working ([3ca89ec7](http://github.com/ncuillery/angular-breadcrumb/commit/3ca89ec771fd20dc4ab2d733612bdcfb96ced703))
+  * prevent direct URL access to a day disabled in the datepicker ([95236916](http://github.com/ncuillery/angular-breadcrumb/commit/95236916e00b19464a3dfe3584ef1b18da9ffb25), closes [#17](http://github.com/ncuillery/angular-breadcrumb/issues/17))
+  * use the same variable in the datepicker and from url params for state `booking.day` ([646f7060](http://github.com/ncuillery/angular-breadcrumb/commit/646f70607e494f0e5e3c2483ed69f689684b2742), closes [#16](http://github.com/ncuillery/angular-breadcrumb/issues/16))
+
+
+#### Features
+
+* **ncyBreadcrumb:** watch every expression founded in labels ([1363515e](http://github.com/ncuillery/angular-breadcrumb/commit/1363515e20977ce2f39a1f5e5e1d701f0d7af296), closes [#20](http://github.com/ncuillery/angular-breadcrumb/issues/20))
+
+
 <a name="0.2.1"></a>
 ### 0.2.1 (2014-05-16)
 
