@@ -107,13 +107,10 @@ function $Breadcrumb() {
             getStatesChain: function() {
                 var chain = [];
                 // From current state to the root
-                var state = $state.$current.self;
-                do {
-                    $$addStateInChain(chain, state);
-                    state = $$breadcrumbParentState(state);
+                for(var state = $state.$current.self; state && state.name !== ''; state=$$breadcrumbParentState(state)) {
+                  $$addStateInChain(chain, state);
                 }
-                while(state && state.name !== '');
-                //
+
                 // Prefix state treatment
                 if($$options.prefixStateName) {
                     var prefixState = $state.get($$options.prefixStateName);
