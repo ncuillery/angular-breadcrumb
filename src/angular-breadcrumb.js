@@ -56,18 +56,17 @@ function $Breadcrumb() {
         var $$addStateInChain = function(chain, state) {
             state.ncyBreadcrumbLink = $state.href(state.name);
 
-            var stateAlreadyInChain = false;
-            angular.forEach(chain, function(value) {
-                if(!stateAlreadyInChain && angular.equals(value, state)) {
-                    stateAlreadyInChain = true;
-                }
-            });
+            for(var i=0, l=chain.length; i<l; i+=1) {
+              if (chain[i].name === state.name) {
+                return;
+              }
+            }
 
             var skipStep = angular.isDefined(state.data) &&
                 state.data.ncyBreadcrumbSkip &&
                 !$$isInherited(state, 'ncyBreadcrumbSkip');
 
-            if(!stateAlreadyInChain && !state.abstract && !skipStep) {
+            if(!state.abstract && !skipStep) {
                 // Insert at first or second index.
                 chain.unshift(state);
             }
