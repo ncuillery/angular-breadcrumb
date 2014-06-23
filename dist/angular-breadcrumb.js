@@ -59,24 +59,26 @@ function $Breadcrumb() {
 
         // Add the state in the chain if not already in and if not abstract
         var $$addStateInChain = function(chain, state) {
-            var stateAlreadyInChain = false;
-            angular.forEach(chain, function(value) {
-                if(!stateAlreadyInChain && angular.equals(value, state)) {
-                    stateAlreadyInChain = true;
+
+            for(var i = 0; i < chain.length; i++)
+            {
+                if(chain[i].name === state.name) {
+                    return false;
                 }
-            });
-
-            var skipStep = angular.isDefined(state.data) &&
-                state.data.ncyBreadcrumbSkip &&
-                !$$isInherited(state, 'ncyBreadcrumbSkip');
-
-            if(!stateAlreadyInChain && !state.abstract && !skipStep) {
-                // Insert at first or second index.
-
-                chain.unshift(state);
-                return true;
             }
-            return false;
+
+            if(angular.isDefined(state.data) &&
+                state.data.ncyBreadcrumbSkip &&
+                !$$isInherited(state, 'ncyBreadcrumbSkip')) {
+                return false;
+            }
+
+            if(state.abstract) {
+                return false;
+            }
+
+            chain.unshift(state);
+            return true;
         };
 
         // Get the state for the parent step in the breadcrumb
