@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.2.1-dev-2014-06-18
+/*! angular-breadcrumb - v0.2.1-dev-2014-06-23
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
@@ -159,11 +159,9 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
             '</li>' +
             '</ul>',
         bootstrap3: '<ol class="breadcrumb">' +
-            '<li ng-repeat="step in steps | limitTo:(steps.length-1)">' +
-            '<a href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a> ' +
-            '</li>' +
-            '<li ng-repeat="step in steps | limitTo:-1" class="active">' +
-            '<span>{{step.ncyBreadcrumbLabel}}</span>' +
+            '<li ng-repeat="step in steps" ng-class="{active: $last}" ng-switch="$last">' +
+            '<a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a> ' +
+            '<span ng-switch-when="true">{{step.ncyBreadcrumbLabel}}</span>' +
             '</li>' +
             '</ol>'
     };

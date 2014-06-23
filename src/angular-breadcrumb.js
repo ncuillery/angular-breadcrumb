@@ -154,11 +154,9 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
             '</li>' +
             '</ul>',
         bootstrap3: '<ol class="breadcrumb">' +
-            '<li ng-repeat="step in steps | limitTo:(steps.length-1)">' +
-            '<a href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a> ' +
-            '</li>' +
-            '<li ng-repeat="step in steps | limitTo:-1" class="active">' +
-            '<span>{{step.ncyBreadcrumbLabel}}</span>' +
+            '<li ng-repeat="step in steps" ng-class="{active: $last}" ng-switch="$last">' +
+            '<a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a> ' +
+            '<span ng-switch-when="true">{{step.ncyBreadcrumbLabel}}</span>' +
             '</li>' +
             '</ol>'
     };
@@ -208,14 +206,14 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                     deregisterWatchers();
                     var viewScope = $breadcrumb.$getLastViewScope();
                     scope.steps = $breadcrumb.getStatesChain();
-                    angular.forEach(scope.steps, function (value) {
-                        if (value.data && value.data.ncyBreadcrumbLabel) {
-                            var parseLabel = $interpolate(value.data.ncyBreadcrumbLabel);
-                            value.ncyBreadcrumbLabel = parseLabel(viewScope);
+                    angular.forEach(scope.steps, function (step) {
+                        if (step.data && step.data.ncyBreadcrumbLabel) {
+                            var parseLabel = $interpolate(step.data.ncyBreadcrumbLabel);
+                            step.ncyBreadcrumbLabel = parseLabel(viewScope);
                             // Watcher for further viewScope updates
-                            registerWatchers(parseLabel, viewScope, value);
+                            registerWatchers(parseLabel, viewScope, step);
                         } else {
-                            value.ncyBreadcrumbLabel = value.name;
+                            step.ncyBreadcrumbLabel = step.name;
                         }
                     });
                 };
