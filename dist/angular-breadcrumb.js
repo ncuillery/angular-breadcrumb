@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.2.2-dev-2014-06-23
+/*! angular-breadcrumb - v0.2.2-dev-2014-06-27
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
@@ -53,8 +53,6 @@ function $Breadcrumb() {
 
         // Add the state in the chain if not already in and if not abstract
         var $$addStateInChain = function(chain, state) {
-            state.ncyBreadcrumbLink = $state.href(state.name);
-
             for(var i=0, l=chain.length; i<l; i+=1) {
               if (chain[i].name === state.name) {
                 return;
@@ -62,6 +60,7 @@ function $Breadcrumb() {
             }
 
             if(!state.abstract && !$$isStateDataProperty(state, 'ncyBreadcrumbSkip')) {
+                state.ncyBreadcrumbLink = $state.href(state.name);
                 chain.unshift(state);
             }
         };
