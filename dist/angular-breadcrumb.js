@@ -47,7 +47,9 @@ function $Breadcrumb() {
 
         // Get the parent state
         var $$parentState = function(state) {
+            // Check if state has explicit parent OR we try guess parent from its name
             var name = state.parent || (/^(.+)\.[^.]+$/.exec(state.name) || [])[1];
+            // If we were able to figure out parent name then get this state
             return name && $state.get(name);
         };
 
