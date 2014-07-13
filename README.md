@@ -21,7 +21,7 @@ See angular-breadcrumb in action [here](http://ncuillery.github.io/angular-bread
 See [CHANGELOG.md](https://github.com/ncuillery/angular-breadcrumb/blob/master/CHANGELOG.md)
 
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+See [CONTRIBUTING.md](https://github.com/ncuillery/angular-breadcrumb/blob/master/CONTRIBUTING.md)
 
 
 ## License
