@@ -18,7 +18,7 @@ function $Breadcrumb() {
         angular.extend($$options, options);
     };
 
-    this.$get = ['$state', '$rootScope', function($state, $rootScope) {
+    this.$get = ['$state', '$stateParams', '$rootScope', function($state, $stateParams, $rootScope) {
 
         var $lastViewScope = $rootScope;
 
@@ -57,7 +57,7 @@ function $Breadcrumb() {
             }
 
             if(!state.abstract && !$$isStateDataProperty(state, 'ncyBreadcrumbSkip')) {
-                state.ncyBreadcrumbLink = $state.href(state.name);
+                state.ncyBreadcrumbLink = $state.href(state.name, $stateParams || {});
                 chain.unshift(state);
             }
         };
