@@ -34,11 +34,14 @@ describe('Service with ui-router\'s sample conf', function() {
         expect(stringifyStateChain(statesChain)).toBe('home --> contacts.list --> contacts.detail --> contacts.detail.item');
     }));
 
-    it('generate five steps for the "contacts.detail.item.edit" state', inject(function($breadcrumb) {
+    it('generate five steps for the "contacts.detail.item.edit" state with working links', inject(function($breadcrumb) {
         goToStateAndFlush('contacts.detail.item.edit', {contactId: 42, itemId: "a"});
         var statesChain = $breadcrumb.getStatesChain();
 
         expect(stringifyStateChain(statesChain)).toBe('home --> contacts.list --> contacts.detail --> contacts.detail.item --> contacts.detail.item.edit');
+        expect(statesChain[2].ncyBreadcrumbLink).toBe('#/contacts/42');
+        expect(statesChain[3].ncyBreadcrumbLink).toBe('#/contacts/42/item/a');
+        expect(statesChain[4].ncyBreadcrumbLink).toBe('#/contacts/42/item/a'); // (state with no URL)
     }));
 
 });

@@ -27,6 +27,15 @@ describe('Service with sample conf', function() {
         expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room --> room.detail');
     }));
 
+    it('generate four steps for the "room.detail.edit" state with working links', inject(function($breadcrumb) {
+        goToStateAndFlush('room.detail.edit', {roomId: 1});
+        var statesChain = $breadcrumb.getStatesChain();
+
+        expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room --> room.detail --> room.detail.edit');
+        expect(statesChain[3].ncyBreadcrumbLink).toBe('#/room/1');
+        expect(statesChain[4].ncyBreadcrumbLink).toBe('#/room/1/edit');
+    }));
+
     it('must build a correct link for each steps', inject(function($breadcrumb) {
         goToStateAndFlush('room');
         var statesChain = $breadcrumb.getStatesChain();
