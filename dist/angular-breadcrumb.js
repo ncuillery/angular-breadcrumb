@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.2.2-dev-2014-06-27
+/*! angular-breadcrumb - v0.2.2-dev-2014-07-25
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
@@ -23,7 +23,7 @@ function $Breadcrumb() {
         angular.extend($$options, options);
     };
 
-    this.$get = ['$state', '$rootScope', function($state, $rootScope) {
+    this.$get = ['$state', '$stateParams', '$rootScope', function($state, $stateParams, $rootScope) {
 
         var $lastViewScope = $rootScope;
 
@@ -62,7 +62,7 @@ function $Breadcrumb() {
             }
 
             if(!state.abstract && !$$isStateDataProperty(state, 'ncyBreadcrumbSkip')) {
-                state.ncyBreadcrumbLink = $state.href(state.name);
+                state.ncyBreadcrumbLink = $state.href(state.name, $stateParams || {});
                 chain.unshift(state);
             }
         };
