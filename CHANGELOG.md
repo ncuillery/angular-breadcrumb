@@ -1,3 +1,12 @@
+<a name="0.2.3"></a>
+### 0.2.3 (2014-07-26)
+
+
+#### Bug Fixes
+
+* **$breadcrumb:** use `$stateParams` in case of unhierarchical states ([1c3c05e0](http://github.com/ncuillery/angular-breadcrumb/commit/1c3c05e0acac191fe2e76db2ef18da339caefaaa), closes [#29](http://github.com/ncuillery/angular-breadcrumb/issues/29))
+
+
 <a name="0.2.2"></a>
 ### 0.2.2 (2014-06-23)
 
