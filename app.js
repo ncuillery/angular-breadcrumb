@@ -138,8 +138,13 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
       }
     }
   })
-  .run(function($rootScope, $state) {
+  .run(function($rootScope, $state, $breadcrumb) {
     $rootScope.isActive = function(stateName) {
       return $state.includes(stateName);
+    }
+
+    $rootScope.getLastStepLabel = function() {
+      var states = $breadcrumb.getStatesChain();
+      return states[states.length - 1].ncyBreadcrumbLabel
     }
   });
