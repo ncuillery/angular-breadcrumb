@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="ncy-sample">
   <head>
     <meta charset="utf-8">
 
@@ -13,9 +13,11 @@
     <script src="asset/ui-bootstrap-tpls.js"></script>
     <script src="asset/angular-breadcrumb.js"></script>
 
+    <title>{{getLastStepLabel()}}</title>
+
 
   </head>
-  <body ng-app="ncy-sample">
+  <body>
 
     <div class="navbar navbar-fixed-top">
         <div class="navbar-inner">
