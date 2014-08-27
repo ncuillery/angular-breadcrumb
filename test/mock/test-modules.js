@@ -5,25 +5,25 @@
  */
 angular.module('ncy-basic-conf', []).config(function($stateProvider) {
     $stateProvider
-        .state('A', {url: '/a', data: {ncyBreadcrumbLabel: 'State A'}})
-        .state('A.B', {url: '/b', data: {ncyBreadcrumbLabel: 'State B'}})
-        .state('A.B.C', {url: '/c', data: {ncyBreadcrumbLabel: 'State C'}})
-        .state('D', {parent: 'A.B.C', url: '/d', data: {ncyBreadcrumbLabel: 'State D'}}) // Explicit parent
-        .state('D.E', {url: '/e', data: {ncyBreadcrumbLabel: 'State E', ncyBreadcrumbSkip: true}})
-        .state('D.E.F', {url: '/f', data: {ncyBreadcrumbLabel: 'State F'}})
-        .state('G', {url: '/g', data: {ncyBreadcrumbLabel: 'State G', ncyBreadcrumbSkip: true}})
-        .state('G.H', {url: '/h', data: {ncyBreadcrumbLabel: 'State H'}});
+        .state('A', {url: '/a', ncyBreadcrumb: {label: 'State A'}})
+        .state('A.B', {url: '/b', ncyBreadcrumb: {label: 'State B'}})
+        .state('A.B.C', {url: '/c', ncyBreadcrumb: {label: 'State C'}})
+        .state('D', {parent: 'A.B.C', url: '/d', ncyBreadcrumb: {label: 'State D'}}) // Explicit parent
+        .state('D.E', {url: '/e', ncyBreadcrumb: {label: 'State E', skip: true}})
+        .state('D.E.F', {url: '/f', ncyBreadcrumb: {label: 'State F'}})
+        .state('G', {url: '/g', ncyBreadcrumb: {label: 'State G', skip: true}})
+        .state('G.H', {url: '/h', ncyBreadcrumb: {label: 'State H'}});
 });
 
 /**
- * Module with angular expressions in ncyBreadcrumbLabel
+ * Module with angular expressions in label
  */
 angular.module('ncy-interpolation-conf', []).config(function($stateProvider) {
     $stateProvider
-        .state('A', {url: '/a', controller: 'ACtrl', template: '<div>View A</div>',data: {ncyBreadcrumbLabel: 'State A'}})
-        .state('A.B', {url: '/b', controller: 'BCtrl', template: '<div>View B</div>', data: {ncyBreadcrumbLabel: 'State {{tripleB}}'}})
-        .state('A.B.C', {url: '/c', data: {ncyBreadcrumbLabel: 'State C'}}) // no controller
-        .state('A.B.D', {url: '/d', controller: function($scope) {$scope.tripleD='DDD';}, template: '<div>View D</div>', data: {ncyBreadcrumbLabel: 'State {{tripleD}}'}}); // inline controller
+        .state('A', {url: '/a', controller: 'ACtrl', template: '<div>View A</div>', ncyBreadcrumb: {label: 'State A'}})
+        .state('A.B', {url: '/b', controller: 'BCtrl', template: '<div>View B</div>', ncyBreadcrumb: {label: 'State {{tripleB}}'}})
+        .state('A.B.C', {url: '/c', ncyBreadcrumb: {label: 'State C'}}) // no controller
+        .state('A.B.D', {url: '/d', controller: function($scope) {$scope.tripleD='DDD';}, template: '<div>View D</div>', ncyBreadcrumb: {label: 'State {{tripleD}}'}}); // inline controller
 }).controller('ACtrl', function($scope) {
     $scope.tripleA = 'AAA';
 }).controller('BCtrl', function($scope) {
@@ -35,7 +35,7 @@ angular.module('ncy-interpolation-conf', []).config(function($stateProvider) {
  */
 angular.module('ncy-html-conf', ['ngSanitize']).config(function($stateProvider) {
     $stateProvider
-        .state('html', {url: '/html', data: {ncyBreadcrumbLabel: 'Html is <b>interpreted</b>'}});
+        .state('html', {url: '/html', ncyBreadcrumb: {label: 'Html is <b>interpreted</b>'}});
 });
 
 angular.module('ncy-sample-conf', ['ncy-sample', 'ngMock']).config(function($urlRouterProvider) {

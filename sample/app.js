@@ -12,24 +12,24 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
       .state('home', {
         url: '/home',
         templateUrl: 'views/home.html',
-        data: {
-          ncyBreadcrumbLabel: 'Home'
+        ncyBreadcrumb: {
+          label: 'Home'
         }
       })
       .state('sample', {
         url: '/sample',
         templateUrl: 'views/sample.html',
-        data: {
-          ncyBreadcrumbLabel: 'Sample'
+        ncyBreadcrumb: {
+          label: 'Sample'
         }
       })
       .state('booking', {
         url: '/booking',
         templateUrl: 'views/booking_list.html',
         controller: 'BookingListCtrl',
-        data: {
-          ncyBreadcrumbLabel: 'Reservations',
-          ncyBreadcrumbParent: 'sample'
+        ncyBreadcrumb: {
+          label: 'Reservations',
+          parent: 'sample'
         }
       })
       .state('booking.day', {
@@ -39,8 +39,8 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
         onExit: function($rootScope) {
           $rootScope.reservationDate = undefined;
         },
-        data: {
-          ncyBreadcrumbLabel: 'Reservations for {{reservationDate | date:\'mediumDate\'}}'
+        ncyBreadcrumb: {
+          label: 'Reservations for {{reservationDate | date:\'mediumDate\'}}'
         }
       })
       .state('booking.day.detail', {
@@ -55,17 +55,17 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
             return $state.go("^");
           });
         },
-        data: {
-            ncyBreadcrumbSkip: true
+        ncyBreadcrumb: {
+          skip: true
         }
       })
       .state('room', {
         url: '/room',
         templateUrl: 'views/room_list.html',
         controller: 'RoomListCtrl',
-        data: {
-          ncyBreadcrumbLabel: 'Rooms',
-          ncyBreadcrumbParent: 'sample'
+        ncyBreadcrumb: {
+          label: 'Rooms',
+          parent: 'sample'
         }
       })
       .state('room.new', {
@@ -76,8 +76,8 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
             controller: 'RoomDetailCtrl'
           }
         },
-        data: {
-          ncyBreadcrumbLabel: 'New room'
+        ncyBreadcrumb: {
+          label: 'New room'
         }
       })
       .state('room.detail', {
@@ -88,8 +88,8 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
             controller: 'RoomDetailCtrl'
           }
         },
-        data: {
-          ncyBreadcrumbLabel: 'Room {{room.roomNumber}}'
+        ncyBreadcrumb: {
+          label: 'Room {{room.roomNumber}}'
         }
       })
       .state('room.detail.edit', {
@@ -100,8 +100,8 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
             controller: 'RoomDetailCtrl'
           }
         },
-        data: {
-          ncyBreadcrumbLabel: 'Editing'
+        ncyBreadcrumb: {
+          label: 'Editing'
         }
       });
 

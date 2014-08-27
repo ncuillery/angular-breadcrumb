@@ -125,8 +125,8 @@ angular.module('ncy-ui-router-conf', ['ngMock'])
                         }]
                 }
             },
-            data: {
-                ncyBreadcrumbParent: 'contacts.list' // Override the parent state (only for the breadcrumb).
+            ncyBreadcrumb: {
+                parent: 'contacts.list' // Override the parent state (only for the breadcrumb).
             }
         })
         .state('contacts.detail.item', {

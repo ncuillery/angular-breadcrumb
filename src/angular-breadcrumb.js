@@ -30,16 +30,6 @@ function $Breadcrumb() {
             }
         });
 
-        // Check if a property in state's data is its own
-        var $$isStateDataProperty = function(state, property) {
-            if(!state.data || !state.data[property]) {
-                return false;
-            }
-
-            var parentState = $$parentState(state);
-            return !(parentState && parentState.data && parentState.data[property] && state.data[property] === parentState.data[property]);
-        };
-
         // Get the parent state
         var $$parentState = function(state) {
             // Check if state has explicit parent OR we try guess parent from its name
@@ -51,12 +41,12 @@ function $Breadcrumb() {
         // Add the state in the chain if not already in and if not abstract
         var $$addStateInChain = function(chain, state) {
             for(var i=0, l=chain.length; i<l; i+=1) {
-              if (chain[i].name === state.name) {
-                return;
-              }
+                if (chain[i].name === state.name) {
+                    return;
+                }
             }
 
-            if(!state.abstract && !$$isStateDataProperty(state, 'ncyBreadcrumbSkip')) {
+            if(!state.abstract && !(state.ncyBreadcrumb && state.ncyBreadcrumb.skip)) {
                 state.ncyBreadcrumbLink = $state.href(state.name, $stateParams || {});
                 chain.unshift(state);
             }
@@ -64,8 +54,8 @@ function $Breadcrumb() {
 
         // Get the state for the parent step in the breadcrumb
         var $$breadcrumbParentState = function(state) {
-            if($$isStateDataProperty(state, 'ncyBreadcrumbParent')) {
-                return $state.get(state.data.ncyBreadcrumbParent);
+            if(state.ncyBreadcrumb && state.ncyBreadcrumb.parent) {
+                return $state.get(state.ncyBreadcrumb.parent);
             }
 
             return $$parentState(state);
@@ -182,8 +172,8 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                     var viewScope = $breadcrumb.$getLastViewScope();
                     scope.steps = $breadcrumb.getStatesChain();
                     angular.forEach(scope.steps, function (step) {
-                        if (step.data && step.data.ncyBreadcrumbLabel) {
-                            var parseLabel = $interpolate(step.data.ncyBreadcrumbLabel);
+                        if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
+                            var parseLabel = $interpolate(step.ncyBreadcrumb.label);
                             step.ncyBreadcrumbLabel = parseLabel(viewScope);
                             // Watcher for further viewScope updates
                             registerWatchers(parseLabel, viewScope, step);
