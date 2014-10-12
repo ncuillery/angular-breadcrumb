@@ -16,6 +16,29 @@ angular.module('ncy-basic-conf', []).config(function($stateProvider) {
 });
 
 /**
+ * Module with dynamic parent configuration.
+ */
+angular.module('ncy-dynamic-parent-conf', []).config(function($stateProvider) {
+    $stateProvider
+        .state('A', {url: '/a', ncyBreadcrumb: {label: 'State A'}})
+        .state('A.B', {url: '/b', ncyBreadcrumb: {label: 'State B'}})
+        .state('C', {url: '/c', ncyBreadcrumb: {label: 'State C'}})
+        .state('D', {url: '/d', ncyBreadcrumb: {label: 'State D'}})
+        .state('D.E', {url: '/e', ncyBreadcrumb: {label: 'State E'}})
+        .state('D.E.F', {url:'/f', ncyBreadcrumb: {label: 'State F', parent: 'A.B'}}) // Specific parent for breadcrumb
+        .state('D.E.G', {url:'/g', ncyBreadcrumb: {label: 'State G', parent: function() {
+            return 'A';
+        }}})
+        .state('D.E.H', {url:'/h', ncyBreadcrumb: {label: 'State H', parent: function($scope) {
+            return $scope.parentState;
+        }}});
+}).controller('UndefinedCtrl', function($scope) {
+    $scope.parentState = undefined;
+}).controller('ReturnCCtrl', function($scope) {
+    $scope.parentState = 'C';
+});
+
+/**
  * Module with angular expressions in label
  */
 angular.module('ncy-interpolation-conf', []).config(function($stateProvider) {

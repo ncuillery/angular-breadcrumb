@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.2.3-dev-2014-08-27
+/*! angular-breadcrumb - v0.2.3-dev-2014-10-12
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
@@ -60,7 +60,11 @@ function $Breadcrumb() {
         // Get the state for the parent step in the breadcrumb
         var $$breadcrumbParentState = function(state) {
             if(state.ncyBreadcrumb && state.ncyBreadcrumb.parent) {
-                return $state.get(state.ncyBreadcrumb.parent);
+                var isFunction = typeof state.ncyBreadcrumb.parent === 'function';
+                var stateParent = isFunction ? state.ncyBreadcrumb.parent($lastViewScope) : state.ncyBreadcrumb.parent;
+                if(stateParent) {
+                    return $state.get(stateParent);
+                }
             }
 
             return $$parentState(state);

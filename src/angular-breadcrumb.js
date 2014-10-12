@@ -55,7 +55,11 @@ function $Breadcrumb() {
         // Get the state for the parent step in the breadcrumb
         var $$breadcrumbParentState = function(state) {
             if(state.ncyBreadcrumb && state.ncyBreadcrumb.parent) {
-                return $state.get(state.ncyBreadcrumb.parent);
+                var isFunction = typeof state.ncyBreadcrumb.parent === 'function';
+                var stateParent = isFunction ? state.ncyBreadcrumb.parent($lastViewScope) : state.ncyBreadcrumb.parent;
+                if(stateParent) {
+                    return $state.get(stateParent);
+                }
             }
 
             return $$parentState(state);
