@@ -9,7 +9,7 @@
     <tbody>
     <tr ng-repeat="reservation in between(reservationDate)">
         <td>{{reservation.reservationId}}</td>
-        <td>{{getRoom(reservation.roomId).roomNumber}}</td>
+        <td><a ui-sref="room.detail({roomId: reservation.roomId, from: 'booking.day({year:\'2014\', month: \'10\', day: \'14\'})|{{reservationDate.getTime()}}'})">{{getRoom(reservation.roomId).roomNumber}}</a></td>
         <td><a ui-sref=".detail({reservationId: reservation.reservationId})" class="btn">View</a></td>
     </tr>
     </tbody>
