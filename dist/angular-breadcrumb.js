@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.2.3-dev-2014-10-12
+/*! angular-breadcrumb - v0.2.3-dev-2014-10-15
 * https://github.com/ncuillery/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
@@ -9,6 +9,12 @@ function isAOlderThanB(scopeA, scopeB) {
     } else {
         return scopeA.length > scopeB.length;
     }
+}
+
+function parseStateRef(ref) {
+    var parsed = ref.replace(/\n/g, " ").match(/^([^(]+?)\s*(\((.*)\))?$/);
+    if (!parsed || parsed.length !== 4) { throw new Error("Invalid state ref '" + ref + "'"); }
+    return { state: parsed[1], paramExpr: parsed[3] || null };
 }
 
 function $Breadcrumb() {
@@ -40,34 +46,47 @@ function $Breadcrumb() {
             // Check if state has explicit parent OR we try guess parent from its name
             var name = state.parent || (/^(.+)\.[^.]+$/.exec(state.name) || [])[1];
             // If we were able to figure out parent name then get this state
-            return name && $state.get(name);
+            return name;
         };
 
         // Add the state in the chain if not already in and if not abstract
-        var $$addStateInChain = function(chain, state) {
+        var $$addStateInChain = function(chain, stateRef) {
+            var conf,
+                parentParams,
+                ref = parseStateRef(stateRef);
+
             for(var i=0, l=chain.length; i<l; i+=1) {
-                if (chain[i].name === state.name) {
+                if (chain[i].name === ref.state) {
                     return;
                 }
             }
 
-            if(!state.abstract && !(state.ncyBreadcrumb && state.ncyBreadcrumb.skip)) {
-                state.ncyBreadcrumbLink = $state.href(state.name, $stateParams || {});
-                chain.unshift(state);
+            conf = $state.get(ref.state);
+            if(!conf.abstract && !(conf.ncyBreadcrumb && conf.ncyBreadcrumb.skip)) {
+                if(ref.paramExpr) {
+                    parentParams = $lastViewScope.$eval(ref.paramExpr);
+                }
+
+                conf.ncyBreadcrumbLink = $state.href(ref.state, parentParams || $stateParams || {});
+                chain.unshift(conf);
             }
         };
 
         // Get the state for the parent step in the breadcrumb
-        var $$breadcrumbParentState = function(state) {
-            if(state.ncyBreadcrumb && state.ncyBreadcrumb.parent) {
-                var isFunction = typeof state.ncyBreadcrumb.parent === 'function';
-                var stateParent = isFunction ? state.ncyBreadcrumb.parent($lastViewScope) : state.ncyBreadcrumb.parent;
-                if(stateParent) {
-                    return $state.get(stateParent);
+        var $$breadcrumbParentState = function(stateRef) {
+            var ref = parseStateRef(stateRef),
+                conf = $state.get(ref.state);
+
+            if(conf.ncyBreadcrumb && conf.ncyBreadcrumb.parent) {
+                // Handle the "parent" property of the breadcrumb, override the parent/child relation of the state
+                var isFunction = typeof conf.ncyBreadcrumb.parent === 'function';
+                var parentStateRef = isFunction ? conf.ncyBreadcrumb.parent($lastViewScope) : conf.ncyBreadcrumb.parent;
+                if(parentStateRef) {
+                    return parentStateRef;
                 }
             }
 
-            return $$parentState(state);
+            return $$parentState(conf);
         };
 
         return {
@@ -92,18 +111,13 @@ function $Breadcrumb() {
                 var chain = [];
 
                 // From current state to the root
-                for(var state = $state.$current.self; state && state.name !== ''; state=$$breadcrumbParentState(state)) {
-                  $$addStateInChain(chain, state);
+                for(var stateRef = $state.$current.self.name; stateRef; stateRef=$$breadcrumbParentState(stateRef)) {
+                  $$addStateInChain(chain, stateRef);
                 }
 
                 // Prefix state treatment
                 if($$options.prefixStateName) {
-                    var prefixState = $state.get($$options.prefixStateName);
-                    if(!prefixState) {
-                        throw 'Bad configuration : prefixState "' + $$options.prefixStateName + '" unknown';
-                    }
-
-                    $$addStateInChain(chain, prefixState);
+                    $$addStateInChain(chain, $$options.prefixStateName);
                 }
 
                 return chain;
