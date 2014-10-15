@@ -81,7 +81,7 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
         }
       })
       .state('room.detail', {
-        url: '/{roomId}',
+        url: '/{roomId}?from',
         views: {
           "@" : {
             templateUrl: 'views/room_detail.html',
@@ -89,7 +89,10 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
           }
         },
         ncyBreadcrumb: {
-          label: 'Room {{room.roomNumber}}'
+          label: 'Room {{room.roomNumber}}',
+          parent: function ($scope) {
+            return $scope.from || 'room';
+          }
         }
       })
       .state('room.detail.edit', {
@@ -144,7 +147,6 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
     }
 
     $rootScope.getLastStepLabel = function() {
-      var states = $breadcrumb.getStatesChain();
-      return states[states.length - 1].ncyBreadcrumbLabel
+      return 'Angular-Breadcrumb';
     }
   });
