@@ -29,6 +29,10 @@ describe('Directive with basic conf', function() {
 
         expect(element.children().length).toBe(4);
         expect(element.find('a').length).toBe(3);
+
+        expect(element.find('a').eq(0).attr('href')).toBe('#/a');
+        expect(element.find('a').eq(1).attr('href')).toBe('#/a/b');
+        expect(element.find('a').eq(2).attr('href')).toBe('#/a/b/c');
     }));
 
     it('should work with one state', inject(function() {

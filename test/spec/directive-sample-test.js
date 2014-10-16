@@ -16,7 +16,7 @@ describe('Directive with sample conf', function() {
     }));
 
     it('interpolates "room.detail" label correctly', inject(function() {
-        goToStateAndFlush('room.detail', {roomId: 3});
+        goToStateAndFlush('room.detail.edit', {roomId: 3});
 
         controller('RoomDetailCtrl', {'$scope' : scope} );
         compile(scope);
@@ -32,6 +32,12 @@ describe('Directive with sample conf', function() {
         expect(element.text()).toContain('Sample');
         expect(element.text()).toContain('Rooms');
         expect(element.text()).toContain('Room 103');
+        expect(element.text()).toContain('Editing');
+
+        expect(element.find('a').eq(0).attr('href')).toBe('#/home');
+        expect(element.find('a').eq(1).attr('href')).toBe('#/sample');
+        expect(element.find('a').eq(2).attr('href')).toBe('#/room');
+        expect(element.find('a').eq(3).attr('href')).toBe('#/room/3');
     }));
 
 });

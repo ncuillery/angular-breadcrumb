@@ -29,6 +29,8 @@ describe('Directive with interpolation conf', function() {
         console.info('Directive content : ' + element.text());
 
         expect(element.text()).toContain('State BBB');
+
+        expect(element.find('a').eq(0).attr('href')).toBe('#/a');
     }));
 
     it('deals with further updates of the scope', inject(function() {

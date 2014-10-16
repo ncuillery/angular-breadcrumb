@@ -131,8 +131,8 @@ describe('Directive', function() {
             expect(element[0].tagName.toLowerCase()).toBe('div');
 
             expect(element.find('span').length).toBe(2);
-            expect(element.find('span')[0].innerText).toBe('Html is <b>interpreted</b>');
-            expect(element.find('span')[1].innerText).toBe('Html is interpreted');
+            expect(element.find('span').eq(0).text()).toBe('Html is <b>interpreted</b>');
+            expect(element.find('span').eq(1).text()).toBe('Html is interpreted');
         }));
     });
 
