@@ -50,4 +50,20 @@ describe('Directive with dynamic parent conf', function() {
 
     }));
 
+    it('deals with url params correctly', inject(function() {
+        goToState('J');
+
+        compile(scope);
+
+        scope.$emit('$viewContentLoaded');
+        scope.$digest();
+
+        console.info('Directive content : ' + element.text());
+
+        expect(element.text()).toContain('State I');
+        expect(element.text()).toContain('State J');
+
+        expect(element.find('a').attr('href')).toBe('#/i/love/you');
+    }));
+
 });

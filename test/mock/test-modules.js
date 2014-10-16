@@ -31,7 +31,9 @@ angular.module('ncy-dynamic-parent-conf', []).config(function($stateProvider) {
         }}})
         .state('D.E.H', {url:'/h', ncyBreadcrumb: {label: 'State H', parent: function($scope) {
             return $scope.parentState;
-        }}});
+        }}})
+        .state('I', {url: '/i/:x/:y', ncyBreadcrumb: {label:'State I'}})
+        .state('J', {url: '/j', ncyBreadcrumb: {label:'State J', parent: 'I({x: \'love\', y: \'you\'})'}});
 }).controller('UndefinedCtrl', function($scope) {
     $scope.parentState = undefined;
 }).controller('ReturnCCtrl', function($scope) {
