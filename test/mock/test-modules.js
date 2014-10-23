@@ -16,6 +16,21 @@ angular.module('ncy-basic-conf', []).config(function($stateProvider) {
 });
 
 /**
+ * Module including abstract states.
+ */
+angular.module('ncy-abstract-conf', []).config(function($stateProvider) {
+    $stateProvider
+        .state('A', {url: '/a', abstract: true, ncyBreadcrumb: {label: 'State A'}})
+        .state('A.B', {url: '/b', ncyBreadcrumb: {label: 'State B'}})
+        .state('A.B.C', {url: '/c', ncyBreadcrumb: {label: 'State C'}})
+        .state('D', {url: '/d', ncyBreadcrumb: {label: 'State D'}})
+        .state('D.E', {url: '/e', abstract: true, ncyBreadcrumb: {label: 'State E'}})
+        .state('D.E.F', {url: '/f', ncyBreadcrumb: {label: 'State F'}})
+        .state('G', {url: '/g', abstract: true, ncyBreadcrumb: {label: 'State G', skip: true}})
+        .state('G.H', {url: '/h', ncyBreadcrumb: {label: 'State H'}});
+});
+
+/**
  * Module with dynamic parent configuration.
  */
 angular.module('ncy-dynamic-parent-conf', []).config(function($stateProvider) {
