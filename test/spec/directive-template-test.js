@@ -1,6 +1,6 @@
 /*jshint undef: false */
 
-describe('Directive', function() {
+describe('Breadcrumb directive', function() {
 
     var element, scope;
 

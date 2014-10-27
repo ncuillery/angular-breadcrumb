@@ -1,6 +1,6 @@
 /*jshint undef: false */
 
-describe('Directive with dynamic parent conf', function() {
+describe('Breadcrumb directive with dynamic parent conf', function() {
 
     var element, scope, controller, compile;
 

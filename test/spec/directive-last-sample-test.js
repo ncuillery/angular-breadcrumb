@@ -1,6 +1,6 @@
 /*jshint undef: false */
 
-describe('Breadcrumb directive with sample conf', function() {
+describe('Last step directive with sample conf', function() {
 
     var element, scope, controller, compile;
 
@@ -9,7 +9,7 @@ describe('Breadcrumb directive with sample conf', function() {
     });
 
     beforeEach(inject(function($rootScope, $compile, $controller) {
-        element = angular.element('<div ncy-breadcrumb></div>');
+        element = angular.element('<span ncy-breadcrumb-last="<a href=\'{{ncyBreadcrumbLink}}\'>{{ncyBreadcrumbLabel}}</a>"></span>');
         compile = $compile(element);
         scope = $rootScope.$new();
         controller = $controller;
@@ -28,10 +28,8 @@ describe('Breadcrumb directive with sample conf', function() {
 
         console.info('Directive content : ' + element.text());
 
-        expect(element.text()).toContain('Home');
-        expect(element.text()).toContain('Sample');
-        expect(element.text()).toContain('Rooms');
-        expect(element.text()).toContain('Room 103');
+        expect(element.find('a').text()).toBe('Room 103');
+        expect(element.find('a').attr("href")).toBe('#/room/3');
     }));
 
 });
