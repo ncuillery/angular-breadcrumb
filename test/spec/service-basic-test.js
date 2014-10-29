@@ -14,12 +14,18 @@ describe('Service with basic conf', function() {
         goToState('A.B.C');
         var statesChain = $breadcrumb.getStatesChain();
         expect(stringifyStateChain(statesChain)).toBe('A --> A.B --> A.B.C');
+
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep.name).toBe('A.B.C');
     }));
 
     it('should work also with "parent" state\'s property', inject(function($breadcrumb) {
         goToState('D');
         var statesChain = $breadcrumb.getStatesChain();
         expect(stringifyStateChain(statesChain)).toBe('A --> A.B --> A.B.C --> D');
+
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep.name).toBe('D');
     }));
 
     it('must build a correct link for each steps', inject(function($breadcrumb) {
@@ -35,6 +41,9 @@ describe('Service with basic conf', function() {
         goToState('D.E');
         var statesChain = $breadcrumb.getStatesChain();
         expect(stringifyStateChain(statesChain)).toBe('A --> A.B --> A.B.C --> D');
+
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep.name).toBe('D');
     }));
 
     it('should have a 5-step route to F state (E skipped)', inject(function($breadcrumb) {
@@ -47,12 +56,18 @@ describe('Service with basic conf', function() {
         goToState('G');
         var statesChain = $breadcrumb.getStatesChain();
         expect(stringifyStateChain(statesChain)).toBe('');
+
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep).toBeUndefined();
     }));
 
     it('should return a one step chain to G.H', inject(function($breadcrumb) {
         goToState('G.H');
         var statesChain = $breadcrumb.getStatesChain();
         expect(stringifyStateChain(statesChain)).toBe('G.H');
+
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep.name).toBe('G.H');
     }));
 
 });

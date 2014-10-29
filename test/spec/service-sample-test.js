@@ -11,6 +11,9 @@ describe('Service with sample conf', function() {
         var statesChain = $breadcrumb.getStatesChain();
 
         expect(stringifyStateChain(statesChain)).toBe('home');
+
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep.name).toBe('home');
     }));
 
     it('generate three steps for the "room" state', inject(function($breadcrumb) {
@@ -18,6 +21,9 @@ describe('Service with sample conf', function() {
         var statesChain = $breadcrumb.getStatesChain();
 
         expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room');
+
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep.name).toBe('room');
     }));
 
     it('generate four steps for the "room.detail" state', inject(function($breadcrumb) {
@@ -25,6 +31,9 @@ describe('Service with sample conf', function() {
         var statesChain = $breadcrumb.getStatesChain();
 
         expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room --> room.detail');
+
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep.name).toBe('room.detail');
     }));
 
     it('generate four steps for the "room.detail.edit" state with working links', inject(function($breadcrumb) {

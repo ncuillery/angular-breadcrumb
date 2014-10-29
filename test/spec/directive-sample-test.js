@@ -1,6 +1,6 @@
 /*jshint undef: false */
 
-describe('Directive with sample conf', function() {
+describe('Breadcrumb directive with sample conf', function() {
 
     var element, scope, controller, compile;
 

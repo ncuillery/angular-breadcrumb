@@ -11,6 +11,9 @@ describe('Service with ui-router\'s sample conf', function() {
         var statesChain = $breadcrumb.getStatesChain();
 
         expect(stringifyStateChain(statesChain)).toBe('home');
+
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep.name).toBe('home');
     }));
 
     it('generate two steps for the "contacts.list" state', inject(function($breadcrumb) {
@@ -18,6 +21,9 @@ describe('Service with ui-router\'s sample conf', function() {
         var statesChain = $breadcrumb.getStatesChain();
 
         expect(stringifyStateChain(statesChain)).toBe('home --> contacts.list');
+
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep.name).toBe('contacts.list');
     }));
 
     it('generate three steps for the "contacts.detail" state', inject(function($breadcrumb) {
@@ -25,6 +31,9 @@ describe('Service with ui-router\'s sample conf', function() {
         var statesChain = $breadcrumb.getStatesChain();
 
         expect(stringifyStateChain(statesChain)).toBe('home --> contacts.list --> contacts.detail');
+
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep.name).toBe('contacts.detail');
     }));
 
     it('generate four steps for the "contacts.detail.item" state', inject(function($breadcrumb) {
@@ -32,6 +41,10 @@ describe('Service with ui-router\'s sample conf', function() {
         var statesChain = $breadcrumb.getStatesChain();
 
         expect(stringifyStateChain(statesChain)).toBe('home --> contacts.list --> contacts.detail --> contacts.detail.item');
+
+
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep.name).toBe('contacts.detail.item');
     }));
 
     it('generate five steps for the "contacts.detail.item.edit" state with working links', inject(function($breadcrumb) {

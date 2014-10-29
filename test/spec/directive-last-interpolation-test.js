@@ -1,6 +1,6 @@
 /*jshint undef: false */
 
-describe('Breadcrumb directive with interpolation conf', function() {
+describe('Last step directive with interpolation conf', function() {
 
     var element, scope, controller, compile;
 
@@ -9,7 +9,7 @@ describe('Breadcrumb directive with interpolation conf', function() {
     });
 
     beforeEach(inject(function($rootScope, $compile, $controller) {
-        element = angular.element('<div ncy-breadcrumb></div>');
+        element = angular.element('<span ncy-breadcrumb-last="test|{{ncyBreadcrumbLabel}}"></span>');
         compile = $compile(element);
         scope = $rootScope.$new();
         controller = $controller;
@@ -28,9 +28,7 @@ describe('Breadcrumb directive with interpolation conf', function() {
 
         console.info('Directive content : ' + element.text());
 
-        expect(element.text()).toContain('State BBB');
-
-        expect(element.find('a').eq(0).attr('href')).toBe('#/a');
+        expect(element.text()).toBe('test|State BBB');
     }));
 
     it('deals with further updates of the scope', inject(function() {
@@ -44,13 +42,15 @@ describe('Breadcrumb directive with interpolation conf', function() {
 
         console.info('Directive content : ' + element.text());
 
-        expect(element.text()).toContain('State BBB');
+        expect(element.text()).toBe('test|State BBB');
 
         scope.tripleB = 'HACKED';
         scope.$digest();
 
-        expect(element.text()).toContain('State HACKED');
+        expect(element.text()).toBe('test|State HACKED');
 
     }));
+
+
 
 });
