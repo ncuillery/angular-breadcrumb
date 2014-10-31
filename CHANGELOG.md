@@ -1,3 +1,51 @@
+<a name="0.3.0"></a>
+## 0.3.0 (2014-10-29)
+
+
+#### Bug Fixes
+
+* organize state-level options in `ncyBreadcrumb` key instead of `data` ([1ea436d3](http://github.com/ncuillery/angular-breadcrumb/commit/1ea436d3f6d5470b7ae3e71e71259dbd2422bc00), closes [#30](http://github.com/ncuillery/angular-breadcrumb/issues/30))
+* curly braces appearing on title of sample app ([855e76cb](http://github.com/ncuillery/angular-breadcrumb/commit/855e76cb33fda607fa3caa230564b77b48262c40))
+
+
+#### Features
+
+* Add a global option to include abstract states ([6f0461ea](http://github.com/ncuillery/angular-breadcrumb/commit/6f0461ea7db36d8e10c29ed10de1f1c08d215a19), closes [#35](http://github.com/ncuillery/angular-breadcrumb/issues/35), [#28](http://github.com/ncuillery/angular-breadcrumb/issues/28))
+* **$breadcrumb:**
+  * Support url params when using `ncyBreadcrumb.parent` property ([55730045](http://github.com/ncuillery/angular-breadcrumb/commit/55730045dcf3b4fb1048c67f1e18953505563ed4), closes [#46](http://github.com/ncuillery/angular-breadcrumb/issues/46))
+  * add the customization of the parent state with a function ([ada09015](http://github.com/ncuillery/angular-breadcrumb/commit/ada09015c49f05a94349dabf078f1ed621811aaa), closes [#32](http://github.com/ncuillery/angular-breadcrumb/issues/32))
+* **ncyBreadcrumbLast:** Add a new directive rendering the last step ([1eef24fb](http://github.com/ncuillery/angular-breadcrumb/commit/1eef24fbe862a1e3308181c38f50755843cf4426), closes [#37](http://github.com/ncuillery/angular-breadcrumb/issues/37))
+
+
+#### Breaking Changes
+
+* state-level options has been moved under the custom key
+`ncyBreadcrumb` in state's configuration.
+
+To migrate the code follow the example below:
+```
+// Before
+$stateProvider.state('A', {
+  url: '/a',
+  data: {
+    ncyBreadcrumbLabel: 'State A'
+  }
+});
+```
+
+```
+// After
+$stateProvider.state('A', {
+  url: '/a',
+  ncyBreadcrumb: {
+    label: 'State A'
+  }
+});
+```
+See [API reference](https://github.com/ncuillery/angular-breadcrumb/wiki/API-Reference) for more informations.
+ ([1ea436d3](http://github.com/ncuillery/angular-breadcrumb/commit/1ea436d3f6d5470b7ae3e71e71259dbd2422bc00))
+
+
 <a name="0.2.3"></a>
 ### 0.2.3 (2014-07-26)
 
