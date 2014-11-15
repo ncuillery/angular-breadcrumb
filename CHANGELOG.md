@@ -1,3 +1,13 @@
+<a name="0.3.1"></a>
+### 0.3.1 (2014-11-15)
+
+
+#### Bug Fixes
+
+* **npm:** update package.json after (unclean) npm publish ([ab8161c2](http://github.com/ncuillery/angular-breadcrumb/commit/ab8161c25f98613f725b5e5ff8fe147acd60b365), closes [#52](http://github.com/ncuillery/angular-breadcrumb/issues/52))
+* **sample:** Send correct url params for the room link in booking view ([876de49a](http://github.com/ncuillery/angular-breadcrumb/commit/876de49a9c5d6e2d75714a606238e9041ed49baf))
+
+
 <a name="0.3.0"></a>
 ## 0.3.0 (2014-10-29)
 

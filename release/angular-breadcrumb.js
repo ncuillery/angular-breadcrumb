@@ -1,5 +1,5 @@
-/*! angular-breadcrumb - v0.3.0
-* https://github.com/ncuillery/angular-breadcrumb
+/*! angular-breadcrumb - v0.3.1
+* http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
 (function (window, angular, undefined) {
