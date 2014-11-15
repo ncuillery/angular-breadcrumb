@@ -203,7 +203,6 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope, $stateParams
                             
                             //Checks if useParam property is defined
                             if(angular.isDefined(step.ncyBreadcrumb.useParam)){
-                                var param = $stateParams[step.ncyBreadcrumb.useParam];
                                 step.ncyBreadcrumbLabel = step.ncyBreadcrumbLabel
                                     .concat(' ' + $stateParams[step.ncyBreadcrumb.useParam]);
                             }
