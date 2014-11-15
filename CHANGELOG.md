@@ -1,3 +1,8 @@
+<a name="0.3.2"></a>
+### 0.3.2 (2014-11-15)
+
+* **npm:** nothing, it's only a blank release due to a network problem during the last `npm publish` (f...ing npm doesn't allow a republish with the same version number [npm-registry-couchapp#148](https://github.com/npm/npm-registry-couchapp/issues/148)). 
+
 <a name="0.3.1"></a>
 ### 0.3.1 (2014-11-15)
 

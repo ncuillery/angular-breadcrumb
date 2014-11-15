@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.3.1
+/*! angular-breadcrumb - v0.3.2
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
