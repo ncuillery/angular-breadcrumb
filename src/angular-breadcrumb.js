@@ -165,7 +165,7 @@ var deregisterWatchers = function(labelWatcherArray) {
     labelWatcherArray = [];
 };
 
-function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
+function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope, $stateParams) {
     this.$$templates = {
         bootstrap2: '<ul class="breadcrumb">' +
             '<li ng-repeat="step in steps" ng-switch="$last || !!step.abstract" ng-class="{active: $last}">' +
@@ -200,6 +200,12 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                         if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
                             var parseLabel = $interpolate(step.ncyBreadcrumb.label);
                             step.ncyBreadcrumbLabel = parseLabel(viewScope);
+                            
+                            //Checks if useParam property is defined
+                            if(angular.isDefined(step.ncyBreadcrumb.useParam)){
+                                step.ncyBreadcrumbLabel = step.ncyBreadcrumbLabel
+                                    .concat(' ' + $stateParams[step.ncyBreadcrumb.useParam]);
+                            }
                             // Watcher for further viewScope updates
                             registerWatchers(labelWatchers, parseLabel, viewScope, step);
                         } else {
@@ -218,7 +224,7 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
         }
     };
 }
-BreadcrumbDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope'];
+BreadcrumbDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope', '$stateParams'];
 
 function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
 
