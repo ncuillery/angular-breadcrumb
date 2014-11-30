@@ -62,7 +62,7 @@ function $Breadcrumb() {
                 }
             }
 
-            conf = $state.get(ref.state);
+            conf = angular.copy($state.get(ref.state));
             if((!conf.abstract || $$options.includeAbstract) && !(conf.ncyBreadcrumb && conf.ncyBreadcrumb.skip)) {
                 if(ref.paramExpr) {
                     parentParams = $lastViewScope.$eval(ref.paramExpr);
