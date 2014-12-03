@@ -1,5 +1,5 @@
-/*! angular-breadcrumb - v0.2.3-dev-2014-10-27
-* https://github.com/ncuillery/angular-breadcrumb
+/*! angular-breadcrumb - v0.3.2-dev-2014-12-03
+* http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
 (function (window, angular, undefined) {
@@ -82,7 +82,7 @@ function $Breadcrumb() {
                 // Handle the "parent" property of the breadcrumb, override the parent/child relation of the state
                 var isFunction = typeof conf.ncyBreadcrumb.parent === 'function';
                 var parentStateRef = isFunction ? conf.ncyBreadcrumb.parent($lastViewScope) : conf.ncyBreadcrumb.parent;
-                if(parentStateRef) {
+                if(parentStateRef && parentStateRef !== stateRef) {
                     return parentStateRef;
                 }
             }
