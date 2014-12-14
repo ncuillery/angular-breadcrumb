@@ -166,7 +166,7 @@ var deregisterWatchers = function(labelWatcherArray) {
 };
 
 function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
-    this.$$templates = {
+    var $$templates = {
         bootstrap2: '<ul class="breadcrumb">' +
             '<li ng-repeat="step in steps" ng-switch="$last || !!step.abstract" ng-class="{active: $last}">' +
             '<a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a> ' +
@@ -186,7 +186,7 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
         restrict: 'AE',
         replace: true,
         scope: {},
-        template: $breadcrumb.getTemplate(this.$$templates),
+        template: $breadcrumb.getTemplate($$templates),
         templateUrl: $breadcrumb.getTemplateUrl(),
         link: {
             post: function postLink(scope) {
