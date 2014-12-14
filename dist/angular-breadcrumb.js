@@ -3,6 +3,8 @@
 * Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
 
 (function (window, angular, undefined) {
+'use strict';
+
 function isAOlderThanB(scopeA, scopeB) {
     if(angular.equals(scopeA.length, scopeB.length)) {
         return scopeA > scopeB;

@@ -1,3 +1,5 @@
+'use strict';
+
 function isAOlderThanB(scopeA, scopeB) {
     if(angular.equals(scopeA.length, scopeB.length)) {
         return scopeA > scopeB;
