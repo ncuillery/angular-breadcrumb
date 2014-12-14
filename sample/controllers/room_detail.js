@@ -1,28 +1,28 @@
 angular.module('ncy-sample')
-  .controller('RoomDetailCtrl', function($scope, $state, $stateParams, rooms) {
-    $scope.rooms = rooms;
+  .controller('RoomDetailCtrl', function($state, $stateParams, rooms) {
+    this.rooms = rooms;
     if($stateParams.from) {
-        $scope.from = $stateParams.from.split('|')[0];
-        $scope.reservationDate = new Date(parseInt($stateParams.from.split('|')[1]));
+        this.from = $stateParams.from.split('|')[0];
+        this.reservationDate = new Date(parseInt($stateParams.from.split('|')[1]));
     }
 
     if($stateParams.roomId) {
-      $scope.room = _.findWhere(rooms, {roomId: parseInt($stateParams.roomId)});
-      if($scope.room) {
-        $scope.model = angular.copy($scope.room);
+      this.room = _.findWhere(rooms, {roomId: parseInt($stateParams.roomId)});
+      if(this.room) {
+        this.model = angular.copy(this.room);
       } else {
         $state.go('^');
       }
 
     }
 
-    $scope.save = function() {
-      if($scope.model.roomId) {
-        angular.extend($scope.room, $scope.model);
+    this.save = function() {
+      if(this.model.roomId) {
+        angular.extend(this.room, this.model);
       } else {
         var ids = _.map(rooms, function(room) { return room.roomId; });
-        $scope.model.roomId = _.max(ids) + 1;
-        rooms.push($scope.model);
+        this.model.roomId = _.max(ids) + 1;
+        rooms.push(this.model);
       }
       $state.go('^');
     }

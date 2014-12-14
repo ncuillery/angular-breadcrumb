@@ -1,26 +1,26 @@
 <h2 ng-show="room.roomId">Edition room {{room.roomId}}</h2>
 <h2 ng-hide="room.roomId">New room</h2>
 
-<form class="form-horizontal" name="detail" ng-submit="save()">
+<form class="form-horizontal" name="detail" ng-submit="roomDetail.save()">
 
     <div class="control-group">
         <label class="control-label" for="inputRoomId">Id</label>
         <div class="controls">
-            <input type="text" id="inputRoomId" disabled ng-model="model.roomId">
+            <input type="text" id="inputRoomId" disabled ng-model="roomDetail.model.roomId">
         </div>
     </div>
 
     <div class="control-group">
         <label class="control-label" for="inputRoomNumber">Number</label>
         <div class="controls">
-            <input type="text" id="inputRoomNumber" ng-model="model.roomNumber" required>
+            <input type="text" id="inputRoomNumber" ng-model="roomDetail.model.roomNumber" required>
         </div>
     </div>
 
     <div class="control-group">
         <label class="control-label" for="selectType">Type</label>
         <div class="controls">
-            <select id="selectType" ng-model="model.type" ng-options="type for type in ['Single', 'Double']" required></select>
+            <select id="selectType" ng-model="roomDetail.model.type" ng-options="type for type in ['Single', 'Double']" required></select>
         </div>
     </div>
 

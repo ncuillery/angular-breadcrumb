@@ -1,4 +1,4 @@
 angular.module('ncy-sample')
-  .controller('RoomListCtrl', function($scope, rooms) {
-    $scope.rooms = rooms;
+  .controller('RoomListCtrl', function(rooms) {
+    this.rooms = rooms;
   });

@@ -26,6 +26,7 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
       .state('booking', {
         url: '/booking',
         templateUrl: 'views/booking_list.html',
+        controllerAs: 'bookingList',
         controller: 'BookingListCtrl',
         ncyBreadcrumb: {
           label: 'Reservations',
@@ -35,6 +36,7 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
       .state('booking.day', {
         url: '/:year-:month-:day',
         templateUrl: 'views/booking_day.html',
+        controllerAs: 'bookingDay',
         controller: 'BookingDayCtrl',
         onExit: function($rootScope) {
           $rootScope.reservationDate = undefined;
@@ -63,6 +65,7 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
         url: '/room',
         templateUrl: 'views/room_list.html',
         controller: 'RoomListCtrl',
+        controllerAs: 'roomList',
         ncyBreadcrumb: {
           label: 'Rooms',
           parent: 'sample'
@@ -73,6 +76,7 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
         views: {
           "@" : {
             templateUrl: 'views/room_form.html',
+            controllerAs: 'roomDetail',
             controller: 'RoomDetailCtrl'
           }
         },
@@ -85,11 +89,12 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
         views: {
           "@" : {
             templateUrl: 'views/room_detail.html',
+            controllerAs: 'roomDetail',
             controller: 'RoomDetailCtrl'
           }
         },
         ncyBreadcrumb: {
-          label: 'Room {{room.roomNumber}}',
+          label: 'Room {{roomDetail.room.roomNumber}}',
           parent: function ($scope) {
             return $scope.from || 'room';
           }
@@ -100,6 +105,7 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
         views: {
           "@" : {
             templateUrl: 'views/room_form.html',
+            controllerAs: 'roomDetail',
             controller: 'RoomDetailCtrl'
           }
         },
