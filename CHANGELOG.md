@@ -1,3 +1,12 @@
+<a name="0.3.3"></a>
+### 0.3.3 (2014-12-16)
+
+
+#### Bug Fixes
+
+* **ncyBreadcrumb:** define `$$templates` with var instead of attaching it to `window` ([c35c9d25](http://github.com/ncuillery/angular-breadcrumb/commit/c35c9d255b5e2585d225a961d1efdb51d18f6a55), closes [#55](http://github.com/ncuillery/angular-breadcrumb/issues/55))
+
+
 <a name="0.3.2"></a>
 ### 0.3.2 (2014-11-15)
 
