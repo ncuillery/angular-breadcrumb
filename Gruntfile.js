@@ -125,7 +125,7 @@ module.exports = function (grunt) {
               'bower_components/angular/angular.js',
               'bower_components/angular-ui-router/release/angular-ui-router.js',
               'bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js',
-              'bower_components/bootstrap.css/css/bootstrap.css',
+              'bower_components/bootstrap/docs/assets/css/bootstrap.css',
               'bower_components/underscore/underscore.js'
             ],
             dest: 'sample/asset/'
