@@ -1,6 +1,6 @@
-/*! angular-breadcrumb - v0.3.2-dev-2014-12-14
+/*! angular-breadcrumb - v0.3.3-dev-2015-03-21
 * http://ncuillery.github.io/angular-breadcrumb
-* Copyright (c) 2014 Nicolas Cuillery; Licensed MIT */
+* Copyright (c) 2015 Nicolas Cuillery; Licensed MIT */
 
 (function (window, angular, undefined) {
 'use strict';
@@ -56,7 +56,9 @@ function $Breadcrumb() {
         var $$addStateInChain = function(chain, stateRef) {
             var conf,
                 parentParams,
-                ref = parseStateRef(stateRef);
+                ref = parseStateRef(stateRef),
+                showAbstract = false,
+                skip = false;
 
             for(var i=0, l=chain.length; i<l; i+=1) {
                 if (chain[i].name === ref.state) {
@@ -65,7 +67,12 @@ function $Breadcrumb() {
             }
 
             conf = $state.get(ref.state);
-            if((!conf.abstract || $$options.includeAbstract) && !(conf.ncyBreadcrumb && conf.ncyBreadcrumb.skip)) {
+            // Get breadcrumb options
+            if(conf.ncyBreadcrumb) {
+                if(conf.ncyBreadcrumb.showAbstract){ showAbstract = true; }
+                if(conf.ncyBreadcrumb.skip){ skip = true; }
+            }
+            if((!conf.abstract || $$options.includeAbstract || showAbstract) && !skip) {
                 if(ref.paramExpr) {
                     parentParams = $lastViewScope.$eval(ref.paramExpr);
                 }
