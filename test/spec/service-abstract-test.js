@@ -26,6 +26,17 @@ describe('Service with abstract conf', function() {
             expect(stringifyStateChain(statesChain)).toBe('G.H');
         }));
 
+        it('should return a two step route to I.J', inject(function($breadcrumb) {
+            goToState('I.J');
+            var statesChain = $breadcrumb.getStatesChain();
+            expect(stringifyStateChain(statesChain)).toBe('I --> I.J');
+        }));
+
+        it('should return a one step chain to K.L', inject(function($breadcrumb) {
+            goToState('K.L');
+            var statesChain = $breadcrumb.getStatesChain();
+            expect(stringifyStateChain(statesChain)).toBe('K.L');
+        }));
     });
 
     describe('with abstract state inclusion', function() {
