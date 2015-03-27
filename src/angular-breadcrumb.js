@@ -51,7 +51,9 @@ function $Breadcrumb() {
         var $$addStateInChain = function(chain, stateRef) {
             var conf,
                 parentParams,
-                ref = parseStateRef(stateRef);
+                ref = parseStateRef(stateRef),
+                force = false,
+                skip = false;
 
             for(var i=0, l=chain.length; i<l; i+=1) {
                 if (chain[i].name === ref.state) {
@@ -60,7 +62,12 @@ function $Breadcrumb() {
             }
 
             conf = $state.get(ref.state);
-            if((!conf.abstract || $$options.includeAbstract) && !(conf.ncyBreadcrumb && conf.ncyBreadcrumb.skip)) {
+            // Get breadcrumb options
+            if(conf.ncyBreadcrumb) {
+                if(conf.ncyBreadcrumb.force){ force = true; }
+                if(conf.ncyBreadcrumb.skip){ skip = true; }
+            }
+            if((!conf.abstract || $$options.includeAbstract || force) && !skip) {
                 if(ref.paramExpr) {
                     parentParams = $lastViewScope.$eval(ref.paramExpr);
                 }

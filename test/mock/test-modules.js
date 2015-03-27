@@ -27,7 +27,11 @@ angular.module('ncy-abstract-conf', []).config(function($stateProvider) {
         .state('D.E', {url: '/e', abstract: true, ncyBreadcrumb: {label: 'State E'}})
         .state('D.E.F', {url: '/f', ncyBreadcrumb: {label: 'State F'}})
         .state('G', {url: '/g', abstract: true, ncyBreadcrumb: {label: 'State G', skip: true}})
-        .state('G.H', {url: '/h', ncyBreadcrumb: {label: 'State H'}});
+        .state('G.H', {url: '/h', ncyBreadcrumb: {label: 'State H'}})
+        .state('I', {url: '/i', abstract: true, ncyBreadcrumb: {label: 'State I', force: true}})
+        .state('I.J', {url: '/j', ncyBreadcrumb: {label: 'State J'}})
+        .state('K', {url: '/k', abstract: true, ncyBreadcrumb: {label: 'State K', skip: true, force: true}})
+        .state('K.L', {url: '/l', ncyBreadcrumb: {label: 'State L'}});
 });
 
 /**
