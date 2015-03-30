@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.3.3-dev-2015-03-27
+/*! angular-breadcrumb - v0.3.3-dev-2015-04-07
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2015 Nicolas Cuillery; Licensed MIT */
 
@@ -47,9 +47,10 @@ function $Breadcrumb() {
         // Get the parent state
         var $$parentState = function(state) {
             // Check if state has explicit parent OR we try guess parent from its name
-            var name = state.parent || (/^(.+)\.[^.]+$/.exec(state.name) || [])[1];
-            // If we were able to figure out parent name then get this state
-            return name;
+            var parent = state.parent || (/^(.+)\.[^.]+$/.exec(state.name) || [])[1];
+            var isObjectParent = typeof parent === "object";
+            // if parent is a object reference, then extract the name
+            return isObjectParent ? parent.name : parent;
         };
 
         // Add the state in the chain if not already in and if not abstract
@@ -183,14 +184,14 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
     var $$templates = {
         bootstrap2: '<ul class="breadcrumb">' +
             '<li ng-repeat="step in steps" ng-switch="$last || !!step.abstract" ng-class="{active: $last}">' +
-            '<a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a> ' +
+            '<a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a>' +
             '<span ng-switch-when="true">{{step.ncyBreadcrumbLabel}}</span>' +
             '<span class="divider" ng-hide="$last">/</span>' +
             '</li>' +
             '</ul>',
         bootstrap3: '<ol class="breadcrumb">' +
             '<li ng-repeat="step in steps" ng-class="{active: $last}" ng-switch="$last || !!step.abstract">' +
-            '<a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a> ' +
+            '<a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a>' +
             '<span ng-switch-when="true">{{step.ncyBreadcrumbLabel}}</span>' +
             '</li>' +
             '</ol>'

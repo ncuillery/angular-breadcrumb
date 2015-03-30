@@ -35,6 +35,26 @@ angular.module('ncy-abstract-conf', []).config(function($stateProvider) {
 });
 
 /**
+ * Module including parents defined by objects.
+ */
+angular.module('ncy-object-parent-conf', []).config(function($stateProvider) {
+    var A = {
+        name: 'A',
+        url: '/a',
+        ncyBreadcrumb: {label: 'State A'}
+    };
+    var A_B = {
+        name: 'B',
+        url: '/b',
+        ncyBreadcrumb: {label: 'State B'},
+        parent: A
+    };
+    $stateProvider
+        .state(A)
+        .state(A_B);
+});
+
+/**
  * Module with dynamic parent configuration.
  */
 angular.module('ncy-dynamic-parent-conf', []).config(function($stateProvider) {
