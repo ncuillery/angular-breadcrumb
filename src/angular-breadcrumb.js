@@ -279,7 +279,93 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
 }
 BreadcrumbLastDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope'];
 
+function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
+
+    return {
+        restrict: 'A',
+        scope: {},
+        template: '{{ncyBreadcrumbLabel}}',
+
+        compile: function(cElement, cAttrs) {
+            // Override the default template if ncyBreadcrumbText has a value
+            var template = cElement.attr(cAttrs.$attr.ncyBreadcrumbText);
+            if(template) {
+                cElement.html(template);
+            }
+            
+            var separator = cElement.attr(cAttrs.$attr.ncyBreadcrumbTextSeparator);
+            if (!separator) {
+                separator = ' / ';
+            }
+
+            return {
+                post: function postLink(scope) {
+                    var labelWatchers = [];
+                    
+                    var registerWatchersText = function(labelWatcherArray, interpolationFunction, viewScope, step) {
+                        angular.forEach(getExpression(interpolationFunction), function(expression) {
+                            var watcher = viewScope.$watch(expression, function() {
+                                step.ncyBreadcrumbLabel = interpolationFunction(viewScope);
+                                renderLabel();
+                            });
+                            labelWatcherArray.push(watcher);
+                        });
+                    };
+
+                    var setupWatchers = function() {
+                        deregisterWatchers(labelWatchers);
+                        
+                        var viewScope = $breadcrumb.$getLastViewScope();
+                        var steps = $breadcrumb.getStatesChain();
+                        angular.forEach(steps, function (step) {
+                            if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
+                                var parseLabel = $interpolate(step.ncyBreadcrumb.label);
+                                // Watcher for further viewScope updates
+                                registerWatchersText(labelWatchers, parseLabel, viewScope, step);
+                            }
+                        });
+                        
+                        renderLabel();
+                    };
+                    
+                    var renderLabel = function() {
+                        var viewScope = $breadcrumb.$getLastViewScope();
+                        var steps = $breadcrumb.getStatesChain();
+                        var combinedLabel = '';
+                        angular.forEach(steps, function (step) {
+                            if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
+                                var parseLabel = $interpolate(step.ncyBreadcrumb.label);
+                                combinedLabel += separator + parseLabel(viewScope);
+                            } else {
+                                combinedLabel += separator + step.name;
+                            }
+                        });
+
+                        if (combinedLabel.length > 3) {
+                            combinedLabel = combinedLabel.substring(3);
+                        }
+
+                        scope.ncyBreadcrumbLabel = combinedLabel;
+                    };
+
+                    $rootScope.$on('$viewContentLoaded', function () {
+                        setupWatchers();
+                        renderLabel();
+                    });
+
+                    // View(s) may be already loaded while the directive's linking
+                    setupWatchers();
+                    renderLabel();
+                }
+            };
+
+        }
+    };
+}
+BreadcrumbTextDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope'];
+
 angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
     .provider('$breadcrumb', $Breadcrumb)
     .directive('ncyBreadcrumb', BreadcrumbDirective)
-    .directive('ncyBreadcrumbLast', BreadcrumbLastDirective);
+    .directive('ncyBreadcrumbLast', BreadcrumbLastDirective)
+    .directive('ncyBreadcrumbText', BreadcrumbTextDirective);
