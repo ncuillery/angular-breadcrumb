@@ -289,7 +289,7 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
     return {
         restrict: 'A',
         scope: {},
-        template: '{{ncyBreadcrumbLabel}}',
+        template: '{{ncyBreadcrumbChain}}',
 
         compile: function(cElement, cAttrs) {
             // Override the default template if ncyBreadcrumbText has a value
@@ -298,69 +298,48 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                 cElement.html(template);
             }
             
-            var separator = cElement.attr(cAttrs.$attr.ncyBreadcrumbTextSeparator);
-            if (!separator) {
-                separator = ' / ';
-            }
+            var separator = cElement.attr(cAttrs.$attr.ncyBreadcrumbTextSeparator) || ' / ';
 
             return {
                 post: function postLink(scope) {
                     var labelWatchers = [];
                     
-                    var registerWatchersText = function(labelWatcherArray, interpolationFunction, viewScope, step) {
+                    var registerWatchersText = function(labelWatcherArray, interpolationFunction, viewScope) {
                         angular.forEach(getExpression(interpolationFunction), function(expression) {
-                            var watcher = viewScope.$watch(expression, function() {
-                                step.ncyBreadcrumbLabel = interpolationFunction(viewScope);
-                                renderLabel();
+                            var watcher = viewScope.$watch(expression, function(newValue, oldValue) {
+                                if (newValue !== oldValue) {
+                                    renderLabel();
+                                }
                             });
                             labelWatcherArray.push(watcher);
                         });
                     };
 
-                    var setupWatchers = function() {
+                    var renderLabel = function() {
                         deregisterWatchers(labelWatchers);
                         
                         var viewScope = $breadcrumb.$getLastViewScope();
                         var steps = $breadcrumb.getStatesChain();
+                        var combinedLabels = [];
                         angular.forEach(steps, function (step) {
                             if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
                                 var parseLabel = $interpolate(step.ncyBreadcrumb.label);
+                                combinedLabels.push(parseLabel(viewScope));
                                 // Watcher for further viewScope updates
-                                registerWatchersText(labelWatchers, parseLabel, viewScope, step);
+                                registerWatchersText(labelWatchers, parseLabel, viewScope);
+                            } else {
+                                combinedLabels.push(step.name);
                             }
                         });
                         
-                        renderLabel();
-                    };
-                    
-                    var renderLabel = function() {
-                        var viewScope = $breadcrumb.$getLastViewScope();
-                        var steps = $breadcrumb.getStatesChain();
-                        var combinedLabel = '';
-                        angular.forEach(steps, function (step) {
-                            if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
-                                var parseLabel = $interpolate(step.ncyBreadcrumb.label);
-                                combinedLabel += separator + parseLabel(viewScope);
-                            } else {
-                                combinedLabel += separator + step.name;
-                            }
-                        });
-
-                        // strip leading separator
-                        if (combinedLabel.length > separator.length) {
-                            combinedLabel = combinedLabel.substring(separator.length);
-                        }
-
-                        scope.ncyBreadcrumbLabel = combinedLabel;
+                        scope.ncyBreadcrumbChain = combinedLabels.join(separator);
                     };
 
                     $rootScope.$on('$viewContentLoaded', function () {
-                        setupWatchers();
                         renderLabel();
                     });
 
                     // View(s) may be already loaded while the directive's linking
-                    setupWatchers();
                     renderLabel();
                 }
             };

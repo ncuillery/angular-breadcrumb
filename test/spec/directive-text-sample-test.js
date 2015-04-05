@@ -9,7 +9,7 @@ describe('Text directive with sample conf', function() {
     });
 
     beforeEach(inject(function($rootScope, $compile, $controller) {
-        element = angular.element('<span ncy-breadcrumb-text="MyApp: {{ncyBreadcrumbLabel}}"></span>');
+        element = angular.element('<span ncy-breadcrumb-text="MyApp: {{ncyBreadcrumbChain}}"></span>');
         compile = $compile(element);
         scope = $rootScope.$new();
         controller = $controller;

@@ -32,7 +32,7 @@ describe('Text directive with basic conf', function() {
     describe('with template', function() {
 
         beforeEach(inject(function($rootScope, $compile) {
-            element = angular.element('<span ncy-breadcrumb-text="{{ncyBreadcrumbLabel}} - MyApp"></span>');
+            element = angular.element('<span ncy-breadcrumb-text="{{ncyBreadcrumbChain}} - MyApp"></span>');
             var compile = $compile(element);
             scope = $rootScope.$new();
             compile(scope);

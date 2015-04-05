@@ -9,7 +9,7 @@ describe('Text directive with interpolation conf', function() {
     });
 
     beforeEach(inject(function($rootScope, $compile, $controller) {
-        element = angular.element('<span ncy-breadcrumb-text="test|{{ncyBreadcrumbLabel}}"></span>');
+        element = angular.element('<span ncy-breadcrumb-text="test|{{ncyBreadcrumbChain}}"></span>');
         compile = $compile(element);
         scope = $rootScope.$new();
         controller = $controller;
