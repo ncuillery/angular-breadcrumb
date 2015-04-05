@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.3.3-dev-2015-04-04
+/*! angular-breadcrumb - v0.3.3-dev-2015-04-05
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2015 Nicolas Cuillery; Licensed MIT */
 
@@ -346,8 +346,9 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                             }
                         });
 
-                        if (combinedLabel.length > 3) {
-                            combinedLabel = combinedLabel.substring(3);
+                        // strip leading separator
+                        if (combinedLabel.length > separator.length) {
+                            combinedLabel = combinedLabel.substring(separator.length);
                         }
 
                         scope.ncyBreadcrumbLabel = combinedLabel;

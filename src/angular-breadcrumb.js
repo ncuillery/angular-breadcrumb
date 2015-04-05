@@ -341,8 +341,9 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                             }
                         });
 
-                        if (combinedLabel.length > 3) {
-                            combinedLabel = combinedLabel.substring(3);
+                        // strip leading separator
+                        if (combinedLabel.length > separator.length) {
+                            combinedLabel = combinedLabel.substring(separator.length);
                         }
 
                         scope.ncyBreadcrumbLabel = combinedLabel;

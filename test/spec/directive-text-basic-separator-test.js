@@ -11,7 +11,7 @@ describe('Text directive with separator with basic conf', function() {
     describe('without template', function() {
 
         beforeEach(inject(function($rootScope, $compile) {
-            element = angular.element('<span ncy-breadcrumb-text ncy-breadcrumb-text-separator=" > "></span>');
+            element = angular.element('<span ncy-breadcrumb-text ncy-breadcrumb-text-separator=">"></span>');
             var compile = $compile(element);
             scope = $rootScope.$new();
             compile(scope);
@@ -24,7 +24,7 @@ describe('Text directive with separator with basic conf', function() {
             scope.$digest();
 
             console.info('Directive content : ' + element.text());
-            expect(element.text()).toBe('State A > State B > State C > State D');
+            expect(element.text()).toBe('State A>State B>State C>State D');
         }));
 
     });
@@ -32,7 +32,7 @@ describe('Text directive with separator with basic conf', function() {
     describe('with template', function() {
 
         beforeEach(inject(function($rootScope, $compile) {
-            element = angular.element('<span ncy-breadcrumb-text="{{ncyBreadcrumbLabel}} - MyApp" ncy-breadcrumb-text-separator=" > "></span>');
+            element = angular.element('<span ncy-breadcrumb-text="{{ncyBreadcrumbLabel}} - MyApp" ncy-breadcrumb-text-separator=">"></span>');
             var compile = $compile(element);
             scope = $rootScope.$new();
             compile(scope);
@@ -45,7 +45,7 @@ describe('Text directive with separator with basic conf', function() {
             scope.$digest();
 
             console.info('Directive content : ' + element.text());
-            expect(element.text()).toBe('State A > State B > State C > State D - MyApp');
+            expect(element.text()).toBe('State A>State B>State C>State D - MyApp');
         }));
 
     });
