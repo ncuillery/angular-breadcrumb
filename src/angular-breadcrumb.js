@@ -279,7 +279,73 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
 }
 BreadcrumbLastDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope'];
 
+function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
+
+    return {
+        restrict: 'A',
+        scope: {},
+        template: '{{ncyBreadcrumbChain}}',
+
+        compile: function(cElement, cAttrs) {
+            // Override the default template if ncyBreadcrumbText has a value
+            var template = cElement.attr(cAttrs.$attr.ncyBreadcrumbText);
+            if(template) {
+                cElement.html(template);
+            }
+            
+            var separator = cElement.attr(cAttrs.$attr.ncyBreadcrumbTextSeparator) || ' / ';
+
+            return {
+                post: function postLink(scope) {
+                    var labelWatchers = [];
+                    
+                    var registerWatchersText = function(labelWatcherArray, interpolationFunction, viewScope) {
+                        angular.forEach(getExpression(interpolationFunction), function(expression) {
+                            var watcher = viewScope.$watch(expression, function(newValue, oldValue) {
+                                if (newValue !== oldValue) {
+                                    renderLabel();
+                                }
+                            });
+                            labelWatcherArray.push(watcher);
+                        });
+                    };
+
+                    var renderLabel = function() {
+                        deregisterWatchers(labelWatchers);
+                        
+                        var viewScope = $breadcrumb.$getLastViewScope();
+                        var steps = $breadcrumb.getStatesChain();
+                        var combinedLabels = [];
+                        angular.forEach(steps, function (step) {
+                            if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
+                                var parseLabel = $interpolate(step.ncyBreadcrumb.label);
+                                combinedLabels.push(parseLabel(viewScope));
+                                // Watcher for further viewScope updates
+                                registerWatchersText(labelWatchers, parseLabel, viewScope);
+                            } else {
+                                combinedLabels.push(step.name);
+                            }
+                        });
+                        
+                        scope.ncyBreadcrumbChain = combinedLabels.join(separator);
+                    };
+
+                    $rootScope.$on('$viewContentLoaded', function () {
+                        renderLabel();
+                    });
+
+                    // View(s) may be already loaded while the directive's linking
+                    renderLabel();
+                }
+            };
+
+        }
+    };
+}
+BreadcrumbTextDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope'];
+
 angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
     .provider('$breadcrumb', $Breadcrumb)
     .directive('ncyBreadcrumb', BreadcrumbDirective)
-    .directive('ncyBreadcrumbLast', BreadcrumbLastDirective);
+    .directive('ncyBreadcrumbLast', BreadcrumbLastDirective)
+    .directive('ncyBreadcrumbText', BreadcrumbTextDirective);
