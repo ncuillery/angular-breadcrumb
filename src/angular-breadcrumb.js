@@ -42,9 +42,10 @@ function $Breadcrumb() {
         // Get the parent state
         var $$parentState = function(state) {
             // Check if state has explicit parent OR we try guess parent from its name
-            var name = state.parent || (/^(.+)\.[^.]+$/.exec(state.name) || [])[1];
-            // If we were able to figure out parent name then get this state
-            return name;
+            var parent = state.parent || (/^(.+)\.[^.]+$/.exec(state.name) || [])[1];
+            var isObjectParent = typeof parent === "object";
+            // if parent is a object reference, then extract the name
+            return isObjectParent ? parent.name : parent;
         };
 
         // Add the state in the chain if not already in and if not abstract
