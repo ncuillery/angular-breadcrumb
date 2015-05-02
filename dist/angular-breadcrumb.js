@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.3.3-dev-2015-04-21
+/*! angular-breadcrumb - v0.3.3-dev-2015-05-02
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2015 Nicolas Cuillery; Licensed MIT */
 
@@ -177,7 +177,6 @@ var deregisterWatchers = function(labelWatcherArray) {
     angular.forEach(labelWatcherArray, function(deregisterWatch) {
         deregisterWatch();
     });
-    labelWatcherArray = [];
 };
 
 function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
@@ -209,6 +208,8 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
 
                 var renderBreadcrumb = function() {
                     deregisterWatchers(labelWatchers);
+                    labelWatchers = [];
+                    
                     var viewScope = $breadcrumb.$getLastViewScope();
                     scope.steps = $breadcrumb.getStatesChain();
                     angular.forEach(scope.steps, function (step) {
@@ -255,6 +256,8 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
 
                     var renderLabel = function() {
                         deregisterWatchers(labelWatchers);
+                        labelWatchers = [];
+                        
                         var viewScope = $breadcrumb.$getLastViewScope();
                         var lastStep = $breadcrumb.getLastStep();
                         if(lastStep) {
@@ -318,6 +321,7 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
 
                     var renderLabel = function() {
                         deregisterWatchers(labelWatchers);
+                        labelWatchers = [];
                         
                         var viewScope = $breadcrumb.$getLastViewScope();
                         var steps = $breadcrumb.getStatesChain();

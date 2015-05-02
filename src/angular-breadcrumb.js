@@ -172,7 +172,6 @@ var deregisterWatchers = function(labelWatcherArray) {
     angular.forEach(labelWatcherArray, function(deregisterWatch) {
         deregisterWatch();
     });
-    labelWatcherArray = [];
 };
 
 function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
@@ -204,6 +203,8 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
 
                 var renderBreadcrumb = function() {
                     deregisterWatchers(labelWatchers);
+                    labelWatchers = [];
+                    
                     var viewScope = $breadcrumb.$getLastViewScope();
                     scope.steps = $breadcrumb.getStatesChain();
                     angular.forEach(scope.steps, function (step) {
@@ -250,6 +251,8 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
 
                     var renderLabel = function() {
                         deregisterWatchers(labelWatchers);
+                        labelWatchers = [];
+                        
                         var viewScope = $breadcrumb.$getLastViewScope();
                         var lastStep = $breadcrumb.getLastStep();
                         if(lastStep) {
@@ -313,6 +316,7 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
 
                     var renderLabel = function() {
                         deregisterWatchers(labelWatchers);
+                        labelWatchers = [];
                         
                         var viewScope = $breadcrumb.$getLastViewScope();
                         var steps = $breadcrumb.getStatesChain();
