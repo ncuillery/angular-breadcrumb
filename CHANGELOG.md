@@ -1,3 +1,20 @@
+<a name="0.3.4"></a>
+### 0.3.4 (2015-05-17)
+
+
+#### Bug Fixes
+
+* **$breadcrumb:** Handle parents provided by StateObject references ([f4288d37](http://github.com/ncuillery/angular-breadcrumb/commit/f4288d375fd1090ffec1d67e85c6300d74d86d37), closes [#82](http://github.com/ncuillery/angular-breadcrumb/issues/82))
+* **ncyBreadcrumb:**
+  * Prevent memory leak when label is a binding ([264e10f6](http://github.com/ncuillery/angular-breadcrumb/commit/264e10f680e1bbb8d1e00cf500de39cac4222cfd), closes [#88](http://github.com/ncuillery/angular-breadcrumb/issues/88))
+  * Removed trailing spaces from breadcrumb items([bc276ed5](http://github.com/ncuillery/angular-breadcrumb/commit/bc276ed5351a586d4a6dc83ada0687e6ca485344), closes [#77](http://github.com/ncuillery/angular-breadcrumb/issues/77))
+
+#### Features
+
+* Add force to ncyBreadcrumb options ([31125a38](http://github.com/ncuillery/angular-breadcrumb/commit/31125a386d706dd76df807b3b02e1fccea38fb59), closes [#77](http://github.com/ncuillery/angular-breadcrumb/issues/78))
+* **ncyBreadcrumbText:** Add ncyBreadcrumbText directive ([82b2b443](http://github.com/ncuillery/angular-breadcrumb/commit/82b2b443fab220cd9ac7d3a8c90c1edc4291e54a), closes [#71](http://github.com/ncuillery/angular-breadcrumb/issues/71), [#83](http://github.com/ncuillery/angular-breadcrumb/issues/83))
+
+
 <a name="0.3.3"></a>
 ### 0.3.3 (2014-12-16)
 
