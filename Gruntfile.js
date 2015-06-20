@@ -202,10 +202,13 @@ module.exports = function (grunt) {
     },
     shell: {
       testMinimal: {
-        command: 'bower install angular#=1.0.8 angular-mocks#=1.0.8 angular-sanitize#=1.0.8 --config.directory=. --config.cwd=testDependencies'
+        command: 'bower install angular#=1.0.8 angular-mocks#=1.0.8 angular-sanitize#=1.0.8 angular-ui-router#=0.2.0 --config.directory=. --config.cwd=testDependencies'
       },
       test1dot2: {
-        command: 'bower install angular#=1.2.18 angular-mocks#=1.2.18 angular-sanitize#=1.2.18 --config.directory=. --config.cwd=testDependencies'
+        command: 'bower install angular#=1.2.18 angular-mocks#=1.2.18 angular-sanitize#=1.2.18 angular-ui-router#=0.2.15 --config.directory=. --config.cwd=testDependencies'
+      },
+      testLatest: {
+        command: 'bower install angular angular-mocks angular-sanitize angular-ui-router --config.directory=. --config.cwd=testDependencies'
       }
     }
 
@@ -227,9 +230,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-text-replace');
 
-  grunt.registerTask('test', ['jshint', 'testMin', 'test1dot2']);
+  grunt.registerTask('test', ['jshint', 'testMin', 'test1dot2', 'testLatest']);
   grunt.registerTask('testMin', ['clean:test', 'shell:testMinimal', 'karma']);
   grunt.registerTask('test1dot2', ['clean:test', 'shell:test1dot2', 'karma']);
+  grunt.registerTask('testLatest', ['clean:test', 'shell:testLatest', 'karma']);
 
   grunt.registerTask('default', ['test', 'concat:dev', 'uglify:dev']);
 

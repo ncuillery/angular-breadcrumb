@@ -14,7 +14,7 @@ module.exports = function(config) {
       'testDependencies/angular/angular.js',
       'testDependencies/angular-mocks/angular-mocks.js',
       'testDependencies/angular-sanitize/angular-sanitize.js',
-      'bower_components/angular-ui-router/release/angular-ui-router.js',
+      'testDependencies/angular-ui-router/release/angular-ui-router.js',
       'bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js',
       'bower_components/underscore/underscore.js',
       'src/angular-breadcrumb.js',
