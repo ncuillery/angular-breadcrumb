@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.3.3-dev-2015-05-02
+/*! angular-breadcrumb - v0.4.0-dev-2015-06-16
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2015 Nicolas Cuillery; Licensed MIT */
 
@@ -228,6 +228,10 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                     renderBreadcrumb();
                 });
 
+                $rootScope.$on('$stateChangeSuccess', function () {
+                    renderBreadcrumb();
+                });
+
                 // View(s) may be already loaded while the directive's linking
                 renderBreadcrumb();
             }
@@ -275,6 +279,10 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
                     };
 
                     $rootScope.$on('$viewContentLoaded', function () {
+                        renderLabel();
+                    });
+
+                    $rootScope.$on('$stateChangeSuccess', function () {
                         renderLabel();
                     });
 
@@ -341,6 +349,10 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                     };
 
                     $rootScope.$on('$viewContentLoaded', function () {
+                        renderLabel();
+                    });
+                    
+                    $rootScope.$on("$stateChangeSuccess", function () {
                         renderLabel();
                     });
 

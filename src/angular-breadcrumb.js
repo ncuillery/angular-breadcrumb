@@ -223,6 +223,10 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                     renderBreadcrumb();
                 });
 
+                $rootScope.$on('$stateChangeSuccess', function () {
+                    renderBreadcrumb();
+                });
+
                 // View(s) may be already loaded while the directive's linking
                 renderBreadcrumb();
             }
@@ -270,6 +274,10 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
                     };
 
                     $rootScope.$on('$viewContentLoaded', function () {
+                        renderLabel();
+                    });
+
+                    $rootScope.$on('$stateChangeSuccess', function () {
                         renderLabel();
                     });
 
@@ -336,6 +344,10 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                     };
 
                     $rootScope.$on('$viewContentLoaded', function () {
+                        renderLabel();
+                    });
+                    
+                    $rootScope.$on("$stateChangeSuccess", function () {
                         renderLabel();
                     });
 
