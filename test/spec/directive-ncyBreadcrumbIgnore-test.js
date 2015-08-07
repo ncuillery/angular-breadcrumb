@@ -53,8 +53,6 @@ describe('Breadcrumb directive with multiple-interpolation conf', function() {
 });
 
 describe('Breadcrumb directive with multiple-interpolation conf', function() {
-    var controller;
-
     beforeEach(function () {
         module('ncy-multiple-interpolation-conf', function ($controllerProvider) {
             $controllerProvider.register('ACtrl', function ($scope) {
@@ -65,8 +63,7 @@ describe('Breadcrumb directive with multiple-interpolation conf', function() {
 
     describe('when ncyBreadcrumbIgnore property equals true on parent view scope', function () {
         describe('when the parent view located before child view ', function () {
-            beforeEach(inject(function ($rootScope, $compile, $controller) {
-                controller = $controller;
+            beforeEach(inject(function ($rootScope, $compile) {
                 element = angular.element('<div><div ncy-breadcrumb=""></div><div ui-view="a"></div><div ui-view="b"></div></div>');
                 var compile = $compile(element);
                 scope = $rootScope.$new();
@@ -87,8 +84,7 @@ describe('Breadcrumb directive with multiple-interpolation conf', function() {
         });
 
         describe('when the parent view located after child view ', function () {
-            beforeEach(inject(function ($rootScope, $compile, $controller) {
-                controller = $controller;
+            beforeEach(inject(function ($rootScope, $compile) {
                 element = angular.element('<div><div ncy-breadcrumb=""></div><div ui-view="b"></div><div ui-view="a"></div></div>');
                 var compile = $compile(element);
                 scope = $rootScope.$new();
