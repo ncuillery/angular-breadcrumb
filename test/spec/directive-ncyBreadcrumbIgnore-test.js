@@ -3,10 +3,10 @@
 
 var element, scope;
 
-describe('Breadcrumb directive with abstract-interpolation conf', function() {
+describe('Breadcrumb directive with multiple-interpolation conf', function() {
 
     beforeEach(function () {
-        module('ncy-abstract-interpolation-conf');
+        module('ncy-multiple-interpolation-conf');
     });
 
     describe('when ncyBreadcrumbIgnore is undefined on parent view scope', function () {
@@ -26,7 +26,7 @@ describe('Breadcrumb directive with abstract-interpolation conf', function() {
 
                 console.info('Directive content : ' + element.text());
 
-                expect(element.text()).toContain('State BBBView AView B');
+                expect(element.text()).toContain('AState BBBView AView B');
             }));
         });
 
@@ -52,11 +52,11 @@ describe('Breadcrumb directive with abstract-interpolation conf', function() {
     });
 });
 
-describe('Breadcrumb directive with abstract-interpolation conf', function() {
+describe('Breadcrumb directive with multiple-interpolation conf', function() {
     var controller;
 
     beforeEach(function () {
-        module('ncy-abstract-interpolation-conf', function ($controllerProvider) {
+        module('ncy-multiple-interpolation-conf', function ($controllerProvider) {
             $controllerProvider.register('ACtrl', function ($scope) {
                 $scope.ncyBreadcrumbIgnore = true;
             });
@@ -82,7 +82,7 @@ describe('Breadcrumb directive with abstract-interpolation conf', function() {
 
                 console.info('Directive content : ' + element.text());
 
-                expect(element.text()).toContain('State BBBView AView B');
+                expect(element.text()).toContain('AState BBBView AView B');
             }));
         });
 
@@ -104,7 +104,7 @@ describe('Breadcrumb directive with abstract-interpolation conf', function() {
 
                 console.info('Directive content : ' + element.text());
 
-                expect(element.text()).toContain('State BBBView BView A');
+                expect(element.text()).toContain('AState BBBView BView A');
             }));
         });
     });

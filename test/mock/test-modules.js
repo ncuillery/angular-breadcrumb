@@ -121,10 +121,9 @@ angular.module('ncy-sample-conf', ['ncy-sample', 'ngMock']).config(function($url
 /**
  * Module with abstract state with footer view
  */
-angular.module('ncy-abstract-interpolation-conf', []).config(function($stateProvider) {
+angular.module('ncy-multiple-interpolation-conf', []).config(function($stateProvider) {
     $stateProvider
         .state('A', {
-            abstract: true,
             url: '/a',
             views: {
                 'a@': {
