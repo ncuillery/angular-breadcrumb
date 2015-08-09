@@ -117,3 +117,34 @@ angular.module('ncy-sample-conf', ['ncy-sample', 'ngMock']).config(function($url
     $httpBackend.when('GET', 'views/room_detail.html').respond('dummy room_detail view');
     $httpBackend.when('GET', 'views/room_form.html').respond('dummy room_form view');
 });
+
+/**
+ * Module with multiple views related to one state and interpolated labels
+ */
+angular.module('ncy-multiple-interpolation-conf', []).config(function($stateProvider) {
+    $stateProvider
+        .state('A', {
+            url: '/a',
+            views: {
+                'a@': {
+                    template: '<div>View A</div>',
+                    controller: 'ACtrl'
+                }
+            }
+        })
+        .state('A.B', {
+            url: '/b',
+            views: {
+                'b@': {
+                    template: '<div>View B</div>',
+                    controller: 'BCtrl'
+                }
+            },
+            ncyBreadcrumb: {
+                label: 'State {{tripleB}}'
+            }
+        });
+}).controller('ACtrl', function() {
+}).controller('BCtrl', function($scope) {
+    $scope.tripleB = 'BBB';
+});

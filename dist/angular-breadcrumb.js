@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.3.3-dev-2015-05-02
+/*! angular-breadcrumb - v0.4.0-dev-2015-08-07
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2015 Nicolas Cuillery; Licensed MIT */
 
@@ -39,7 +39,8 @@ function $Breadcrumb() {
         // Early catch of $viewContentLoaded event
         $rootScope.$on('$viewContentLoaded', function (event) {
             // With nested views, the event occur several times, in "wrong" order
-            if(isAOlderThanB(event.targetScope.$id, $lastViewScope.$id)) {
+            if(!event.targetScope.ncyBreadcrumbIgnore &&
+                isAOlderThanB(event.targetScope.$id, $lastViewScope.$id)) {
                 $lastViewScope = event.targetScope;
             }
         });
@@ -224,8 +225,10 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                     });
                 };
 
-                $rootScope.$on('$viewContentLoaded', function () {
-                    renderBreadcrumb();
+                $rootScope.$on('$viewContentLoaded', function (event) {
+                    if(!event.targetScope.ncyBreadcrumbIgnore) {
+                        renderBreadcrumb();
+                    }
                 });
 
                 // View(s) may be already loaded while the directive's linking
@@ -274,8 +277,10 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
                         }
                     };
 
-                    $rootScope.$on('$viewContentLoaded', function () {
-                        renderLabel();
+                    $rootScope.$on('$viewContentLoaded', function (event) {
+                        if(!event.targetScope.ncyBreadcrumbIgnore) {
+                            renderLabel();
+                        }
                     });
 
                     // View(s) may be already loaded while the directive's linking
@@ -340,8 +345,10 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                         scope.ncyBreadcrumbChain = combinedLabels.join(separator);
                     };
 
-                    $rootScope.$on('$viewContentLoaded', function () {
-                        renderLabel();
+                    $rootScope.$on('$viewContentLoaded', function (event) {
+                        if(!event.targetScope.ncyBreadcrumbIgnore) {
+                            renderLabel();
+                        }
                     });
 
                     // View(s) may be already loaded while the directive's linking
