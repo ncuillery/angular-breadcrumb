@@ -1,3 +1,12 @@
+<a name="0.4.1"></a>
+### 0.4.1 (2015-08-09)
+
+
+#### Features
+
+* add the scope-based ncyBreadcrumbIgnore flag ([934c5523](http://github.com/ncuillery/angular-breadcrumb/commit/934c5523208a9615d7cfa3abcb397bbe131332ac), closes [#42](http://github.com/ncuillery/angular-breadcrumb/issues/42), [#62](http://github.com/ncuillery/angular-breadcrumb/issues/42))
+
+
 <a name="0.4.0"></a>
 ### 0.4.0 (2015-05-17)
 
