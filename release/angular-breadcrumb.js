@@ -80,6 +80,7 @@ function $Breadcrumb() {
                 }
 
                 conf.ncyBreadcrumbLink = $state.href(ref.state, parentParams || $stateParams || {});
+                conf.ncyBreadcrumbState = stateRef;
                 chain.unshift(conf);
             }
         };
