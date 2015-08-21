@@ -37,6 +37,12 @@ describe('Service with basic conf', function() {
         expect(statesChain[3].ncyBreadcrumbLink).toBe('#/a/b/c/d');
     }));
 
+    it('should expose the state conf', inject(function($breadcrumb) {
+        goToState('A.B');
+        var lastStep = $breadcrumb.getLastStep();
+        expect(lastStep.ncyBreadcrumbStateRef).toBe('A.B');
+    }));
+
     it('should not return the step for E state', inject(function($breadcrumb) {
         goToState('D.E');
         var statesChain = $breadcrumb.getStatesChain();

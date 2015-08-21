@@ -80,6 +80,24 @@ angular.module('ncy-dynamic-parent-conf', []).config(function($stateProvider) {
 });
 
 /**
+ * Module with custom template using ui-sref directive.
+ */
+angular.module('ncy-ui-sref-template-conf', []).config(function($stateProvider, $breadcrumbProvider) {
+    $stateProvider
+        .state('A', {url: '/a', ncyBreadcrumb: {label: 'State A'}})
+        .state('A.B', {url: '/b', ncyBreadcrumb: {label: 'State B'}})
+        .state('I', {url: '/i/:x/:y', ncyBreadcrumb: {label:'State I'}})
+        .state('J', {url: '/j', ncyBreadcrumb: {label:'State J', parent: 'I({x: \'love\', y: \'you\'})'}})
+        .state('K', {url: '/k', ncyBreadcrumb: {label:'State K', parent: function() {
+            return 'I({x: \'love\', y: \'you\'})';
+        }}});
+
+    $breadcrumbProvider.setOptions({
+       template: '<ul><li ng-repeat="step in steps"><a ui-sref="{{step.ncyBreadcrumbStateRef}}">{{step.ncyBreadcrumbLabel}}</a></li></ul>'
+    });
+});
+
+/**
  * Module with angular expressions in label
  */
 angular.module('ncy-interpolation-conf', []).config(function($stateProvider) {

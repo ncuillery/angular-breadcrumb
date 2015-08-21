@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.4.1-dev-2016-04-11
+/*! angular-breadcrumb - v0.4.1-dev-2016-04-12
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
 
@@ -92,6 +92,7 @@ function $Breadcrumb() {
                 }
 
                 conf.ncyBreadcrumbLink = $state.href(ref.state, parentParams || $stateParams || {});
+                conf.ncyBreadcrumbStateRef = stateRef;
                 chain.unshift(conf);
             }
         };
