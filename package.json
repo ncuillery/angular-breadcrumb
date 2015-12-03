@@ -1,10 +1,9 @@
 {
   "name": "angularjs-breadcrumb",
-  "description": "AngularJS module that generates a breadcrumb from ui-router's states",
+  "description": "generates a breadcrumb from ui-router's states",
   "version": "0.0.1",
-  "homepage": "https://github.com/ismatkurt/angularjs-breadcrumb.git",
   "author": {
-    "name": "İsmail Atkurt",
+    "name": "ismail atkurt",
     "email": "ismail.atkurt@gmail.com"
   },
   "repository": {
@@ -21,12 +20,6 @@
     }
   ],
   "main": "release/angular-breadcrumb.js",
-  "engines": {
-    "node": ">= 0.10.0"
-  },
-  "scripts": {
-    "test": "grunt test"
-  },
   "devDependencies": {
     "connect-livereload": "~0.2.0",
     "coveralls": "~2.3.0",
