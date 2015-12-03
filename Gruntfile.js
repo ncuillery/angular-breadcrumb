@@ -30,7 +30,12 @@ module.exports = function (grunt) {
       },
       release: {
         options: {
-          banner: '<%= headerRelease %><%= banner %>\n(function (window, angular, undefined) {\n',
+          banner: '<%= headerRelease %><%= banner %>\n'+
+                  '/* commonjs package manager support (eg componentjs) */\n'+
+                  'if (typeof module !== "undefined" && typeof exports !== "undefined" && module.exports === exports){\n'+
+                  '  module.exports = \'ncy-angular-breadcrumb\';\n'+
+                  '}\n\n'+
+                  '(function (window, angular, undefined) {\n',
           footer: '})(window, window.angular);\n',
           stripBanners: true
         },
