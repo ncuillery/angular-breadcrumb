@@ -5,7 +5,7 @@
   "version": "0.4.1",
   "main": "release/angular-breadcrumb.js",
   "_source": "https://github.com/ismatkurt/angularjs-breadcrumb.git",
-  "_originalSource": "https://github.com/ismatkurt/angularjs-breadcrumb.git"
+  "_originalSource": "https://github.com/ismatkurt/angularjs-breadcrumb.git",
   "ignore": [
     "sample",
     "src",
