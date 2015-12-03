@@ -1,5 +1,5 @@
 {
-  "name": "angular-breadcrumb",
+  "name": "angular-breadcrumb-extended",
   "description": "AngularJS module that generates a breadcrumb from ui-router's states",
   "version": "0.4.1",
   "main": "release/angular-breadcrumb.js",
