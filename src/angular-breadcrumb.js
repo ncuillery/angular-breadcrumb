@@ -84,7 +84,7 @@ function $Breadcrumb() {
             var ref = parseStateRef(stateRef),
                 conf = $state.get(ref.state);
 
-            if(conf.ncyBreadcrumb && conf.ncyBreadcrumb.parent) {
+            if(conf.ncyBreadcrumb && typeof conf.ncyBreadcrumb.parent !== 'undefined') {
                 // Handle the "parent" property of the breadcrumb, override the parent/child relation of the state
                 var isFunction = typeof conf.ncyBreadcrumb.parent === 'function';
                 var parentStateRef = isFunction ? conf.ncyBreadcrumb.parent($lastViewScope) : conf.ncyBreadcrumb.parent;
