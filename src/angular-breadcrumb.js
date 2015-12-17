@@ -186,6 +186,9 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
             '</ul>',
         bootstrap3: '<ol class="breadcrumb">' +
             '<li ng-repeat="step in steps" ng-class="{active: $last}" ng-switch="$last || !!step.abstract">' +
+            '<i ng-switch-when="true" class="{{step.ncyBreadcrumbIcon}}"></i>' +
+            '<a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">'+
+            '<i class="{{step.ncyBreadcrumbIcon}}"></i>{{step.ncyBreadcrumbLabel}}</a>' +
             '<a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a>' +
             '<span ng-switch-when="true">{{step.ncyBreadcrumbLabel}}</span>' +
             '</li>' +
@@ -209,6 +212,13 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                     var viewScope = $breadcrumb.$getLastViewScope();
                     scope.steps = $breadcrumb.getStatesChain();
                     angular.forEach(scope.steps, function (step) {
+                        // Checks whether breadcrumb is set and if it is set checks icon attribute is set. 
+                        if (step.ncyBreadcrumb && step.ncyBreadcrumb.icon) {
+                            var parseLabel = $interpolate(step.ncyBreadcrumb.icon);
+                            step.ncyBreadcrumbIcon = parseLabel(viewScope);
+                            // Watcher for further viewScope updates
+                            registerWatchers(labelWatchers, parseLabel, viewScope, step);
+                        }
                         if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
                             var parseLabel = $interpolate(step.ncyBreadcrumb.label);
                             step.ncyBreadcrumbLabel = parseLabel(viewScope);
@@ -260,6 +270,14 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
                         var lastStep = $breadcrumb.getLastStep();
                         if(lastStep) {
                             scope.ncyBreadcrumbLink = lastStep.ncyBreadcrumbLink;
+                            // Checks whether breadcrumb is set and if it is set checks icon attribute is set. 
+                            if (lastStep.ncyBreadcrumb && lastStep.ncyBreadcrumb.icon) {
+                                var parseLabel = $interpolate(lastStep.ncyBreadcrumb.icon);
+                                scope.ncyBreadcrumbIcon = parseLabel(viewScope);
+                                // Watcher for further viewScope updates
+                                // Tricky last arg: the last step is the entire scope of the directive !
+                                registerWatchers(labelWatchers, parseLabel, viewScope, scope);
+                            }
                             if (lastStep.ncyBreadcrumb && lastStep.ncyBreadcrumb.label) {
                                 var parseLabel = $interpolate(lastStep.ncyBreadcrumb.label);
                                 scope.ncyBreadcrumbLabel = parseLabel(viewScope);
