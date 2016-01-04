@@ -1,7 +1,8 @@
 {
-  "name": "angular-breadcrumb",
-  "description": "AngularJS module that generates a breadcrumb from ui-router's states",
-  "version": "0.4.1",
+  "name": "angularjs-breadcrumb",
+  "description": "generates a breadcrumb from ui-router's states",
+  "homepage": "https://github.com/ismatkurt/angularjs-breadcrumb",
+  "version": "0.0.1",
   "main": "release/angular-breadcrumb.js",
   "ignore": [
     "sample",

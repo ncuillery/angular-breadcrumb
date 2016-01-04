@@ -27,3 +27,5 @@ See [CONTRIBUTING.md](https://github.com/ncuillery/angular-breadcrumb/blob/maste
 ## License
 Copyright (c) 2013 Nicolas Cuillery  
 Licensed under the MIT license.
+
+# new branch
