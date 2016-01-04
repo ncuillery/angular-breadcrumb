@@ -1,7 +1,9 @@
 'use strict';
 
 var LIVERELOAD_PORT = 35729;
-var lrSnippet = require('connect-livereload')({ port: LIVERELOAD_PORT });
+var lrSnippet = require('connect-livereload')({
+  port: LIVERELOAD_PORT
+});
 var mountFolder = function (connect, dir) {
   return connect.static(require('path').resolve(dir));
 };
@@ -174,7 +176,18 @@ module.exports = function (grunt) {
     },
     clean: {
       release: ["sample/*.zip"],
-      test: ["testDependencies/*"]
+      test: ["testDependencies/*"],
+      meteor: ['.build.*', 'versions.json']
+    },
+    exec: {
+      'meteor-init': {
+        command: [
+          'type meteor >/dev/null 2>&1 || { curl https://install.meteor.com/ | sh; }'
+        ].join(';')
+      },
+      'meteor-publish': {
+        command: 'meteor publish'
+      }
     },
     compress: {
       release: {
@@ -182,7 +195,11 @@ module.exports = function (grunt) {
           archive: 'sample/<%= pkg.name %>-<%= pkg.version %>.zip'
         },
         files: [
-          {expand: true, cwd: 'release/', src: ['*.js']}
+          {
+            expand: true,
+            cwd: 'release/',
+            src: ['*.js']
+          }
         ]
       }
     },
@@ -229,6 +246,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-open');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-text-replace');
+  grunt.loadNpmTasks('grunt-exec');
+
+  grunt.registerTask('meteor-publish', ['exec:meteor-init', 'exec:meteor-publish']);
 
   grunt.registerTask('test', ['jshint', 'testMin', 'test1dot2', 'testLatest']);
   grunt.registerTask('testMin', ['clean:test', 'shell:testMinimal', 'karma']);
@@ -239,8 +259,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('sample', ['concat:dev', 'copy:asset', 'copy:img', 'connect:livereload', 'open', 'watch']);
 
-  grunt.registerTask('release-prepare', 'Update all files for a release', function(target) {
-    if(!target) {
+  grunt.registerTask('release-prepare', 'Update all files for a release', function (target) {
+    if (!target) {
       target = 'patch';
     }
     grunt.task.run(
