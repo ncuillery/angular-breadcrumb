@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.4.1-dev-2016-04-10
+/*! angular-breadcrumb - v0.4.1-dev-2016-04-11
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
 
@@ -17,6 +17,16 @@ function parseStateRef(ref) {
     var parsed = ref.replace(/\n/g, " ").match(/^([^(]+?)\s*(\((.*)\))?$/);
     if (!parsed || parsed.length !== 4) { throw new Error("Invalid state ref '" + ref + "'"); }
     return { state: parsed[1], paramExpr: parsed[3] || null };
+}
+
+var $registeredListeners = {};
+function registerListenerOnce(tag, $rootScope, event, fn) {
+    var deregisterListenerFn = $registeredListeners[tag];
+    if ( deregisterListenerFn !== undefined ) {
+        deregisterListenerFn();
+    }
+    deregisterListenerFn = $rootScope.$on(event, fn);
+    $registeredListeners[tag] = deregisterListenerFn;
 }
 
 function $Breadcrumb() {
@@ -39,7 +49,7 @@ function $Breadcrumb() {
         var $lastViewScope = $rootScope;
 
         // Early catch of $viewContentLoaded event
-        $rootScope.$on('$viewContentLoaded', function (event) {
+        registerListenerOnce('$Breadcrumb.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
             // With nested views, the event occur several times, in "wrong" order
             if(!event.targetScope.ncyBreadcrumbIgnore &&
                 isAOlderThanB(event.targetScope.$id, $lastViewScope.$id)) {
@@ -244,7 +254,7 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                     });
                 };
 
-                $rootScope.$on('$viewContentLoaded', function (event) {
+                registerListenerOnce('BreadcrumbDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
                     if(!event.targetScope.ncyBreadcrumbIgnore) {
                         renderBreadcrumb();
                     }
@@ -302,7 +312,7 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
                         }
                     };
 
-                    $rootScope.$on('$viewContentLoaded', function (event) {
+                    registerListenerOnce('BreadcrumbLastDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
                         if(!event.targetScope.ncyBreadcrumbIgnore) {
                             renderLabel();
                         }
@@ -370,7 +380,7 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                         scope.ncyBreadcrumbChain = combinedLabels.join(separator);
                     };
 
-                    $rootScope.$on('$viewContentLoaded', function (event) {
+                    registerListenerOnce('BreadcrumbTextDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
                         if(!event.targetScope.ncyBreadcrumbIgnore) {
                             renderLabel();
                         }
