@@ -41,15 +41,22 @@
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-watch": "~0.4.0",
     "grunt-conventional-changelog": "~1.1.0",
-    "grunt-karma": "~0.6.2",
+    "grunt-exec": "^0.4.6",
+    "grunt-karma": "~0.12.2",
     "grunt-open": "~0.2.0",
     "grunt-shell": "~0.7.0",
     "grunt-text-replace": "^0.3.12",
-    "karma": "~0.10.2",
-    "karma-coverage": "~0.1.0",
-    "karma-story-reporter": "~0.2.2",
-	"grunt-exec": "^0.4.6",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-coverage": "~0.1.5",
+    "karma-jasmine": "^0.3.8",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-story-reporter": "^0.3.1",
+    "phantomjs-prebuilt": "^2.1.7",
     "spacejam": "^1.1.1"
   },
-  "keywords": ["angular", "breadcrumb"]
+  "keywords": [
+    "angular",
+    "breadcrumb"
+  ]
 }

@@ -149,6 +149,7 @@ var getExpression = function(interpolationFunction) {
     if(interpolationFunction.expressions) {
         return interpolationFunction.expressions;
     } else {
+        // Workaround for Angular 1.2.x
         var expressions = [];
         angular.forEach(interpolationFunction.parts, function(part) {
             if(angular.isFunction(part)) {
@@ -205,7 +206,7 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                 var renderBreadcrumb = function() {
                     deregisterWatchers(labelWatchers);
                     labelWatchers = [];
-                    
+
                     var viewScope = $breadcrumb.$getLastViewScope();
                     scope.steps = $breadcrumb.getStatesChain();
                     angular.forEach(scope.steps, function (step) {
@@ -255,7 +256,7 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
                     var renderLabel = function() {
                         deregisterWatchers(labelWatchers);
                         labelWatchers = [];
-                        
+
                         var viewScope = $breadcrumb.$getLastViewScope();
                         var lastStep = $breadcrumb.getLastStep();
                         if(lastStep) {
@@ -301,13 +302,13 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
             if(template) {
                 cElement.html(template);
             }
-            
+
             var separator = cElement.attr(cAttrs.$attr.ncyBreadcrumbTextSeparator) || ' / ';
 
             return {
                 post: function postLink(scope) {
                     var labelWatchers = [];
-                    
+
                     var registerWatchersText = function(labelWatcherArray, interpolationFunction, viewScope) {
                         angular.forEach(getExpression(interpolationFunction), function(expression) {
                             var watcher = viewScope.$watch(expression, function(newValue, oldValue) {
@@ -322,7 +323,7 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                     var renderLabel = function() {
                         deregisterWatchers(labelWatchers);
                         labelWatchers = [];
-                        
+
                         var viewScope = $breadcrumb.$getLastViewScope();
                         var steps = $breadcrumb.getStatesChain();
                         var combinedLabels = [];
@@ -336,7 +337,7 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                                 combinedLabels.push(step.name);
                             }
                         });
-                        
+
                         scope.ncyBreadcrumbChain = combinedLabels.join(separator);
                     };
 
