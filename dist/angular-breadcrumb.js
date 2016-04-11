@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.4.1-dev-2016-04-09
+/*! angular-breadcrumb - v0.4.1-dev-2016-04-10
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
 
@@ -25,6 +25,8 @@ function $Breadcrumb() {
         prefixStateName: null,
         template: 'bootstrap3',
         templateUrl: null,
+        templateLast: 'default',
+        templateLastUrl: null,
         includeAbstract : false
     };
 
@@ -119,6 +121,22 @@ function $Breadcrumb() {
                 return $$options.templateUrl;
             },
 
+            getTemplateLast: function(templates) {
+                if($$options.templateLastUrl) {
+                    // templateUrl takes precedence over template
+                    return null;
+                } else if(templates[$$options.templateLast]) {
+                    // Predefined templates (default)
+                    return templates[$$options.templateLast];
+                } else {
+                    return $$options.templateLast;
+                }
+            },
+
+            getTemplateLastUrl: function() {
+                return $$options.templateLastUrl;
+            },
+
             getStatesChain: function(exitOnFirst) { // Deliberately undocumented param, see getLastStep
                 var chain = [];
 
@@ -152,9 +170,9 @@ function $Breadcrumb() {
 
 var getExpression = function(interpolationFunction) {
     if(interpolationFunction.expressions) {
-        // Workaround for Angular 1.2.x
         return interpolationFunction.expressions;
     } else {
+        // Workaround for Angular 1.2.x
         var expressions = [];
         angular.forEach(interpolationFunction.parts, function(part) {
             if(angular.isFunction(part)) {
@@ -241,14 +259,20 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
 BreadcrumbDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope'];
 
 function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
+    var $$templates = {
+      'default': '{{ncyBreadcrumbLabel}}'
+    };
 
     return {
         restrict: 'A',
         scope: {},
-        template: '{{ncyBreadcrumbLabel}}',
+        template: $breadcrumb.getTemplateLast($$templates),
+        templateUrl: $breadcrumb.getTemplateLastUrl(),
         compile: function(cElement, cAttrs) {
 
             // Override the default template if ncyBreadcrumbLast has a value
+            // This should likely be removed in a future version since global
+            // templating is now available for ncyBreadcrumbLast
             var template = cElement.attr(cAttrs.$attr.ncyBreadcrumbLast);
             if(template) {
                 cElement.html(template);

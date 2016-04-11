@@ -20,6 +20,8 @@ function $Breadcrumb() {
         prefixStateName: null,
         template: 'bootstrap3',
         templateUrl: null,
+        templateLast: 'default',
+        templateLastUrl: null,
         includeAbstract : false
     };
 
@@ -112,6 +114,22 @@ function $Breadcrumb() {
 
             getTemplateUrl: function() {
                 return $$options.templateUrl;
+            },
+
+            getTemplateLast: function(templates) {
+                if($$options.templateLastUrl) {
+                    // templateUrl takes precedence over template
+                    return null;
+                } else if(templates[$$options.templateLast]) {
+                    // Predefined templates (default)
+                    return templates[$$options.templateLast];
+                } else {
+                    return $$options.templateLast;
+                }
+            },
+
+            getTemplateLastUrl: function() {
+                return $$options.templateLastUrl;
             },
 
             getStatesChain: function(exitOnFirst) { // Deliberately undocumented param, see getLastStep
@@ -236,14 +254,20 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
 BreadcrumbDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope'];
 
 function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
+    var $$templates = {
+      'default': '{{ncyBreadcrumbLabel}}'
+    };
 
     return {
         restrict: 'A',
         scope: {},
-        template: '{{ncyBreadcrumbLabel}}',
+        template: $breadcrumb.getTemplateLast($$templates),
+        templateUrl: $breadcrumb.getTemplateLastUrl(),
         compile: function(cElement, cAttrs) {
 
             // Override the default template if ncyBreadcrumbLast has a value
+            // This should likely be removed in a future version since global
+            // templating is now available for ncyBreadcrumbLast
             var template = cElement.attr(cAttrs.$attr.ncyBreadcrumbLast);
             if(template) {
                 cElement.html(template);
