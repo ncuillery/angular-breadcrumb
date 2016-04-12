@@ -64,7 +64,6 @@ function $Breadcrumb() {
         // Add the state in the chain if not already in and if not abstract
         var $$addStateInChain = function(chain, stateRef) {
             var conf,
-                parentParams,
                 ref = parseStateRef(stateRef),
                 force = false,
                 skip = false;
@@ -82,11 +81,16 @@ function $Breadcrumb() {
                 if(conf.ncyBreadcrumb.skip){ skip = true; }
             }
             if((!conf.abstract || $$options.includeAbstract || force) && !skip) {
-                if(ref.paramExpr) {
-                    parentParams = $lastViewScope.$eval(ref.paramExpr);
-                }
+                conf.ncyBreadcrumbGetLink = function() {
+                    var parentParams;
+                    if(ref.paramExpr) {
+                        parentParams = $lastViewScope.$eval(ref.paramExpr);
+                    }
+                    
+                    return $state.href(ref.state, parentParams || $stateParams || {});
+                };
 
-                conf.ncyBreadcrumbLink = $state.href(ref.state, parentParams || $stateParams || {});
+                conf.ncyBreadcrumbLink = conf.ncyBreadcrumbGetLink();
                 chain.unshift(conf);
             }
         };
