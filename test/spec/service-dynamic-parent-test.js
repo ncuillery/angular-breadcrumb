@@ -22,4 +22,13 @@ describe('Service with dynamic parent conf', function() {
         expect(stringifyStateChain(statesChain)).toBe('A --> D.E.G');
     }));
 
+    it('should deals with url params correctly', inject(function($breadcrumb) {
+        goToState('J');
+        var statesChain = $breadcrumb.getStatesChain();
+        expect(stringifyStateChain(statesChain)).toBe('I --> J');
+        expect(statesChain[0].name).toBe('I');
+        expect(statesChain[0].ncyBreadcrumbLink).toBe('#/i/love/you');
+        expect(statesChain[0].ncyBreadcrumbStateRef).toBe('I({x: \'love\', y: \'you\'})');
+    }));
+
 });
