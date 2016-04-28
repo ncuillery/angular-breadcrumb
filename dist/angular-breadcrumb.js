@@ -74,13 +74,7 @@ function $Breadcrumb() {
                 force = false,
                 skip = false;
 
-            for(var i=0, l=chain.length; i<l; i+=1) {
-                if (chain[i].name === ref.state) {
-                    return;
-                }
-            }
-
-            conf = $state.get(ref.state);
+            conf = angular.copy($state.get(ref.state));
             // Get breadcrumb options
             if(conf.ncyBreadcrumb) {
                 if(conf.ncyBreadcrumb.force){ force = true; }
@@ -160,7 +154,7 @@ function $Breadcrumb() {
                 }
 
                 // Prefix state treatment
-                if($$options.prefixStateName) {
+                if($$options.prefixStateName && (!chain.length || $$options.prefixStateName !== chain[0].name)) {
                     $$addStateInChain(chain, $$options.prefixStateName);
                 }
 
