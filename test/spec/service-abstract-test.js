@@ -1,77 +1,98 @@
 /*jshint undef: false */
 
-describe('Service with abstract conf', function() {
+describe('Service with abstract conf', function () {
 
-    describe('with default options', function() {
-
-        beforeEach(function() {
+    describe('with default options', function () {
+        var $rootScope;
+        
+        beforeEach(function () {
             module('ncy-abstract-conf');
         });
+        
+        beforeEach(inject(function (_$rootScope_) {
+            $rootScope = _$rootScope_;
+        }));
 
-        it('should have a 2-step route to C state', inject(function($breadcrumb) {
+        it('should have a 2-step route to C state', inject(function ($breadcrumb) {
             goToState('A.B.C');
-            var statesChain = $breadcrumb.getStatesChain();
-            expect(stringifyStateChain(statesChain)).toBe('A.B --> A.B.C');
+            $breadcrumb.getStatesChain().then(function (statesChain) {
+                expect(stringifyStateChain(statesChain)).toBe('A.B --> A.B.C');
+            });
+            $rootScope.$digest();
         }));
 
-        it('should have a 2-step route to F state', inject(function($breadcrumb) {
+        it('should have a 2-step route to F state', inject(function ($breadcrumb) {
             goToState('D.E.F');
-            var statesChain = $breadcrumb.getStatesChain();
-            expect(stringifyStateChain(statesChain)).toBe('D --> D.E.F');
+            $breadcrumb.getStatesChain().then(function (statesChain) {
+                expect(stringifyStateChain(statesChain)).toBe('D --> D.E.F');
+            });
+            $rootScope.$digest();
         }));
 
-        it('should return a one step chain to G.H', inject(function($breadcrumb) {
+        it('should return a one step chain to G.H', inject(function ($breadcrumb) {
             goToState('G.H');
-            var statesChain = $breadcrumb.getStatesChain();
-            expect(stringifyStateChain(statesChain)).toBe('G.H');
+            $breadcrumb.getStatesChain().then(function (statesChain) {
+                expect(stringifyStateChain(statesChain)).toBe('G.H');
+            });
+            $rootScope.$digest();
         }));
 
-        it('should return a two step route to I.J', inject(function($breadcrumb) {
+        it('should return a two step route to I.J', inject(function ($breadcrumb) {
             goToState('I.J');
-            var statesChain = $breadcrumb.getStatesChain();
-            expect(stringifyStateChain(statesChain)).toBe('I --> I.J');
+            $breadcrumb.getStatesChain().then(function (statesChain) {
+                expect(stringifyStateChain(statesChain)).toBe('I --> I.J');
+            });
+            $rootScope.$digest();
         }));
 
-        it('should return a one step chain to K.L', inject(function($breadcrumb) {
+        it('should return a one step chain to K.L', inject(function ($breadcrumb) {
             goToState('K.L');
-            var statesChain = $breadcrumb.getStatesChain();
-            expect(stringifyStateChain(statesChain)).toBe('K.L');
+            $breadcrumb.getStatesChain().then(function (statesChain) {
+                expect(stringifyStateChain(statesChain)).toBe('K.L');
+            });
+            $rootScope.$digest();
         }));
     });
 
-    describe('with abstract state inclusion', function() {
+    describe('with abstract state inclusion', function () {
+        var $rootScope;
 
-        beforeEach(function() {
+        beforeEach(function () {
             angular.module('ncy-abstract-conf')
-                .config(function($breadcrumbProvider) {
+                .config(function ($breadcrumbProvider) {
                     $breadcrumbProvider.setOptions({
                         includeAbstract: true
                     });
                 });
             module('ncy-abstract-conf');
         });
+        
+        beforeEach(inject(function (_$rootScope_) {
+            $rootScope = _$rootScope_;
+        }));
 
-        it('should have a 3-step route to C state', inject(function($breadcrumb) {
+        it('should have a 3-step route to C state', inject(function ($breadcrumb) {
             goToState('A.B.C');
-            var statesChain = $breadcrumb.getStatesChain();
-            expect(stringifyStateChain(statesChain)).toBe('A --> A.B --> A.B.C');
+            $breadcrumb.getStatesChain().then(function (statesChain) {
+                expect(stringifyStateChain(statesChain)).toBe('A --> A.B --> A.B.C');
+            });
+            $rootScope.$digest();
         }));
 
-        it('should have a 3-step route to F state', inject(function($breadcrumb) {
+        it('should have a 3-step route to F state', inject(function ($breadcrumb) {
             goToState('D.E.F');
-            var statesChain = $breadcrumb.getStatesChain();
-            expect(stringifyStateChain(statesChain)).toBe('D --> D.E --> D.E.F');
+            $breadcrumb.getStatesChain().then(function (statesChain) {
+                expect(stringifyStateChain(statesChain)).toBe('D --> D.E --> D.E.F');
+            });
+            $rootScope.$digest();
         }));
 
-        it('should still return a one step chain to G.H (state-level option skip is priority)', inject(function($breadcrumb) {
+        it('should still return a one step chain to G.H (state-level option skip is priority)', inject(function ($breadcrumb) {
             goToState('G.H');
-            var statesChain = $breadcrumb.getStatesChain();
-            expect(stringifyStateChain(statesChain)).toBe('G.H');
+            $breadcrumb.getStatesChain().then(function (statesChain) {
+                expect(stringifyStateChain(statesChain)).toBe('G.H');
+            });
+            $rootScope.$digest();
         }));
     });
-
-
-
-
-
 });

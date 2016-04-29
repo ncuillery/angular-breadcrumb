@@ -48,7 +48,7 @@ function $Breadcrumb() {
         angular.extend($$options, options);
     };
 
-    this.$get = ['$state', '$stateParams', '$rootScope', function ($state, $stateParams, $rootScope) {
+    this.$get = ['$state', '$stateParams', '$rootScope', '$injector', '$q', function ($state, $stateParams, $rootScope, $injector, $q) {
         // Get the parent state
         var $$parentState = function (state) {
             // Check if state has explicit parent OR we try guess parent from its name
@@ -93,15 +93,23 @@ function $Breadcrumb() {
                 conf = $state.get(ref.state);
 
             if (conf.ncyBreadcrumb && conf.ncyBreadcrumb.parent) {
-                // Handle the "parent" property of the breadcrumb, override the parent/child relation of the state
-                var isFunction = typeof conf.ncyBreadcrumb.parent === 'function';
-                var parentStateRef = isFunction ? conf.ncyBreadcrumb.parent(getLastViewScope()) : conf.ncyBreadcrumb.parent;
+                var parentStateRef,
+                    locals,
+                    type = Object.prototype.toString.call(conf.ncyBreadcrumb.parent);
+                if (type === '[object Function]' ||
+                    type === '[object Array]') {
+                    locals = getLastViewLocals();
+                    parentStateRef = $injector.invoke(conf.ncyBreadcrumb.parent, null, locals);
+                } else {
+                    parentStateRef = conf.ncyBreadcrumb.parent;
+                }
+
                 if (parentStateRef) {
-                    return parentStateRef;
+                    return $q.when(parentStateRef);
                 }
             }
 
-            return $$parentState(conf);
+            return $q.when($$parentState(conf));
         };
 
         function getLastViewLocals() {
@@ -137,6 +145,22 @@ function $Breadcrumb() {
             return lastView.$scope || $rootScope;
         }
 
+        function buildChain(chain, stateRef, exitOnFirst) {
+            return $$breadcrumbParentState(stateRef).then(function (parent) {
+                if (!parent || (exitOnFirst && chain.length)) {
+                    return chain;
+                }
+                $$addStateInChain(chain, parent);
+                return buildChain(chain, parent);
+            });
+        }
+
+        function addPrefixState(chain) {
+            if ($$options.prefixStateName && (!chain.length || $$options.prefixStateName !== chain[0].name)) {
+                $$addStateInChain(chain, $$options.prefixStateName);
+            }
+        }
+        
         return {
             getTemplate: function (templates) {
                 if ($$options.templateUrl) {
@@ -173,25 +197,28 @@ function $Breadcrumb() {
             getStatesChain: function (exitOnFirst) { // Deliberately undocumented param, see getLastStep
                 var chain = [];
 
-                // From current state to the root
-                for (var stateRef = $state.$current.self.name; stateRef; stateRef = $$breadcrumbParentState(stateRef)) {
-                    $$addStateInChain(chain, stateRef);
-                    if (exitOnFirst && chain.length) {
-                        return chain;
-                    }
+                if (!$state.$current.self.name) {
+                    addPrefixState(chain);
+                    return $q.when(chain);
                 }
 
-                // Prefix state treatment
-                if ($$options.prefixStateName && (!chain.length || $$options.prefixStateName !== chain[0].name)) {
-                    $$addStateInChain(chain, $$options.prefixStateName);
+                $$addStateInChain(chain, $state.$current.self.name);
+                if (exitOnFirst && chain.length) {
+                    return $q.when(chain);
                 }
 
-                return chain;
+                var getChainPromise = buildChain(chain, $state.$current.self.name, exitOnFirst);
+
+                return $q.when(getChainPromise).then(function () {
+                    addPrefixState(chain);
+                    return chain;
+                });
             },
 
             getLastStep: function () {
-                var chain = this.getStatesChain(true);
-                return chain.length ? chain[0] : undefined;
+                return this.getStatesChain(true).then(function (chain) {
+                    return chain.length ? chain[0] : undefined;
+                });
             },
 
             $getLastViewScope: getLastViewScope,
@@ -265,24 +292,26 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope, $injector, $
 
                     var viewScope = $breadcrumb.$getLastViewScope();
                     var locals = $breadcrumb.$getLastViewLocals();
-                    scope.steps = $breadcrumb.getStatesChain();
-                    angular.forEach(scope.steps, function (step) {
-                        if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
-                            var type = Object.prototype.toString.call(step.ncyBreadcrumb.label);
-                            if (type === '[object Function]' ||
-                                type === '[object Array]') {
-                                $q.when($injector.invoke(step.ncyBreadcrumb.label, null, locals)).then(function (label) {
-                                    step.ncyBreadcrumbLabel = label;
-                                });
+                    $breadcrumb.getStatesChain().then(function (chain) {
+                        scope.steps = chain;
+                        angular.forEach(scope.steps, function (step) {
+                            if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
+                                var type = Object.prototype.toString.call(step.ncyBreadcrumb.label);
+                                if (type === '[object Function]' ||
+                                    type === '[object Array]') {
+                                    $q.when($injector.invoke(step.ncyBreadcrumb.label, null, locals)).then(function (label) {
+                                        step.ncyBreadcrumbLabel = label;
+                                    });
+                                } else {
+                                    var parseLabel = $interpolate(step.ncyBreadcrumb.label);
+                                    step.ncyBreadcrumbLabel = parseLabel(viewScope);
+                                    // Watcher for further viewScope updates
+                                    registerWatchers(labelWatchers, parseLabel, viewScope, step);
+                                }
                             } else {
-                                var parseLabel = $interpolate(step.ncyBreadcrumb.label);
-                                step.ncyBreadcrumbLabel = parseLabel(viewScope);
-                                // Watcher for further viewScope updates
-                                registerWatchers(labelWatchers, parseLabel, viewScope, step);
+                                step.ncyBreadcrumbLabel = step.name;
                             }
-                        } else {
-                            step.ncyBreadcrumbLabel = step.name;
-                        }
+                        });
                     });
                 };
 
@@ -328,8 +357,10 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope, $injecto
 
                         var viewScope = $breadcrumb.$getLastViewScope();
                         var locals = $breadcrumb.$getLastViewLocals();
-                        var lastStep = $breadcrumb.getLastStep();
-                        if (lastStep) {
+                        $breadcrumb.getLastStep().then(function (lastStep) {
+                            if (!lastStep) {
+                                return;
+                            }
                             scope.ncyBreadcrumbLink = lastStep.ncyBreadcrumbLink;
                             if (lastStep.ncyBreadcrumb && lastStep.ncyBreadcrumb.label) {
                                 var type = Object.prototype.toString.call(lastStep.ncyBreadcrumb.label);
@@ -348,7 +379,7 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope, $injecto
                             } else {
                                 scope.ncyBreadcrumbLabel = lastStep.name;
                             }
-                        }
+                        });
                     };
 
                     registerListenerOnce('BreadcrumbLastDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function () {
@@ -402,28 +433,29 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope, $injecto
 
                         var viewScope = $breadcrumb.$getLastViewScope();
                         var locals = $breadcrumb.$getLastViewLocals();
-                        var steps = $breadcrumb.getStatesChain();
-                        var combinedLabels = [];
-                        angular.forEach(steps, function (step) {
-                            if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
-                                var type = Object.prototype.toString.call(step.ncyBreadcrumb.label);
-                                if (type === '[object Function]' ||
-                                    type === '[object Array]') {
-                                    combinedLabels.push($q.when($injector.invoke(step.ncyBreadcrumb.label, null, locals)));
+                        $breadcrumb.getStatesChain().then(function (steps) {
+                            var combinedLabels = [];
+                            angular.forEach(steps, function (step) {
+                                if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
+                                    var type = Object.prototype.toString.call(step.ncyBreadcrumb.label);
+                                    if (type === '[object Function]' ||
+                                        type === '[object Array]') {
+                                        combinedLabels.push($q.when($injector.invoke(step.ncyBreadcrumb.label, null, locals)));
+                                    } else {
+                                        var parseLabel = $interpolate(step.ncyBreadcrumb.label);
+                                        combinedLabels.push($q.when(parseLabel(viewScope)));
+                                        // Watcher for further viewScope updates
+                                        registerWatchersText(labelWatchers, parseLabel, viewScope);
+                                    }
                                 } else {
-                                    var parseLabel = $interpolate(step.ncyBreadcrumb.label);
-                                    combinedLabels.push($q.when(parseLabel(viewScope)));
-                                    // Watcher for further viewScope updates
-                                    registerWatchersText(labelWatchers, parseLabel, viewScope);
+                                    combinedLabels.push($q.when(step.name));
                                 }
-                            } else {
-                                combinedLabels.push($q.when(step.name));
-                            }
-                        });
+                            });
 
-                        scope.ncyBreadcrumbChain = [];
-                        $q.all(combinedLabels).then(function (labels) {
-                            scope.ncyBreadcrumbChain = labels.join(separator);
+                            scope.ncyBreadcrumbChain = [];
+                            $q.all(combinedLabels).then(function (labels) {
+                                scope.ncyBreadcrumbChain = labels.join(separator);
+                            });
                         });
                     };
 

@@ -1,20 +1,22 @@
 /*jshint undef: false */
 
-describe('Breadcrumb directive with basic conf', function() {
+describe('Breadcrumb directive with basic conf', function () {
 
-    var element;
+    var element, $rootScope;
 
-    beforeEach(function() {
+    beforeEach(function () {
         module('ncy-basic-conf');
     });
 
-    beforeEach(inject(function($rootScope, $compile) {
+    beforeEach(inject(function (_$rootScope_, $compile) {
         var elem = angular.element('<ncy-breadcrumb></ncy-breadcrumb><div ui-view></div>');
+        $rootScope = _$rootScope_;
         element = $compile(elem)($rootScope.$new());
     }));
 
-    it('renders the correct state chain', inject(function() {
+    it('renders the correct state chain', inject(function () {
         goToState('D');
+        $rootScope.$digest();
 
         expect(element.text()).toContain('State A');
         expect(element.text()).toContain('State B');
@@ -29,9 +31,9 @@ describe('Breadcrumb directive with basic conf', function() {
         expect(element.find('a').eq(2).attr('href')).toBe('#/a/b/c');
     }));
 
-    it('should work with one state', inject(function() {
+    it('should work with one state', inject(function () {
         goToState('A');
-        
+
         expect(element.text()).toContain('State A');
 
         expect(element.children().length).toBe(1);
