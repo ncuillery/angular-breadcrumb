@@ -1,56 +1,34 @@
 /*jshint undef: false */
 
-describe('Breadcrumb directive with interpolation conf', function() {
+describe('Breadcrumb directive with interpolation conf', function () {
+    var element, $rootScope;
 
-    var element, scope, controller, compile;
-
-    beforeEach(function() {
+    beforeEach(function () {
         module('ncy-interpolation-conf');
     });
 
-    beforeEach(inject(function($rootScope, $compile, $controller) {
-        element = angular.element('<div ncy-breadcrumb></div>');
-        compile = $compile(element);
-        scope = $rootScope.$new();
-        controller = $controller;
+    beforeEach(inject(function (_$rootScope_, $compile) {
+        var elem = angular.element('<div ncy-breadcrumb></div><div ui-view></div>');
+        $rootScope = _$rootScope_;
+        element = $compile(elem)($rootScope.$new());
     }));
 
-    it('interpolates labels correctly', inject(function() {
+    it('interpolates labels correctly', inject(function () {
         goToState('A.B');
-
-        controller('BCtrl', {'$scope' : scope} );
-        compile(scope);
-
-        expect(scope.tripleB).toBeDefined();
-
-        scope.$emit('$viewContentLoaded');
-        scope.$digest();
-
-        console.info('Directive content : ' + element.text());
 
         expect(element.text()).toContain('State BBB');
 
         expect(element.find('a').eq(0).attr('href')).toBe('#/a');
     }));
 
-    it('deals with further updates of the scope', inject(function() {
+    it('deals with further updates of the scope', inject(function ($state) {
         goToState('A.B');
-
-        controller('BCtrl', {'$scope' : scope} );
-        compile(scope);
-
-        scope.$emit('$viewContentLoaded');
-        scope.$digest();
-
-        console.info('Directive content : ' + element.text());
 
         expect(element.text()).toContain('State BBB');
 
-        scope.tripleB = 'HACKED';
-        scope.$digest();
+        $state.$current.locals['@A'].$scope.tripleB = 'HACKED';
+        $rootScope.$digest();
 
         expect(element.text()).toContain('State HACKED');
-
     }));
-
 });

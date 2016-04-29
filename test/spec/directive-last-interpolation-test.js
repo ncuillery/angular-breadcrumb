@@ -1,56 +1,34 @@
 /*jshint undef: false */
 
-describe('Last step directive with interpolation conf', function() {
+describe('Last step directive with interpolation conf', function () {
 
-    var element, scope, controller, compile;
+    var element, $rootScope;
 
-    beforeEach(function() {
+    beforeEach(function () {
         module('ncy-interpolation-conf');
     });
 
-    beforeEach(inject(function($rootScope, $compile, $controller) {
-        element = angular.element('<span ncy-breadcrumb-last="test|{{ncyBreadcrumbLabel}}"></span>');
-        compile = $compile(element);
-        scope = $rootScope.$new();
-        controller = $controller;
+    beforeEach(inject(function (_$rootScope_, $compile) {
+        var elem = angular.element('<span ncy-breadcrumb-last="test|{{ncyBreadcrumbLabel}}"></span><div ui-view></div>');
+        $rootScope = _$rootScope_;
+        element = $compile(elem)($rootScope.$new());
     }));
 
-    it('interpolates labels correctly', inject(function() {
+    it('interpolates labels correctly', inject(function () {
         goToState('A.B');
-
-        controller('BCtrl', {'$scope' : scope} );
-        compile(scope);
-
-        expect(scope.tripleB).toBeDefined();
-
-        scope.$emit('$viewContentLoaded');
-        scope.$digest();
-
-        console.info('Directive content : ' + element.text());
 
         expect(element.text()).toBe('test|State BBB');
     }));
 
-    it('deals with further updates of the scope', inject(function() {
+    it('deals with further updates of the scope', inject(function ($state) {
         goToState('A.B');
-
-        controller('BCtrl', {'$scope' : scope} );
-        compile(scope);
-
-        scope.$emit('$viewContentLoaded');
-        scope.$digest();
-
-        console.info('Directive content : ' + element.text());
 
         expect(element.text()).toBe('test|State BBB');
 
-        scope.tripleB = 'HACKED';
-        scope.$digest();
+        $state.$current.locals['@A'].$scope.tripleB = 'HACKED';
+        $rootScope.$digest();
 
         expect(element.text()).toBe('test|State HACKED');
 
     }));
-
-
-
 });
