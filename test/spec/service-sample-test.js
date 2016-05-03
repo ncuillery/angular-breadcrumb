@@ -1,54 +1,76 @@
 /*jshint undef: false */
 
-describe('Service with sample conf', function() {
+describe('Service with sample conf', function () {
+    var $rootScope;
 
-    beforeEach(function() {
+    beforeEach(function () {
         module('ncy-sample-conf');
     });
 
-    it('generate a unique step for the "home" state', inject(function($breadcrumb) {
+    beforeEach(inject(function (_$rootScope_, $compile) {
+        var elem = angular.element('<div ui-view></div>');
+        $rootScope = _$rootScope_;
+        $compile(elem)($rootScope.$new());
+    }));
+
+    it('generate a unique step for the "home" state', inject(function ($breadcrumb) {
         goToStateAndFlush('home');
-        var statesChain = $breadcrumb.getStatesChain();
+        $breadcrumb.getStatesChain().then(function (statesChain) {
+            expect(stringifyStateChain(statesChain)).toBe('home');
+        });
 
-        expect(stringifyStateChain(statesChain)).toBe('home');
+        $breadcrumb.getLastStep().then(function (lastStep) {
+            expect(lastStep.name).toBe('home');
+        });
 
-        var lastStep = $breadcrumb.getLastStep();
-        expect(lastStep.name).toBe('home');
+        $rootScope.$digest();
     }));
 
-    it('generate three steps for the "room" state', inject(function($breadcrumb) {
+    it('generate three steps for the "room" state', inject(function ($breadcrumb) {
         goToStateAndFlush('room');
-        var statesChain = $breadcrumb.getStatesChain();
+        
+        $breadcrumb.getStatesChain().then(function (statesChain) {
+            expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room');
+        });
 
-        expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room');
+        $breadcrumb.getLastStep().then(function (lastStep) {
+            expect(lastStep.name).toBe('room');
+        });
 
-        var lastStep = $breadcrumb.getLastStep();
-        expect(lastStep.name).toBe('room');
+        $rootScope.$digest();
     }));
 
-    it('generate four steps for the "room.detail" state', inject(function($breadcrumb) {
+    it('generate four steps for the "room.detail" state', inject(function ($breadcrumb) {
         goToStateAndFlush('room.detail', {roomId: 1});
-        var statesChain = $breadcrumb.getStatesChain();
+        $breadcrumb.getStatesChain().then(function (statesChain) {
+            expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room --> room.detail');
+        });
 
-        expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room --> room.detail');
+        $breadcrumb.getLastStep().then(function (lastStep) {
+            expect(lastStep.name).toBe('room.detail');
+        });
 
-        var lastStep = $breadcrumb.getLastStep();
-        expect(lastStep.name).toBe('room.detail');
+        $rootScope.$digest();
     }));
 
-    it('generate four steps for the "room.detail.edit" state with working links', inject(function($breadcrumb) {
+    it('generate four steps for the "room.detail.edit" state with working links', inject(function ($breadcrumb) {
         goToStateAndFlush('room.detail.edit', {roomId: 1});
-        var statesChain = $breadcrumb.getStatesChain();
+        $breadcrumb.getStatesChain().then(function (statesChain) {
+            expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room --> room.detail --> room.detail.edit');
+            expect(statesChain[3].ncyBreadcrumbLink).toBe('#/room/1');
+            expect(statesChain[4].ncyBreadcrumbLink).toBe('#/room/1/edit');
+        });
 
-        expect(stringifyStateChain(statesChain)).toBe('home --> sample --> room --> room.detail --> room.detail.edit');
-        expect(statesChain[3].ncyBreadcrumbLink).toBe('#/room/1');
-        expect(statesChain[4].ncyBreadcrumbLink).toBe('#/room/1/edit');
+        $rootScope.$digest();
     }));
 
-    it('must build a correct link for each steps', inject(function($breadcrumb) {
+    it('must build a correct link for each steps', inject(function ($breadcrumb) {
         goToStateAndFlush('room');
-        var statesChain = $breadcrumb.getStatesChain();
-        expect(statesChain[0].ncyBreadcrumbLink).toBe('#/home');
-        expect(statesChain[1].ncyBreadcrumbLink).toBe('#/sample');
+        $breadcrumb.getStatesChain().then(function (statesChain) {
+            expect(statesChain[0].ncyBreadcrumbLink).toBe('#/home');
+            expect(statesChain[1].ncyBreadcrumbLink).toBe('#/sample');
+        });
+
+        $rootScope.$digest();
     }));
 });

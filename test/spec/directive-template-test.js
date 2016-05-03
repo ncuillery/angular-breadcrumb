@@ -2,7 +2,7 @@
 
 describe('Breadcrumb directive', function() {
 
-    var element, scope;
+    var element;
 
     describe('uses default template (bootstrap3)', function() {
         beforeEach(function() {
@@ -10,19 +10,13 @@ describe('Breadcrumb directive', function() {
         });
 
         beforeEach(inject(function($rootScope, $compile) {
-            element = angular.element('<div ncy-breadcrumb></div>');
-            var compile = $compile(element);
-            scope = $rootScope.$new();
-            compile(scope);
-            scope.$digest();
+            var elem = angular.element('<div ncy-breadcrumb></div><div ui-view></div>');
+            element = $compile(elem)($rootScope.$new());
         }));
 
         it('correctly', inject(function() {
             goToState('D');
-            scope.$emit('$viewContentLoaded');
-            scope.$digest();
-
-            console.info('Directive content : ' + element.text());
+            
             expect(element[0].tagName.toLowerCase()).toBe('ol');
 
             expect(element.children().length).toBe(4);
@@ -43,19 +37,13 @@ describe('Breadcrumb directive', function() {
         });
 
         beforeEach(inject(function($rootScope, $compile) {
-            element = angular.element('<div ncy-breadcrumb></div>');
-            var compile = $compile(element);
-            scope = $rootScope.$new();
-            compile(scope);
-            scope.$digest();
+            var elem = angular.element('<div ncy-breadcrumb></div><div ui-view></div>');
+            element = $compile(elem)($rootScope.$new());
         }));
 
         it('correctly', inject(function() {
             goToState('D');
-            scope.$emit('$viewContentLoaded');
-            scope.$digest();
-
-            console.info('Directive content : ' + element.text());
+            
             expect(element[0].tagName.toLowerCase()).toBe('ul');
 
             expect(element.children().length).toBe(4);
@@ -80,19 +68,13 @@ describe('Breadcrumb directive', function() {
         });
 
         beforeEach(inject(function($rootScope, $compile) {
-            element = angular.element('<div ncy-breadcrumb></div>');
-            var compile = $compile(element);
-            scope = $rootScope.$new();
-            compile(scope);
-            scope.$digest();
+            var elem = angular.element('<div ncy-breadcrumb></div><div ui-view></div>');
+            element = $compile(elem)($rootScope.$new());
         }));
 
         it('correctly', inject(function() {
             goToState('D');
-            scope.$emit('$viewContentLoaded');
-            scope.$digest();
-
-            console.info('Directive content : ' + element.html());
+            
             expect(element[0].tagName.toLowerCase()).toBe('table');
 
             expect(element.find('tr').length).toBe(4);
@@ -115,19 +97,13 @@ describe('Breadcrumb directive', function() {
         });
 
         beforeEach(inject(function($rootScope, $compile) {
-            element = angular.element('<div ncy-breadcrumb></div>');
-            var compile = $compile(element);
-            scope = $rootScope.$new();
-            compile(scope);
-            scope.$digest();
+            var elem = angular.element('<div ncy-breadcrumb></div><div ui-view></div>');
+            element = $compile(elem)($rootScope.$new());
         }));
 
         it('correctly', inject(function() {
             goToState('html');
-            scope.$emit('$viewContentLoaded');
-            scope.$digest();
-
-            console.info('Directive content : ' + element.html());
+            
             expect(element[0].tagName.toLowerCase()).toBe('div');
 
             expect(element.find('span').length).toBe(2);
@@ -135,5 +111,4 @@ describe('Breadcrumb directive', function() {
             expect(element.find('span').eq(1).text()).toBe('Html is interpreted');
         }));
     });
-
 });

@@ -19,6 +19,7 @@ module.exports = function(config) {
       'bower_components/underscore/underscore.js',
       'src/angular-breadcrumb.js',
       'sample/app.js',
+      'sample/controllers/room_list.js',
       'sample/controllers/room_detail.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js'
