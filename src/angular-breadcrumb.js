@@ -310,8 +310,11 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope, $injector, $
                     });
                 };
 
-                registerListenerOnce('BreadcrumbDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function () {
-                    renderBreadcrumb();
+                registerListenerOnce('BreadcrumbDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
+                    var viewScope = $breadcrumb.$getLastViewScope();
+                    if ($rootScope === viewScope || event.targetScope === viewScope) {
+                        renderBreadcrumb();
+                    }
                 });
 
                 // View(s) may be already loaded while the directive's linking
@@ -377,8 +380,11 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope, $injecto
                         });
                     };
 
-                    registerListenerOnce('BreadcrumbLastDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function () {
-                        renderLabel();
+                    registerListenerOnce('BreadcrumbLastDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
+                        var viewScope = $breadcrumb.$getLastViewScope();
+                        if ($rootScope === viewScope || event.targetScope === viewScope) {
+                            renderLabel();
+                        }
                     });
 
                     // View(s) may be already loaded while the directive's linking
@@ -454,8 +460,11 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope, $injecto
                         });
                     };
 
-                    registerListenerOnce('BreadcrumbTextDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function () {
-                        renderLabel();
+                    registerListenerOnce('BreadcrumbTextDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
+                        var viewScope = $breadcrumb.$getLastViewScope();
+                        if ($rootScope === viewScope || event.targetScope === viewScope) {
+                            renderLabel();
+                        }
                     });
 
                     // View(s) may be already loaded while the directive's linking

@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.4.1-dev-2016-04-29
+/*! angular-breadcrumb - v0.4.1-dev-2016-05-03
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
 
@@ -151,7 +151,7 @@ function $Breadcrumb() {
                     return chain;
                 }
                 $$addStateInChain(chain, parent);
-                return buildChain(chain, parent);
+                return buildChain(chain, parent, exitOnFirst);
             });
         }
 
@@ -160,7 +160,7 @@ function $Breadcrumb() {
                 $$addStateInChain(chain, $$options.prefixStateName);
             }
         }
-        
+
         return {
             getTemplate: function (templates) {
                 if ($$options.templateUrl) {
@@ -315,8 +315,11 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope, $injector, $
                     });
                 };
 
-                registerListenerOnce('BreadcrumbDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function () {
-                    renderBreadcrumb();
+                registerListenerOnce('BreadcrumbDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
+                    var viewScope = $breadcrumb.$getLastViewScope();
+                    if ($rootScope === viewScope || event.targetScope === viewScope) {
+                        renderBreadcrumb();
+                    }
                 });
 
                 // View(s) may be already loaded while the directive's linking
@@ -382,8 +385,11 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope, $injecto
                         });
                     };
 
-                    registerListenerOnce('BreadcrumbLastDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function () {
-                        renderLabel();
+                    registerListenerOnce('BreadcrumbLastDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
+                        var viewScope = $breadcrumb.$getLastViewScope();
+                        if ($rootScope === viewScope || event.targetScope === viewScope) {
+                            renderLabel();
+                        }
                     });
 
                     // View(s) may be already loaded while the directive's linking
@@ -459,8 +465,11 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope, $injecto
                         });
                     };
 
-                    registerListenerOnce('BreadcrumbTextDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function () {
-                        renderLabel();
+                    registerListenerOnce('BreadcrumbTextDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
+                        var viewScope = $breadcrumb.$getLastViewScope();
+                        if ($rootScope === viewScope || event.targetScope === viewScope) {
+                            renderLabel();
+                        }
                     });
 
                     // View(s) may be already loaded while the directive's linking
