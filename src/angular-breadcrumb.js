@@ -397,3 +397,5 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
     .directive('ncyBreadcrumb', BreadcrumbDirective)
     .directive('ncyBreadcrumbLast', BreadcrumbLastDirective)
     .directive('ncyBreadcrumbText', BreadcrumbTextDirective);
+
+module.exports = 'ncy-angular-breadcrumb';
