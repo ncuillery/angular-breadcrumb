@@ -5,8 +5,6 @@
 (function (window, angular, undefined) {
 'use strict';
 
-console.log('looool');
-
 function isAOlderThanB(scopeA, scopeB) {
     return angular.equals(scopeA.length, scopeB.length) ? scopeA > scopeB : scopeA.length > scopeB.length;
 }
