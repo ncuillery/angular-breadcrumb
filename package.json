@@ -20,7 +20,7 @@
       "url": "https://github.com/ncuillery/angular-breadcrumb/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "release/angular-breadcrumb.js",
+  "main": "index.js",
   "engines": {
     "node": ">= 0.10.0"
   },
