@@ -1,3 +1,18 @@
+<a name="0.5.0"></a>
+## 0.5.0 (2016-11-14)
+
+
+#### Bug Fixes
+
+* Register listeners once to prevent scope being retained ([181f4c09](http://github.com/ncuillery/angular-breadcrumb/commit/181f4c0901007cbd72c7a9470cb9503eb6ab4d5a), closes [#98](http://github.com/ncuillery/angular-breadcrumb/issues/98))
+
+
+#### Features
+
+* Expose ncyBreadcrumbStateRef for ui-sref usage in custom template ([56cec38b](http://github.com/ncuillery/angular-breadcrumb/commit/56cec38b1169ba91a766bb64f44ddff81d8af2a8), closes [#54](http://github.com/ncuillery/angular-breadcrumb/issues/54))
+* **ncyBreadcrumbLast:** Add custom templating ([974f99b5](http://github.com/ncuillery/angular-breadcrumb/commit/974f99b584c85e45b1c0eb1acb4081bf103de06f), closes [#123](http://github.com/ncuillery/angular-breadcrumb/issues/123), [#125](http://github.com/ncuillery/angular-breadcrumb/issues/125))
+
+
 <a name="0.4.1"></a>
 ### 0.4.1 (2015-08-09)
 
@@ -20,7 +35,7 @@
 
 #### Features
 
-* Add force to ncyBreadcrumb options ([31125a38](http://github.com/ncuillery/angular-breadcrumb/commit/31125a386d706dd76df807b3b02e1fccea38fb59), closes [#77](http://github.com/ncuillery/angular-breadcrumb/issues/78))
+* Add force to ncyBreadcrumb options ([31125a38](http://github.com/ncuillery/angular-breadcrumb/commit/31125a386d706dd76df807b3b02e1fccea38fb59), closes [#78](http://github.com/ncuillery/angular-breadcrumb/issues/78))
 * **ncyBreadcrumbText:** Add ncyBreadcrumbText directive ([82b2b443](http://github.com/ncuillery/angular-breadcrumb/commit/82b2b443fab220cd9ac7d3a8c90c1edc4291e54a), closes [#71](http://github.com/ncuillery/angular-breadcrumb/issues/71), [#83](http://github.com/ncuillery/angular-breadcrumb/issues/83))
 
 
