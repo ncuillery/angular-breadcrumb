@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.4.1-dev-2016-04-12
+/*! angular-breadcrumb - v0.4.1-dev-2016-05-07
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
 
@@ -402,4 +402,5 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
     .directive('ncyBreadcrumb', BreadcrumbDirective)
     .directive('ncyBreadcrumbLast', BreadcrumbLastDirective)
     .directive('ncyBreadcrumbText', BreadcrumbTextDirective);
-})(window, window.angular);
+
+module.exports = 'ncy-angular-breadcrumb';})(window, window.angular);
