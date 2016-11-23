@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.4.1-dev-2016-04-12
+/*! angular-breadcrumb - v0.4.1-dev-2016-07-09
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
 
@@ -163,7 +163,7 @@ function $Breadcrumb() {
                 if($$options.prefixStateName) {
                     $$addStateInChain(chain, $$options.prefixStateName);
                 }
-
+                
                 return chain;
             },
 
@@ -244,8 +244,8 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                     var viewScope = $breadcrumb.$getLastViewScope();
                     scope.steps = $breadcrumb.getStatesChain();
                     angular.forEach(scope.steps, function (step) {
-                        if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
-                            var parseLabel = $interpolate(step.ncyBreadcrumb.label);
+                        if (step.title) {
+                            var parseLabel = $interpolate(step.title);
                             step.ncyBreadcrumbLabel = parseLabel(viewScope);
                             // Watcher for further viewScope updates
                             registerWatchers(labelWatchers, parseLabel, viewScope, step);
@@ -301,8 +301,8 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
                         var lastStep = $breadcrumb.getLastStep();
                         if(lastStep) {
                             scope.ncyBreadcrumbLink = lastStep.ncyBreadcrumbLink;
-                            if (lastStep.ncyBreadcrumb && lastStep.ncyBreadcrumb.label) {
-                                var parseLabel = $interpolate(lastStep.ncyBreadcrumb.label);
+                            if (lastStep.title) {
+                                var parseLabel = $interpolate(lastStep.title);
                                 scope.ncyBreadcrumbLabel = parseLabel(viewScope);
                                 // Watcher for further viewScope updates
                                 // Tricky last arg: the last step is the entire scope of the directive !
@@ -368,8 +368,8 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                         var steps = $breadcrumb.getStatesChain();
                         var combinedLabels = [];
                         angular.forEach(steps, function (step) {
-                            if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
-                                var parseLabel = $interpolate(step.ncyBreadcrumb.label);
+                            if (step.title) {
+                                var parseLabel = $interpolate(step.title);
                                 combinedLabels.push(parseLabel(viewScope));
                                 // Watcher for further viewScope updates
                                 registerWatchersText(labelWatchers, parseLabel, viewScope);

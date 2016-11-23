@@ -12,25 +12,18 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
       .state('home', {
         url: '/home',
         templateUrl: 'views/home.html',
-        ncyBreadcrumb: {
-          label: 'Home'
-        }
+        title: 'Home'
       })
       .state('sample', {
         url: '/sample',
         templateUrl: 'views/sample.html',
-        ncyBreadcrumb: {
-          label: 'Sample'
-        }
+        title: 'Sample'
       })
       .state('booking', {
         url: '/booking',
         templateUrl: 'views/booking_list.html',
         controller: 'BookingListCtrl',
-        ncyBreadcrumb: {
-          label: 'Reservations',
-          parent: 'sample'
-        }
+        title: 'Reservations'
       })
       .state('booking.day', {
         url: '/:year-:month-:day',
@@ -39,9 +32,7 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
         onExit: function($rootScope) {
           $rootScope.reservationDate = undefined;
         },
-        ncyBreadcrumb: {
-          label: 'Reservations for {{reservationDate | date:\'mediumDate\'}}'
-        }
+        title: 'Reservations for {{reservationDate | date:\'mediumDate\'}}'
       })
       .state('booking.day.detail', {
         url: '/{reservationId}',
@@ -63,10 +54,7 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
         url: '/room',
         templateUrl: 'views/room_list.html',
         controller: 'RoomListCtrl',
-        ncyBreadcrumb: {
-          label: 'Rooms',
-          parent: 'sample'
-        }
+          title: 'sample'
       })
       .state('room.new', {
         url: '/new',
@@ -76,9 +64,7 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
             controller: 'RoomDetailCtrl'
           }
         },
-        ncyBreadcrumb: {
-          label: 'New room'
-        }
+        title: 'New room'
       })
       .state('room.detail', {
         url: '/{roomId}?from',
@@ -88,8 +74,8 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
             controller: 'RoomDetailCtrl'
           }
         },
+        title: 'Room {{room.roomNumber}}',
         ncyBreadcrumb: {
-          label: 'Room {{room.roomNumber}}',
           parent: function ($scope) {
             return $scope.from || 'room';
           }
@@ -103,9 +89,7 @@ angular.module('ncy-sample', ['ui.router.state', 'ui.bootstrap', 'ncy-angular-br
             controller: 'RoomDetailCtrl'
           }
         },
-        ncyBreadcrumb: {
-          label: 'Editing'
-        }
+        title: 'Editing'
       });
 
     $urlRouterProvider.otherwise('/home');
