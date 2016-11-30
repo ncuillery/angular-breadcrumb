@@ -20,7 +20,7 @@ describe('Last step directive with basic conf', function() {
 
         it('renders the last step label correctly', inject(function() {
             goToState('D');
-            scope.$emit('$viewContentLoaded');
+            scope.$emit('$stateChangeSuccess');
             scope.$digest();
 
             console.info('Directive content : ' + element.text());
@@ -41,7 +41,7 @@ describe('Last step directive with basic conf', function() {
 
         it('renders the template correctly', inject(function() {
             goToState('D');
-            scope.$emit('$viewContentLoaded');
+            scope.$emit('$stateChangeSuccess');
             scope.$digest();
 
             console.info('Directive content : ' + element.text());
@@ -71,7 +71,7 @@ describe('Last step directive with basic conf', function() {
 
         it('correctly', inject(function() {
             goToState('D');
-            scope.$emit('$viewContentLoaded');
+            scope.$emit('$stateChangeSuccess');
             scope.$digest();
 
             console.info('Directive content : ' + element.html());
@@ -101,7 +101,7 @@ describe('Last step directive with basic conf', function() {
 
         it('correctly', inject(function() {
             goToState('html');
-            scope.$emit('$viewContentLoaded');
+            scope.$emit('$stateChangeSuccess');
             scope.$digest();
 
             console.info('Directive content : ' + element.html());

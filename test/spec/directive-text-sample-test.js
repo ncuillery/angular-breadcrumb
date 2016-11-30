@@ -23,7 +23,7 @@ describe('Text directive with sample conf', function() {
 
         expect(scope.room).toBeDefined();
 
-        scope.$emit('$viewContentLoaded');
+        scope.$emit('$stateChangeSuccess');
         scope.$digest();
 
         console.info('Directive content : ' + element.text());

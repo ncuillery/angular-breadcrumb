@@ -22,7 +22,7 @@ describe('Breadcrumb directive with dynamic parent conf', function() {
         compile(scope);
         expect(scope.parentState).toBeDefined();
 
-        scope.$emit('$viewContentLoaded');
+        scope.$emit('$stateChangeSuccess');
         scope.$digest();
 
         console.info('Directive content : ' + element.text());
@@ -39,7 +39,7 @@ describe('Breadcrumb directive with dynamic parent conf', function() {
         compile(scope);
         expect(scope.parentState).toBeUndefined();
 
-        scope.$emit('$viewContentLoaded');
+        scope.$emit('$stateChangeSuccess');
         scope.$digest();
 
         console.info('Directive content : ' + element.text());
@@ -55,7 +55,7 @@ describe('Breadcrumb directive with dynamic parent conf', function() {
 
         compile(scope);
 
-        scope.$emit('$viewContentLoaded');
+        scope.$emit('$stateChangeSuccess');
         scope.$digest();
 
         console.info('Directive content : ' + element.text());

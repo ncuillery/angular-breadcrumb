@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.5.0
+/*! angular-breadcrumb - v0.5.2
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
 
@@ -48,8 +48,8 @@ function $Breadcrumb() {
 
         var $lastViewScope = $rootScope;
 
-        // Early catch of $viewContentLoaded event
-        registerListenerOnce('$Breadcrumb.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
+        // Early catch of $stateChangeSuccess event
+        registerListenerOnce('$Breadcrumb.$stateChangeSuccess', $rootScope, '$stateChangeSuccess', function (event) {
             // With nested views, the event occur several times, in "wrong" order
             if(!event.targetScope.ncyBreadcrumbIgnore &&
                 isAOlderThanB(event.targetScope.$id, $lastViewScope.$id)) {
@@ -255,7 +255,7 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                     });
                 };
 
-                registerListenerOnce('BreadcrumbDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
+                registerListenerOnce('BreadcrumbDirective.$stateChangeSuccess', $rootScope, '$stateChangeSuccess', function (event) {
                     if(!event.targetScope.ncyBreadcrumbIgnore) {
                         renderBreadcrumb();
                     }
@@ -313,7 +313,7 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
                         }
                     };
 
-                    registerListenerOnce('BreadcrumbLastDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
+                    registerListenerOnce('BreadcrumbLastDirective.$stateChangeSuccess', $rootScope, '$stateChangeSuccess', function (event) {
                         if(!event.targetScope.ncyBreadcrumbIgnore) {
                             renderLabel();
                         }
@@ -381,7 +381,7 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                         scope.ncyBreadcrumbChain = combinedLabels.join(separator);
                     };
 
-                    registerListenerOnce('BreadcrumbTextDirective.$viewContentLoaded', $rootScope, '$viewContentLoaded', function (event) {
+                    registerListenerOnce('BreadcrumbTextDirective.$stateChangeSuccess', $rootScope, '$stateChangeSuccess', function (event) {
                         if(!event.targetScope.ncyBreadcrumbIgnore) {
                             renderLabel();
                         }

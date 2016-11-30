@@ -19,7 +19,7 @@ describe('Breadcrumb directive', function() {
 
         it('correctly', inject(function() {
             goToState('D');
-            scope.$emit('$viewContentLoaded');
+            scope.$emit('$stateChangeSuccess');
             scope.$digest();
 
             console.info('Directive content : ' + element.text());
@@ -52,7 +52,7 @@ describe('Breadcrumb directive', function() {
 
         it('correctly', inject(function() {
             goToState('D');
-            scope.$emit('$viewContentLoaded');
+            scope.$emit('$stateChangeSuccess');
             scope.$digest();
 
             console.info('Directive content : ' + element.text());
@@ -89,7 +89,7 @@ describe('Breadcrumb directive', function() {
 
         it('correctly', inject(function() {
             goToState('D');
-            scope.$emit('$viewContentLoaded');
+            scope.$emit('$stateChangeSuccess');
             scope.$digest();
 
             console.info('Directive content : ' + element.html());
@@ -124,7 +124,7 @@ describe('Breadcrumb directive', function() {
 
         it('correctly', inject(function() {
             goToState('html');
-            scope.$emit('$viewContentLoaded');
+            scope.$emit('$stateChangeSuccess');
             scope.$digest();
 
             console.info('Directive content : ' + element.html());
