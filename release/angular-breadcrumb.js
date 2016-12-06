@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.5.0
+/*! angular-breadcrumb - v0.5.2
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
 
@@ -114,6 +114,17 @@ function $Breadcrumb() {
             return $$parentState(conf);
         };
 
+        var $getValuesFromResolve = function($scopeContext) {
+            $scopeContext.resolvedValues = {};
+            if($scopeContext && $scopeContext.hasOwnProperty('$resolve')) {
+                angular.forEach($scopeContext.$resolve, function(promise, key) {
+                    $scopeContext.resolvedValues[key] = promise;
+                });
+            }
+
+            return $scopeContext;
+        };
+
         return {
 
             getTemplate: function(templates) {
@@ -174,7 +185,9 @@ function $Breadcrumb() {
 
             $getLastViewScope: function() {
                 return $lastViewScope;
-            }
+            },
+
+            $getValuesFromResolve: $getValuesFromResolve
         };
     }];
 }
@@ -242,6 +255,8 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                     labelWatchers = [];
 
                     var viewScope = $breadcrumb.$getLastViewScope();
+                        viewScope = $breadcrumb.$resolveValues(viewScope);
+
                     scope.steps = $breadcrumb.getStatesChain();
                     angular.forEach(scope.steps, function (step) {
                         if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
@@ -298,6 +313,7 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
                         labelWatchers = [];
 
                         var viewScope = $breadcrumb.$getLastViewScope();
+                            viewScope = $breadcrumb.$resolveValues(viewScope);
                         var lastStep = $breadcrumb.getLastStep();
                         if(lastStep) {
                             scope.ncyBreadcrumbLink = lastStep.ncyBreadcrumbLink;
@@ -365,6 +381,7 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                         labelWatchers = [];
 
                         var viewScope = $breadcrumb.$getLastViewScope();
+                            viewScope = $breadcrumb.$resolveValues(viewScope);
                         var steps = $breadcrumb.getStatesChain();
                         var combinedLabels = [];
                         angular.forEach(steps, function (step) {
