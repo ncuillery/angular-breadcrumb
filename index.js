@@ -1,2 +1,2 @@
-require('./dist/angular-breadcrumb');
+require('./release/angular-breadcrumb');
 module.exports = 'ncy-angular-breadcrumb';
