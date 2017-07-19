@@ -18,7 +18,7 @@ describe('Breadcrumb directive with basic conf', function() {
 
     it('renders the correct state chain', inject(function() {
         goToState('D');
-        scope.$emit('$viewContentLoaded');
+        scope.$emit('$stateChangeSuccess');
         scope.$digest();
 
         console.info('Directive content : ' + element.text());
@@ -37,7 +37,7 @@ describe('Breadcrumb directive with basic conf', function() {
 
     it('should work with one state', inject(function() {
         goToState('A');
-        scope.$emit('$viewContentLoaded');
+        scope.$emit('$stateChangeSuccess');
         scope.$digest();
 
         console.info('Directive content : ' + element.text());

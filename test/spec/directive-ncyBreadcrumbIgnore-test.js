@@ -21,7 +21,7 @@ describe('Breadcrumb directive with multiple-interpolation conf', function() {
 
             it('renders the correct state chain and views content', inject(function () {
                 goToState('A.B');
-                scope.$emit('$viewContentLoaded');
+                scope.$emit('$stateChangeSuccess');
                 scope.$digest();
 
                 console.info('Directive content : ' + element.text());
@@ -41,7 +41,7 @@ describe('Breadcrumb directive with multiple-interpolation conf', function() {
 
             it('renders the incorrect state chain', inject(function () {
                 goToState('A.B');
-                scope.$emit('$viewContentLoaded');
+                scope.$emit('$stateChangeSuccess');
                 scope.$digest();
 
                 console.info('Directive content : ' + element.text());
@@ -74,7 +74,7 @@ describe('Breadcrumb directive with multiple-interpolation conf', function() {
 
             it('renders the correct state chain and views content', inject(function () {
                 goToState('A.B');
-                scope.$emit('$viewContentLoaded');
+                scope.$emit('$stateChangeSuccess');
                 scope.$digest();
 
                 console.info('Directive content : ' + element.text());
@@ -95,7 +95,7 @@ describe('Breadcrumb directive with multiple-interpolation conf', function() {
 
             it('renders the correct state chain and views content', inject(function () {
                 goToState('A.B');
-                scope.$emit('$viewContentLoaded');
+                scope.$emit('$stateChangeSuccess');
                 scope.$digest();
 
                 console.info('Directive content : ' + element.text());

@@ -18,7 +18,7 @@ describe('Breadcrumb directive with ui-sref template', function() {
 
     it('should work correctly', inject(function() {
         goToState('A.B');
-        scope.$emit('$viewContentLoaded');
+        scope.$emit('$stateChangeSuccess');
         scope.$digest();
 
         console.info('Directive content : ' + element.text());
@@ -30,7 +30,7 @@ describe('Breadcrumb directive with ui-sref template', function() {
 
     it('should deal with url params correctly', inject(function() {
         goToState('J');
-        scope.$emit('$viewContentLoaded');
+        scope.$emit('$stateChangeSuccess');
         scope.$digest();
 
         console.info('Directive content : ' + element.text());
@@ -44,7 +44,7 @@ describe('Breadcrumb directive with ui-sref template', function() {
 
     it('should deal with url params correctly even with dynamic parent', inject(function() {
         goToState('K');
-        scope.$emit('$viewContentLoaded');
+        scope.$emit('$stateChangeSuccess');
         scope.$digest();
 
         console.info('Directive content : ' + element.text());

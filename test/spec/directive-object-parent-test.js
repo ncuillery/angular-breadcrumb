@@ -18,7 +18,7 @@ describe('Breadcrumb directive with object parent conf', function() {
 
     it('should handle parents provided by object reference', inject(function() {
         goToState('B');
-        scope.$emit('$viewContentLoaded');
+        scope.$emit('$stateChangeSuccess');
         scope.$digest();
 
         console.info('Directive content : ' + element.text());

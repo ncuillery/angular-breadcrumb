@@ -23,7 +23,7 @@ describe('Breadcrumb directive with interpolation conf', function() {
 
         expect(scope.tripleB).toBeDefined();
 
-        scope.$emit('$viewContentLoaded');
+        scope.$emit('$stateChangeSuccess');
         scope.$digest();
 
         console.info('Directive content : ' + element.text());
@@ -39,7 +39,7 @@ describe('Breadcrumb directive with interpolation conf', function() {
         controller('BCtrl', {'$scope' : scope} );
         compile(scope);
 
-        scope.$emit('$viewContentLoaded');
+        scope.$emit('$stateChangeSuccess');
         scope.$digest();
 
         console.info('Directive content : ' + element.text());

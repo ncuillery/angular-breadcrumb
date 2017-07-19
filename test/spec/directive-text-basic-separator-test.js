@@ -20,7 +20,7 @@ describe('Text directive with separator with basic conf', function() {
 
         it('renders the text label correctly', inject(function() {
             goToState('D');
-            scope.$emit('$viewContentLoaded');
+            scope.$emit('$stateChangeSuccess');
             scope.$digest();
 
             console.info('Directive content : ' + element.text());
@@ -41,7 +41,7 @@ describe('Text directive with separator with basic conf', function() {
 
         it('renders the template correctly', inject(function() {
             goToState('D');
-            scope.$emit('$viewContentLoaded');
+            scope.$emit('$stateChangeSuccess');
             scope.$digest();
 
             console.info('Directive content : ' + element.text());
