@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.4.1-dev-2016-04-12
+/*! angular-breadcrumb - v0.5.5
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
 
@@ -37,7 +37,8 @@ function $Breadcrumb() {
         templateUrl: null,
         templateLast: 'default',
         templateLastUrl: null,
-        includeAbstract : false
+        includeAbstract: false,
+        useRootParams: false
     };
 
     this.setOptions = function(options) {
@@ -148,12 +149,47 @@ function $Breadcrumb() {
                 return $$options.templateLastUrl;
             },
 
-            getStatesChain: function(exitOnFirst) { // Deliberately undocumented param, see getLastStep
+            getStatesChain: function (exitOnFirst, $routeParams) { // Deliberately undocumented param, see getLastStep
                 var chain = [];
 
+                //Ensuring that nesting only starts from current navigated to id
+                var startInsertingChain = false;
+
                 // From current state to the root
-                for(var stateRef = $state.$current.self.name; stateRef; stateRef=$$breadcrumbParentState(stateRef)) {
-                    $$addStateInChain(chain, stateRef);
+                for (var stateRef = $state.$current.self.name; stateRef; stateRef = $$breadcrumbParentState(stateRef)) {
+                    
+                    if ($routeParams && $routeParams.id && $$options.useRootParams && !$routeParams.external) {
+
+                        //Ensuring that nesting only starts from current navigated to id
+
+                        var ref = parseStateRef(stateRef),
+                            conf = $state.get(ref.state);
+                        
+                        var getCurrentURLState = $state.get('myReportsNew.' + $routeParams.id);
+                        
+                        if (conf) {
+                            if (conf.ncyBreadcrumb && conf.ncyBreadcrumb.parent) {
+
+                                if (conf.ncyBreadcrumb.parent == getCurrentURLState.ncyBreadcrumb.parent) {
+                                    startInsertingChain = true;
+                                }
+
+                                if (startInsertingChain) {
+                                    $$addStateInChain(chain, stateRef);
+                                }
+                            }
+                            else {
+                                $$addStateInChain(chain, stateRef);
+                            }
+                        }
+                        else {
+                            $$addStateInChain(chain, stateRef);
+                        }
+                    }
+                    else {
+                        $$addStateInChain(chain, stateRef);
+                    }
+                    
                     if(exitOnFirst && chain.length) {
                         return chain;
                     }
@@ -168,7 +204,7 @@ function $Breadcrumb() {
             },
 
             getLastStep: function() {
-                var chain = this.getStatesChain(true);
+                var chain = this.getStatesChain(true, $routeParams);
                 return chain.length ? chain[0] : undefined;
             },
 
@@ -210,7 +246,7 @@ var deregisterWatchers = function(labelWatcherArray) {
     });
 };
 
-function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
+function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope, $routeParams) {
     var $$templates = {
         bootstrap2: '<ul class="breadcrumb">' +
             '<li ng-repeat="step in steps" ng-switch="$last || !!step.abstract" ng-class="{active: $last}">' +
@@ -242,7 +278,8 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
                     labelWatchers = [];
 
                     var viewScope = $breadcrumb.$getLastViewScope();
-                    scope.steps = $breadcrumb.getStatesChain();
+
+                    scope.steps = $breadcrumb.getStatesChain(false, $routeParams);
                     angular.forEach(scope.steps, function (step) {
                         if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
                             var parseLabel = $interpolate(step.ncyBreadcrumb.label);
@@ -267,9 +304,10 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
         }
     };
 }
-BreadcrumbDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope'];
 
-function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
+BreadcrumbDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope', '$routeParams'];
+
+function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope, $routeParams) {
     var $$templates = {
       'default': '{{ncyBreadcrumbLabel}}'
     };
@@ -327,9 +365,9 @@ function BreadcrumbLastDirective($interpolate, $breadcrumb, $rootScope) {
         }
     };
 }
-BreadcrumbLastDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope'];
+BreadcrumbLastDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope', '$routeParams'];
 
-function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
+function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope, $routeParams) {
 
     return {
         restrict: 'A',
@@ -365,7 +403,7 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
                         labelWatchers = [];
 
                         var viewScope = $breadcrumb.$getLastViewScope();
-                        var steps = $breadcrumb.getStatesChain();
+                        var steps = $breadcrumb.getStatesChain(false, $routeParams);
                         var combinedLabels = [];
                         angular.forEach(steps, function (step) {
                             if (step.ncyBreadcrumb && step.ncyBreadcrumb.label) {
@@ -395,7 +433,7 @@ function BreadcrumbTextDirective($interpolate, $breadcrumb, $rootScope) {
         }
     };
 }
-BreadcrumbTextDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope'];
+BreadcrumbTextDirective.$inject = ['$interpolate', '$breadcrumb', '$rootScope', '$routeParams'];
 
 angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
     .provider('$breadcrumb', $Breadcrumb)
