@@ -1,3 +1,9 @@
+<a name="0.5.1"></a>
+## 0.5.1 (2017-07-20)
+
+#### Bug Fixes
+* Ensuring that nesting only starts from current navigated to id closes [#159]
+
 <a name="0.5.0"></a>
 ## 0.5.0 (2016-11-14)
 
