@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.5.2
+/*! angular-breadcrumb - v0.5.3
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
 
@@ -167,13 +167,18 @@ function $Breadcrumb() {
                         
                         var getCurrentURLState = $state.get('myReportsNew.' + $routeParams.id);
                         
-                        if (conf && conf.ncyBreadcrumb && conf.ncyBreadcrumb.parent) {
+                        if (conf) {
+                            if (conf.ncyBreadcrumb && conf.ncyBreadcrumb.parent) {
 
-                            if (conf.ncyBreadcrumb.parent == getCurrentURLState.ncyBreadcrumb.parent) {
-                                startInsertingChain = true;
+                                if (conf.ncyBreadcrumb.parent == getCurrentURLState.ncyBreadcrumb.parent) {
+                                    startInsertingChain = true;
+                                }
+
+                                if (startInsertingChain) {
+                                    $$addStateInChain(chain, stateRef);
+                                }
                             }
-
-                            if (startInsertingChain) {
+                            else {
                                 $$addStateInChain(chain, stateRef);
                             }
                         }
