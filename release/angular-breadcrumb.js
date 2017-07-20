@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.5.4
+/*! angular-breadcrumb - v0.5.5
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
 
@@ -158,7 +158,7 @@ function $Breadcrumb() {
                 // From current state to the root
                 for (var stateRef = $state.$current.self.name; stateRef; stateRef = $$breadcrumbParentState(stateRef)) {
                     
-                    if ($routeParams && $routeParams.id && $$options.useRootParams ) {
+                    if ($routeParams && $routeParams.id && $$options.useRootParams && !$routeParams.external) {
 
                         //Ensuring that nesting only starts from current navigated to id
 

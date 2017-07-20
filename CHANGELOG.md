@@ -1,5 +1,5 @@
-<a name="0.5.4"></a>
-## 0.5.4 (2017-07-20)
+<a name="0.5.5"></a>
+## 0.5.5 (2017-07-20)
 
 #### Bug Fixes
 * Ensuring that nesting only starts from current navigated to id closes [#159] - Bug on this change below
