@@ -1,4 +1,4 @@
-/*! angular-breadcrumb - v0.5.1
+/*! angular-breadcrumb - v0.5.2
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
 
@@ -167,7 +167,7 @@ function $Breadcrumb() {
                         
                         var getCurrentURLState = $state.get('myReportsNew.' + $routeParams.id);
                         
-                        if (conf.ncyBreadcrumb && conf.ncyBreadcrumb.parent) {
+                        if (conf && conf.ncyBreadcrumb && conf.ncyBreadcrumb.parent) {
 
                             if (conf.ncyBreadcrumb.parent == getCurrentURLState.ncyBreadcrumb.parent) {
                                 startInsertingChain = true;
