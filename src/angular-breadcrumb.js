@@ -88,6 +88,22 @@ function $Breadcrumb() {
 
                 conf.ncyBreadcrumbLink = $state.href(ref.state, parentParams || $stateParams || {});
                 conf.ncyBreadcrumbStateRef = stateRef;
+                if (conf.ncyBreadcrumb && conf.ncyBreadcrumb.breadcrumbAsDropdown) {
+
+                    angular.forEach(conf.ncyBreadcrumb.breadcrumbDropdownOptions, function (dropdownOption) {
+
+                        if (dropdownOption.link) {
+
+                            var parsedLink = $state.href(dropdownOption.link, parentParams || $stateParams || {});
+
+                            dropdownOption.disabled = (parsedLink === $state.current.ncyBreadcrumbLink);
+                            dropdownOption.parsedLink = parsedLink;
+
+                        }
+
+                    });
+
+                }
                 chain.unshift(conf);
             }
         };

@@ -1,6 +1,6 @@
-/*! angular-breadcrumb - v0.5.0
+/*! angular-breadcrumb - v0.5.1
 * http://ncuillery.github.io/angular-breadcrumb
-* Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
+* Copyright (c) 2018 Nicolas Cuillery; Licensed MIT */
 
 (function (window, angular, undefined) {
 'use strict';
@@ -93,6 +93,22 @@ function $Breadcrumb() {
 
                 conf.ncyBreadcrumbLink = $state.href(ref.state, parentParams || $stateParams || {});
                 conf.ncyBreadcrumbStateRef = stateRef;
+                if (conf.ncyBreadcrumb && conf.ncyBreadcrumb.breadcrumbAsDropdown) {
+
+                    angular.forEach(conf.ncyBreadcrumb.breadcrumbDropdownOptions, function (dropdownOption) {
+
+                        if (dropdownOption.link) {
+
+                            var parsedLink = $state.href(dropdownOption.link, parentParams || $stateParams || {});
+
+                            dropdownOption.disabled = (parsedLink === $state.current.ncyBreadcrumbLink);
+                            dropdownOption.parsedLink = parsedLink;
+
+                        }
+
+                    });
+
+                }
                 chain.unshift(conf);
             }
         };
