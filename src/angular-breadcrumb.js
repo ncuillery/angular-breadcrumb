@@ -94,10 +94,10 @@ function $Breadcrumb() {
 
                         if (dropdownOption.link) {
 
-                        const parsedLink = $state.href(dropdownOption.link, parentParams || $stateParams || {});
+                            var parsedLink = $state.href(dropdownOption.link, parentParams || $stateParams || {});
 
-                        dropdownOption.disabled = (parsedLink === $state.current.ncyBreadcrumbLink);
-                        dropdownOption.parsedLink = parsedLink;
+                            dropdownOption.disabled = (parsedLink === $state.current.ncyBreadcrumbLink);
+                            dropdownOption.parsedLink = parsedLink;
 
                         }
 
